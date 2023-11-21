@@ -1,7 +1,9 @@
+import logic.MoneyTrackerApplication;
+
 public class Main {
     public static void main(String[] args) {
-        //Engine engine = new Engine();
-        //engine.start();
+        MoneyTrackerApplication moneyTrackerApplication = new MoneyTrackerApplication();
+        moneyTrackerApplication.run();
         System.out.println("hello world");
     }
 }
