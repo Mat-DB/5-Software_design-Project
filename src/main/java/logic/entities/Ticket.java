@@ -1,16 +1,18 @@
-package logic.Entities;
+package logic.entities;
 
 import java.util.HashMap;
 import java.util.Set;
 
 public abstract class Ticket {
+    String name;
     double price;
 
     User paid;
 
     HashMap<User, Double> debts;
 
-    public Ticket(double price, User paid) {
+    public Ticket(String name, double price, User paid) {
+        this.name = name;
         this.price = price;
         this.paid = paid;
         debts = new HashMap<>();
@@ -22,6 +24,10 @@ public abstract class Ticket {
 
     public HashMap<User, Double> getDebtorsAndDebt() {
         return debts;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

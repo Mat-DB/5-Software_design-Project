@@ -1,4 +1,4 @@
-package logic.Entities;
+package logic.entities;
 
 import java.util.ArrayList;
 
@@ -6,8 +6,8 @@ public class TicketEvenSplit extends Ticket {
 
     //ArrayList<User> debtors;
 
-    public TicketEvenSplit(double price, User paid, ArrayList<User> debtors) {
-        super(price, paid);
+    public TicketEvenSplit(String name, double price, User paid, ArrayList<User> debtors) {
+        super(name, price, paid);
         setDebts(price, debtors);
 
     }

@@ -1,4 +1,5 @@
-package logic.Datbase;
+package logic.database;
 
 public class DatabaseGroups {
+
 }

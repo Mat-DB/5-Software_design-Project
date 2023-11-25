@@ -1,4 +1,4 @@
-package logic.Entities;
+package logic.entities;
 
 public class Group {
     String name;

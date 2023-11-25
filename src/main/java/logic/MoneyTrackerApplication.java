@@ -1,10 +1,10 @@
 package logic;
 
 
-import logic.Entities.Ticket;
-import logic.Entities.TicketEvenSplit;
-import logic.Entities.TicketUnevenSplit;
-import logic.Entities.User;
+import logic.entities.Ticket;
+import logic.entities.TicketEvenSplit;
+import logic.entities.TicketUnevenSplit;
+import logic.entities.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,20 +31,18 @@ public class MoneyTrackerApplication {
 
          */
         ArrayList<User> debtors = new ArrayList<>();
-        User matthias = new User("Matthias", "DeBeukelaer", 2);
+        User matthias = new User("Matthias", "De Beukelaer", 2);
         User gones = new User("Gones", "Anseel", 1);
         debtors.add(matthias);
 
-        Ticket ticket = new TicketEvenSplit(5, gones, debtors);
+        Ticket ticket = new TicketEvenSplit("test even split", 5, gones, debtors);
 
         System.out.println(ticket);
-
-
 
         HashMap<User, Double> debts = new HashMap<>();
         debts.put(matthias, 5.0);
 
-        ticket = new TicketUnevenSplit(5, new User("Gones", "Anseel", 1), debts);
+        ticket = new TicketUnevenSplit("test uneven split", 5, gones, debts);
 
         System.out.println(ticket);
 
