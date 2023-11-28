@@ -14,6 +14,10 @@ public class TicketEvenSplit extends Ticket {
 
     }
 
+    public TicketEvenSplit() {
+        super();
+    }
+
     private void setDebts(double price, ArrayList<User> debtors) {
         // divide price by debtors and person who paid
         double debt = price / (debtors.size() + 1);

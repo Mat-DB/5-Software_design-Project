@@ -21,6 +21,13 @@ public abstract class Ticket {
         debts = new HashMap<>();
     }
 
+    public Ticket() {
+        this.name = "null";
+        this.price = 0;
+        this.paid = null;
+        debts = new HashMap<>();
+    }
+
     public Set<User> getDebtors() {
         return debts.keySet();
     }

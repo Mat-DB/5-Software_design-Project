@@ -10,4 +10,8 @@ public class TicketUnevenSplit extends Ticket{
         this.debts = debts;
     }
 
+    public TicketUnevenSplit() {
+        super();
+    }
+
 }
