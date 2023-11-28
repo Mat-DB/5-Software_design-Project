@@ -1,7 +1,10 @@
 package logic.entities;
 
+import java.util.ArrayList;
+
 public class User {
     String firstName, lastName;
+    ArrayList<Integer> tickets;
     int id;
 
     public User(String firstName, String lastName, int id) {
@@ -12,6 +15,10 @@ public class User {
 
     public String getName() {
         return firstName + " " + lastName;
+    }
+
+    public ArrayList<Integer> getTickets() {
+        return tickets;
     }
 
     public int getID() {

@@ -5,6 +5,16 @@ import logic.entities.tickets.TypeEvents;
 import logic.entities.tickets.TypeSplit;
 
 public class FactoryTicket {
+    private static FactoryTicket factory;
+
+    private FactoryTicket(){}
+
+    public static FactoryTicket getTicketFactory() {
+        if (factory == null) {
+            factory = new FactoryTicket();
+        }
+        return factory;
+    }
 
     public Ticket getTicket(TypeEvents event, TypeSplit split) {
         // basic ticket

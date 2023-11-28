@@ -7,6 +7,7 @@ import java.util.Set;
 
 public abstract class Ticket {
     String name;
+    String description;
     double price;
 
     User paid;

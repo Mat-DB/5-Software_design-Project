@@ -3,7 +3,15 @@ package logic.database;
 import logic.entities.tickets.Ticket;
 
 public class DatabaseTickets extends Database<Ticket> {
-    public DatabaseTickets() {}
+    private static DatabaseTickets ticketDB;
+    private DatabaseTickets() {}
+
+    public static DatabaseTickets getTicketDatabase() {
+        if (ticketDB == null) {
+            ticketDB = new DatabaseTickets();
+        }
+        return ticketDB;
+    }
 
     public void addTicket(Ticket ticket){
         int id = ticket.getName().hashCode();
