@@ -1,9 +1,9 @@
 package logic;
 
 
-import logic.entities.Ticket;
-import logic.entities.TicketEvenSplit;
-import logic.entities.TicketUnevenSplit;
+import logic.entities.tickets.Ticket;
+import logic.entities.tickets.TicketEvenSplit;
+import logic.entities.tickets.TicketUnevenSplit;
 import logic.entities.User;
 
 import java.util.ArrayList;

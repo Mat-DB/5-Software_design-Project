@@ -1,4 +1,6 @@
-package logic.entities;
+package logic.entities.tickets;
+
+import logic.entities.User;
 
 import java.util.HashMap;
 
