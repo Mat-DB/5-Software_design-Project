@@ -1,6 +1,6 @@
 package logic.database;
 
-import logic.entities.tickets.Ticket;
+import logic.tickets.Ticket;
 
 public class DatabaseTickets extends Database<Ticket> {
     private static DatabaseTickets ticketDB;

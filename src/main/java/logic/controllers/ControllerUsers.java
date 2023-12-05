@@ -1,7 +1,7 @@
 package logic.controllers;
 
 import logic.database.DatabaseUsers;
-import logic.entities.User;
+import logic.users.User;
 
 public class ControllerUsers {
     private static ControllerUsers controller;

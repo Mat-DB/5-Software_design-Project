@@ -1,6 +1,6 @@
 package logic.database;
 
-import logic.entities.User;
+import logic.users.User;
 
 public class DatabaseUsers extends Database<User> {
     private static DatabaseUsers userDB;
@@ -20,7 +20,7 @@ public class DatabaseUsers extends Database<User> {
     public int userNameOccurences(String fullName, int id){
         int hash = (fullName+id).hashCode();
         if (db.get(hash) != null){
-            userNameOccurences(fullName, id+1);
+            id = userNameOccurences(fullName, id+1);
         }
         return id;
     }

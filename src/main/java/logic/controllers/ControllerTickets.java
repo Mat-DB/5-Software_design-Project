@@ -1,7 +1,7 @@
 package logic.controllers;
 
 import logic.database.DatabaseTickets;
-import logic.entities.tickets.Ticket;
+import logic.tickets.Ticket;
 
 public class ControllerTickets {
     private static ControllerTickets controller;

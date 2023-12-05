@@ -1,4 +1,4 @@
-package logic.entities.tickets;
+package logic.tickets.TicketEvents;
 
 public enum TypeEvents {
     AIRPLANE,

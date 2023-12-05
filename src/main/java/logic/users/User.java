@@ -1,4 +1,4 @@
-package logic.entities;
+package logic.users;
 
 import java.util.ArrayList;
 

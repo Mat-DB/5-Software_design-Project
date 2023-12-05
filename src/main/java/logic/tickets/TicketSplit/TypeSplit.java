@@ -1,4 +1,4 @@
-package logic.entities.tickets;
+package logic.tickets.TicketSplit;
 
 public enum TypeSplit {
     EVEN_SPLIT,
