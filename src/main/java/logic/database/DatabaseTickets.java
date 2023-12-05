@@ -3,14 +3,14 @@ package logic.database;
 import logic.tickets.Ticket;
 
 public class DatabaseTickets extends Database<Ticket> {
-    private static DatabaseTickets ticketDB;
+    private static DatabaseTickets instance;
     private DatabaseTickets() {}
 
     public static DatabaseTickets getTicketDatabase() {
-        if (ticketDB == null) {
-            ticketDB = new DatabaseTickets();
+        if (instance == null) {
+            instance = new DatabaseTickets();
         }
-        return ticketDB;
+        return instance;
     }
 
     public void addTicket(Ticket ticket){

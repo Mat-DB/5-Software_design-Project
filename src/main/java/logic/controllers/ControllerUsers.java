@@ -20,6 +20,10 @@ public class ControllerUsers {
 
     public User createUser(String firstName, String lastname) {
         int existingID = userDB.userNameOccurences(firstName+lastname, 1);
-        return new User(firstName, lastname, existingID+1);
+
+        User newUser = new User(firstName, lastname, existingID+1);
+        userDB.addEntry(newUser.getID(), newUser);
+
+        return newUser;
     }
 }

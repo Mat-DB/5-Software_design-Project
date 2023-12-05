@@ -3,14 +3,14 @@ package logic.database;
 import logic.users.User;
 
 public class DatabaseUsers extends Database<User> {
-    private static DatabaseUsers userDB;
+    private static DatabaseUsers instance;
     private DatabaseUsers() {}
 
     public static DatabaseUsers getUserDatabase() {
-        if (userDB == null) {
-            userDB = new DatabaseUsers();
+        if (instance == null) {
+            instance = new DatabaseUsers();
         }
-        return userDB;
+        return instance;
     }
     public void addTicket(User user){
         int id = (user.getName()+user.getID()).hashCode();

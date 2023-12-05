@@ -3,6 +3,7 @@ package logic;
 import graphics.ViewFrame;
 import logic.controllers.ControllerTickets;
 import logic.controllers.ControllerUsers;
+import logic.groups.Group;
 import logic.users.User;
 
 public class MoneyTrackerApplication {
@@ -13,6 +14,8 @@ public class MoneyTrackerApplication {
     ControllerUsers controllerUsers;
 
     ControllerTickets controllerTickets;
+
+    Group group;
     public MoneyTrackerApplication() {
         init();
     }
@@ -21,6 +24,7 @@ public class MoneyTrackerApplication {
         appView = new ViewFrame();
         controllerUsers = ControllerUsers.getUserController();
         controllerTickets = ControllerTickets.getTicketController();
+
         appView.initialize();
 
         state = AppStates.HOMESCREEN;
@@ -50,17 +54,40 @@ public class MoneyTrackerApplication {
         if (state == AppStates.HOMESCREEN) {
             System.out.println("Home screen");
             appView.homescreen();
-            // click 'create ticket'
+            // click 'create group'
             state = AppStates.CREATE_TICKET;
-            // click 'view tickets'
+            // click 'view groups'
 
-            // click 'get total'
         }
-        if (state ==AppStates.CREATE_TICKET) {
+        // create a new group for tickets
+        if (state == AppStates.CREATE_GROUP) {
+            System.out.println("Create group");
+            String groupName = "Group1";
+            group = new Group(groupName);
+
+            //
+            User newParticipant = controllerUsers.createUser("Gones", "Anseel");
+            group.addParticipant(newParticipant);
+            newParticipant = controllerUsers.createUser("Matthias", "De Beukelaer");
+            group.addParticipant(newParticipant);
+
+
+        }
+        // Create tickets in group
+        if (state == AppStates.CREATE_TICKET) {
             System.out.println("create ticket");
-            // App-user input name-ticket, price, and who paid
-            User payer = controllerUsers.createUser("Gones", "Anseel");
+            // 1. App-user input name-ticket, price, and who paid
+            String ticketName = "Airplane Prague";
+            double price = 120.0;
+            User payer = group.getParticipant("Gones", "Anseel");
+            if (payer == null) {
+                // create user?
+            }
+
+
+
         }
+
 
 
 
@@ -68,6 +95,7 @@ public class MoneyTrackerApplication {
 
     private enum AppStates {
         HOMESCREEN,
+        CREATE_GROUP,
         CREATE_TICKET,
 
     }
