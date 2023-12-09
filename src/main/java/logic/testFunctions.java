@@ -1,5 +1,7 @@
 package logic;
 
+import logic.controllers.ControllerTickets;
+import logic.controllers.ControllerUsers;
 import logic.users.User;
 import logic.tickets.Ticket;
 import logic.tickets.TicketEvents.TicketAirplane;
@@ -15,6 +17,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class testFunctions {
+    public static void globalTest() {
+        ControllerUsers userController = ControllerUsers.getUserController();
+        ControllerTickets ticketController = ControllerTickets.getTicketController();
+
+
+    }
 
     public static void testTicketEvents() {
         User gones = new User("Gones", "Anseel", 1);
@@ -99,4 +107,5 @@ public class testFunctions {
         System.out.println(restoUnEven.isEven());
 
     }
+
 }

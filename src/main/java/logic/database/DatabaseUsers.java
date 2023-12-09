@@ -2,9 +2,13 @@ package logic.database;
 
 import logic.users.User;
 
+import java.util.HashMap;
+
 public class DatabaseUsers extends Database<User> {
+    private DatabaseUsers() {
+        super();
+    }
     private static DatabaseUsers instance;
-    private DatabaseUsers() {}
 
     public static DatabaseUsers getUserDatabase() {
         if (instance == null) {
@@ -12,16 +16,38 @@ public class DatabaseUsers extends Database<User> {
         }
         return instance;
     }
-    public void addTicket(User user){
+    public void addUser(User user){
         int id = (user.getName()+user.getID()).hashCode();
         addEntry(id, user);
     }
 
-    public int userNameOccurences(String fullName, int id){
-        int hash = (fullName+id).hashCode();
-        if (db.get(hash) != null){
-            id = userNameOccurences(fullName, id+1);
+    public User getUser(String fullUserName) {
+        return getEntry(getUserHash(fullUserName, 1));
+    }
+
+    public HashMap<String, Integer> getUsers() {
+        HashMap<String, Integer> userNames = new HashMap<>();
+        for (int key : db.keySet()) {
+            User user = getEntry(key);
+            userNames.put(user.getName(), user.getID());
+        }
+        return userNames;
+    }
+
+    public void removeUser(User user) {
+        int id = getUserHash(user.getName(), user.getID());
+        removeEntry(id);
+    }
+
+    public int userNameOccurrences(String fullUserName, int id){
+        int hash = getUserHash(fullUserName, id);
+        if (getEntry(hash) != null){
+            id = userNameOccurrences(fullUserName, id+1);
         }
         return id;
+    }
+
+    private int getUserHash(String fullName, int id) {
+        return (fullName+id).hashCode();
     }
 }

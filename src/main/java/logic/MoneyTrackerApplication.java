@@ -43,6 +43,8 @@ public class MoneyTrackerApplication {
                         - > 'update debts'
 
          */
+        //testFunctions.testTicketSplit();
+        testFunctions.globalTest();
         //System.out.println("Test Ticket Events");
         //testFunctions.testTicketEvents();
 
