@@ -1,6 +1,5 @@
 package logic.tickets.TicketSplit;
 
-import logic.users.User;
 import logic.tickets.EventTicket;
 import logic.tickets.SplittableTicket;
 import logic.tickets.Ticket;
@@ -16,12 +15,12 @@ public abstract class DecoratorTicketSplit implements SplittableTicket {
      * balance of debtors in ticket.
      * negative balance means debt
      */
-    protected HashMap<User, Double> balances;
+    protected HashMap<Integer, Double> balances;
 
     /**
      * list of people with debt to payer
      */
-    protected Set<User> debtors;
+    protected Set<Integer> debtors;
     protected boolean balancesInitialized = false;
 
     public DecoratorTicketSplit (EventTicket eventTicket) {
@@ -38,7 +37,7 @@ public abstract class DecoratorTicketSplit implements SplittableTicket {
     /**
      * @return
      */
-    public Set<User> getDebtors() {
+    public Set<Integer> getDebtors() {
         return debtors;
     }
 
@@ -62,7 +61,7 @@ public abstract class DecoratorTicketSplit implements SplittableTicket {
      * @return
      */
     @Override
-    public User whoPaid() {
+    public int whoPaid() {
         return eventTicket.whoPaid();
     }
 
@@ -70,7 +69,7 @@ public abstract class DecoratorTicketSplit implements SplittableTicket {
      * @return
      */
 
-    public HashMap<User, Double> getBalances() {
+    public HashMap<Integer, Double> getBalances() {
         return balances;
     }
 
@@ -93,7 +92,7 @@ public abstract class DecoratorTicketSplit implements SplittableTicket {
     }
 
     @Override
-    public void addPayment(User user, double payment) {
+    public void addPayment(int user, double payment) {
         double userCurrentBalance = balances.get(user);
         balances.replace(user, userCurrentBalance + payment);
 

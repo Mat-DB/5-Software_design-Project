@@ -1,6 +1,5 @@
 package logic.tickets.TicketSplit;
 
-import logic.users.User;
 import logic.tickets.EventTicket;
 
 import java.util.Set;
@@ -15,7 +14,7 @@ public class TicketEvenSplit extends DecoratorTicketSplit {
      * initial balances when ticket is first made.
      * @param debtors list of people who owe money to the payer
      */
-    public void setInitialBalances(Set<User> debtors) {
+    public void setInitialBalances(Set<Integer> debtors) {
         if(balancesInitialized) {
             return;
         }
@@ -30,7 +29,7 @@ public class TicketEvenSplit extends DecoratorTicketSplit {
         balances.replace(whoPaid(), ticketTotal - debt);
 
         // add other debtors to balances
-        for (User debtor : debtors) {
+        for (int debtor : debtors) {
             balances.put(debtor, -debt);
         }
         balancesInitialized = true;
@@ -40,7 +39,7 @@ public class TicketEvenSplit extends DecoratorTicketSplit {
      * Adding a debtor when the balances are already initialized.
      * @param newDebtor new user to add to ticket.
      */
-    public void addDebtor(User newDebtor) {
+    public void addDebtor(int newDebtor) {
         debtors.add(newDebtor);
         double ticketTotal = eventTicket.getTotal();
 
@@ -51,7 +50,7 @@ public class TicketEvenSplit extends DecoratorTicketSplit {
         balances.put(whoPaid(), ticketTotal - debt);
 
         // add other debtors to balances
-        for (User debtor : debtors) {
+        for (int debtor : debtors) {
             balances.put(debtor, -debt);
         }
     }

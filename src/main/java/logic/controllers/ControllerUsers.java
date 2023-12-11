@@ -26,11 +26,21 @@ public class ControllerUsers {
         return controller;
     }
 
-    public User createUser(String firstName, String lastname) {
+    /**
+     * Function to add new user to User Database.
+     * First searches for the first available ID for a user with (firstname, lastname).
+     * Creates user with available ID and adds user to database.
+     * Return key for user in database.
+     * @param firstName first name of user to add
+     * @param lastname last name of user to add
+     * @return key for user in user database.
+     */
+    public int createUser(String firstName, String lastname) {
         int existingID = userDB.userNameOccurrences(firstName+lastname, 1);
-        User newUser = new User(firstName, lastname, existingID+1);
-        userDB.addUser(newUser);
-        return newUser;
+        User newUser = new User(firstName, lastname, existingID);
+        System.out.println(newUser);
+        int userDatabaseKey = userDB.addUser(newUser);
+        return userDatabaseKey;
     }
 
     public void removeUser(User user) {
@@ -40,5 +50,9 @@ public class ControllerUsers {
 
     public HashMap<String, Integer> getUsers() {
         return userDB.getUsers();
+    }
+
+    public User getUser(int userHash) {
+        return userDB.getUser(userHash);
     }
 }

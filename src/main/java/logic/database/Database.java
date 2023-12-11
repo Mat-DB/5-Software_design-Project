@@ -14,18 +14,18 @@ public abstract class Database<T> {
         observable = new PropertyChangeSupport(this);
     }
 
-    protected void addEntry(int id, T t) {
+    protected void addEntry(int key, T t) {
         Logger logger = Logger.getLogger(Database.class.getName());
-        logger.fine("id: " + id);
-        db.put(id, t);
+        logger.fine("id: " + key);
+        db.put(key, t);
     }
 
-    protected void removeEntry(int id) {
-        db.remove(id);
+    protected void removeEntry(int key) {
+        db.remove(key);
     }
 
-    protected T getEntry(int id){
-        return db.get(id);
+    protected T getEntry(int key){
+        return db.get(key);
     }
 
     public void addObserver(PropertyChangeListener observer) {

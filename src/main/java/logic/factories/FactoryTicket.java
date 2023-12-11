@@ -1,6 +1,5 @@
 package logic.factories;
 
-import logic.users.User;
 import logic.tickets.EventTicket;
 import logic.tickets.TicketEvents.TicketAirplane;
 import logic.tickets.TicketEvents.TicketCustom;
@@ -49,15 +48,15 @@ public class FactoryTicket {
 //        return ticket;
 //    }
 
-    public TicketEvenSplit getEvenSplitTicket(String name, double price, User paid, TypeEvents event) {
+    public TicketEvenSplit getEvenSplitTicket(String name, double price, int paid, TypeEvents event) {
         return new TicketEvenSplit(getEventTicket(name, price, paid, event));
     }
 
-    public TicketUnevenSplit getUnevenSplitTicket(String name, double price, User paid, TypeEvents event) {
+    public TicketUnevenSplit getUnevenSplitTicket(String name, double price, int paid, TypeEvents event) {
         return new TicketUnevenSplit(getEventTicket(name, price, paid, event));
     }
 
-    private EventTicket getEventTicket(String name, double price, User paid, TypeEvents event) {
+    private EventTicket getEventTicket(String name, double price, int paid, TypeEvents event) {
         return switch (event) {
             case AIRPLANE -> new TicketAirplane(name, price, paid);
             case RESTAURANT -> new TicketRestaurant(name, price, paid);

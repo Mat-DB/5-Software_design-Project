@@ -1,17 +1,16 @@
 package logic.tickets;
 
-import logic.users.User;
 import logic.tickets.TicketSplit.TypeSplit;
 
 import java.util.HashMap;
 import java.util.Set;
 
 public interface SplittableTicket extends EventTicket {
-    HashMap<User, Double> getBalances();
+    HashMap<Integer, Double> getBalances();
 
-    Set<User> getDebtors();
+    Set<Integer> getDebtors();
 
-    void addPayment(User payer, double payment);
+    void addPayment(int user, double payment);
 
     boolean isEven();
 

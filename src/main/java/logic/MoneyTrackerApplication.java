@@ -1,10 +1,12 @@
 package logic;
 
 import graphics.ViewFrame;
+import logic.controllers.ControllerHelperFunctions;
 import logic.controllers.ControllerTickets;
 import logic.controllers.ControllerUsers;
 import logic.groups.Group;
-import logic.users.User;
+
+import java.util.Scanner;
 
 public class MoneyTrackerApplication {
     ViewFrame appView;
@@ -44,7 +46,7 @@ public class MoneyTrackerApplication {
 
          */
         //testFunctions.testTicketSplit();
-        testFunctions.globalTest();
+        //testFunctions.globalTest();
         //System.out.println("Test Ticket Events");
         //testFunctions.testTicketEvents();
 
@@ -53,38 +55,65 @@ public class MoneyTrackerApplication {
 
         //System.out.println("Test payment");
         //testFunctions.testPayment();
+        textApplication();
+    }
+    private void textApplication() {
         if (state == AppStates.HOMESCREEN) {
             System.out.println("Home screen");
             appView.homescreen();
-            // click 'create group'
-            state = AppStates.CREATE_TICKET;
-            // click 'view groups'
+            // click 'Start' - > 'Create Group'
+            state = AppStates.CREATE_GROUP;
 
         }
         // create a new group for tickets
         if (state == AppStates.CREATE_GROUP) {
-            System.out.println("Create group");
-            String groupName = "Group1";
+            System.out.println("Add participants");
+
+            Scanner userInput = new Scanner(System.in);  // Create a Scanner object
+            System.out.println("Enter groupname");
+
+            String groupName = userInput.nextLine();
             group = new Group(groupName);
 
-            //
-            User newParticipant = controllerUsers.createUser("Gones", "Anseel");
-            group.addParticipant(newParticipant);
-            newParticipant = controllerUsers.createUser("Matthias", "De Beukelaer");
-            group.addParticipant(newParticipant);
+            System.out.println("First name: ");
+            String firstName = "g";
+            System.out.println("Last name: ");
+            String lastName = "a";
 
+            // controller finds first available ID for User, add user to database and returns key.
+            int participantKey = controllerUsers.createUser(firstName, lastName);
+            group.addParticipant(participantKey);
+
+            System.out.println("First name: ");
+            firstName = "g";
+            System.out.println("Last name: ");
+            lastName = "a";
+
+            participantKey = controllerUsers.createUser(firstName, lastName);
+            group.addParticipant(participantKey);
+
+            System.out.println(group);
+
+            state = AppStates.CREATE_TICKET;
 
         }
         // Create tickets in group
         if (state == AppStates.CREATE_TICKET) {
             System.out.println("create ticket");
-            // 1. App-user input name-ticket, price, and who paid
-            String ticketName = "Airplane Prague";
-            double price = 120.0;
-            User payer = group.getParticipant("Gones", "Anseel");
-            if (payer == null) {
-                // create user?
-            }
+            Scanner userInput = new Scanner(System.in);  // Create a Scanner object
+            System.out.println("Enter ticket name: ");
+            // 1. App-user input name-ticket, price, and selects who paid
+            String ticketName = userInput.nextLine();
+
+            System.out.println("Enter total price: ");
+            double price = userInput.nextDouble();
+
+            System.out.println("enter id who paid: ");
+            System.out.println(ControllerHelperFunctions.convertHashToUsers(group.getParticipants(), controllerUsers));
+            int whoPaid = userInput.nextInt();
+
+
+            //User payer = group.getParticipant();
 
 
 

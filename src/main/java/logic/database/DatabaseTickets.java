@@ -16,7 +16,7 @@ public class DatabaseTickets extends Database<Ticket> {
     }
 
     public void addTicket(Ticket ticket){
-        int id = getTicketHash(ticket.getName(), ticket.getPrice());
+        int id = getTicketHash(ticket.getName(), ticket.getTotal());
         this.addEntry(id, ticket);
     }
 
@@ -25,7 +25,7 @@ public class DatabaseTickets extends Database<Ticket> {
     }
 
     public void removeTicket(Ticket ticket) {
-        int id = getTicketHash(ticket.getName(), ticket.getPrice());
+        int id = getTicketHash(ticket.getName(), ticket.getTotal());
         removeEntry(id);
     }
 

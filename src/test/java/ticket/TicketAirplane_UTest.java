@@ -23,28 +23,26 @@ public class TicketAirplane_UTest {
     }
 
     User gones;
+    int gonesHash;
     TicketAirplane airplaneTicket;
     @Before
     public void initialize() {
          gones = new User("Gones", "Anseel", 1);
-         airplaneTicket = new TicketAirplane("Airplane Prague", 100.0, gones);
+         gonesHash = (gones.getName() + gones.getID()).hashCode();
+         airplaneTicket = new TicketAirplane("Airplane Prague", 100.0, gonesHash);
     }
     @Test
     public void t_getName() {
-
         Assert.assertEquals("Testing name - input=Airplane Prague", "Airplane Prague", airplaneTicket.getName());
     }
 
     @Test
     public void t_whoPaid() {
-
-
-        Assert.assertEquals("Testing user - input=Gones Anseel id 1", gones, airplaneTicket.whoPaid());
+        Assert.assertEquals("Testing user - input=Gones Anseel id 1", gonesHash, airplaneTicket.whoPaid());
     }
 
     @Test
     public void t_getTotal() {
-
         Assert.assertEquals("Testing total - input=100.0", 100.0, airplaneTicket.getTotal(), 0.1);
     }
 

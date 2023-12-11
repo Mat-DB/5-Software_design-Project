@@ -1,6 +1,5 @@
 package logic.tickets.TicketSplit;
 
-import logic.users.User;
 import logic.tickets.EventTicket;
 
 import java.util.HashMap;
@@ -16,7 +15,7 @@ public class TicketUnevenSplit extends DecoratorTicketSplit {
      * initial balances when the ticket is first made
      * @param debts
      */
-    public void setInitialBalances(HashMap<User, Double> debts) {
+    public void setInitialBalances(HashMap<Integer, Double> debts) {
         debtors = new HashSet<>();
         if(balancesInitialized) {
             return;
@@ -30,7 +29,7 @@ public class TicketUnevenSplit extends DecoratorTicketSplit {
         debts.put(whoPaid(), payerBalance);
 
         // make debts negative numbers
-        for (User key : debts.keySet()) {
+        for (int key : debts.keySet()) {
             if (key != whoPaid()) {
                 debts.replace(key, -debts.get(key));
                 debtors.add(key);

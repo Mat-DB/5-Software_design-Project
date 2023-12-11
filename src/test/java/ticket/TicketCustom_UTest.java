@@ -23,11 +23,13 @@ public class TicketCustom_UTest {
     }
 
     User gones;
+    int gonesHash;
     TicketCustom customTicket;
     @Before
     public void initialize() {
         gones = new User("Gones", "Anseel", 1);
-        customTicket = new TicketCustom("Custom Suit", 100.0, gones);
+        gonesHash = (gones.getName() + gones.getID()).hashCode();
+        customTicket = new TicketCustom("Custom Suit", 100.0, gonesHash);
     }
     @Test
     public void t_getName() {
@@ -37,7 +39,7 @@ public class TicketCustom_UTest {
 
     @Test
     public void t_whoPaid() {
-        Assert.assertEquals("Testing user - input=matthias", gones, customTicket.whoPaid());
+        Assert.assertEquals("Testing user - input=matthias", gonesHash, customTicket.whoPaid());
     }
 
     @Test

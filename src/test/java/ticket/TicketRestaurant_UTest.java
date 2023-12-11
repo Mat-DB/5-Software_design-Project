@@ -23,11 +23,14 @@ public class TicketRestaurant_UTest {
     }
 
     User matthias;
+
+    int matthiasHash;
     TicketRestaurant restaurantTicket;
     @Before
     public void initialize() {
         matthias = new User("Matthias", "De Beukelaer", 1);
-        restaurantTicket = new TicketRestaurant("Restaurant B-day", 100.0, matthias);
+        matthiasHash = (matthias.getName() + matthias.getID()).hashCode();
+        restaurantTicket = new TicketRestaurant("Restaurant B-day", 100.0, matthiasHash);
     }
     @Test
     public void t_getName() {
@@ -37,7 +40,7 @@ public class TicketRestaurant_UTest {
 
     @Test
     public void t_whoPaid() {
-        Assert.assertEquals("Testing user - input=matthias", matthias, restaurantTicket.whoPaid());
+        Assert.assertEquals("Testing user - input=matthias", matthiasHash, restaurantTicket.whoPaid());
     }
 
     @Test

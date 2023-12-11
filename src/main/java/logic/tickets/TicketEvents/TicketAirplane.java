@@ -1,6 +1,5 @@
 package logic.tickets.TicketEvents;
 
-import logic.users.User;
 import logic.tickets.EventTicket;
 
 public class TicketAirplane implements EventTicket {
@@ -12,10 +11,10 @@ public class TicketAirplane implements EventTicket {
      */
     double total;
 
-    User paid;
+    int paid;
 
 
-    public TicketAirplane(String name, double total, User paid) {
+    public TicketAirplane(String name, double total, int paid) {
         this.name = name;
         this.total = total;
         this.paid = paid;
@@ -41,7 +40,7 @@ public class TicketAirplane implements EventTicket {
      * @return
      */
     @Override
-    public User whoPaid() {
+    public int whoPaid() {
         return paid;
     }
 

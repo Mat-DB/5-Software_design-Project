@@ -26,30 +26,34 @@ public class testFunctions {
 
     public static void testTicketEvents() {
         User gones = new User("Gones", "Anseel", 1);
+        int gonesHash = (gones.getName() + gones.getID()).hashCode();
 
-        Ticket ticket = new TicketAirplane("Airplane Prague", 125, gones);
+        Ticket ticket = new TicketAirplane("Airplane Prague", 125, gonesHash);
 
         System.out.println(ticket);
 
 
         User matthias = new User("Matthias", "De Beukelaer", 2);
-        ticket = new TicketRestaurant("Resto b-day", 120, matthias);
+        int matthiasHash = (matthias.getID() + matthias.toString()).hashCode();
+        ticket = new TicketRestaurant("Resto b-day", 120, matthiasHash);
 
         System.out.println(ticket);
     }
 
     public static void testTicketFactory() {
         User matthias = new User("Matthias", "De Beukelaer", 2);
+        int matthiasHash = (matthias.getID() + matthias.toString()).hashCode();
         User gones = new User("Gones", "Anseel", 1);
+        int gonesHash = (gones.getName() + gones.getID()).hashCode();
 
 
         FactoryTicket ticketFactory = FactoryTicket.getTicketFactory();
 
-        Set<User> debtors = new HashSet<>();
-        debtors.add(matthias);
+        Set<Integer> debtors = new HashSet<>();
+        debtors.add(matthiasHash);
 
         // 1. user creates airplane ticket
-        TicketEvenSplit airplane = ticketFactory.getEvenSplitTicket("Airplane Prague", 5, gones, TypeEvents.AIRPLANE);
+        TicketEvenSplit airplane = ticketFactory.getEvenSplitTicket("Airplane Prague", 5, gonesHash, TypeEvents.AIRPLANE);
 
         // 2. user adds debtors
         airplane.setInitialBalances(debtors);
@@ -59,10 +63,10 @@ public class testFunctions {
         tickets.add(airplane);
         System.out.println(tickets.get(0) instanceof TicketEvenSplit);
 
-        TicketUnevenSplit restoUnEven = ticketFactory.getUnevenSplitTicket("Resto Stijn", 120, matthias, TypeEvents.RESTAURANT);
-        HashMap<User, Double> debts = new HashMap<>();
-        debts.put(matthias, -20.0);
-        debts.put(gones, -100.0);
+        TicketUnevenSplit restoUnEven = ticketFactory.getUnevenSplitTicket("Resto Stijn", 120, matthiasHash, TypeEvents.RESTAURANT);
+        HashMap<Integer, Double> debts = new HashMap<>();
+        debts.put(matthiasHash, -20.0);
+        debts.put(gonesHash, -100.0);
         restoUnEven.setInitialBalances(debts);
 
         System.out.println(restoUnEven);
@@ -70,16 +74,18 @@ public class testFunctions {
 
     public static void testPayment() {
         User matthias = new User("Matthias", "De Beukelaer", 2);
+        int matthiasHash = (matthias.getID() + matthias.toString()).hashCode();
         User gones = new User("Gones", "Anseel", 1);
+        int gonesHash = (gones.getName() + gones.getID()).hashCode();
 
 
         FactoryTicket ticketFactory = FactoryTicket.getTicketFactory();
 
-        Set<User> debtors = new HashSet<>();
-        debtors.add(matthias);
+        Set<Integer> debtors = new HashSet<>();
+        debtors.add(matthiasHash);
 
         // 1. user creates airplane ticket
-        TicketEvenSplit airplane = ticketFactory.getEvenSplitTicket("Airplane Prague", 5, gones, TypeEvents.AIRPLANE);
+        TicketEvenSplit airplane = ticketFactory.getEvenSplitTicket("Airplane Prague", 5, gonesHash, TypeEvents.AIRPLANE);
 
         // 2. user adds debtors
         airplane.setInitialBalances(debtors);
@@ -87,21 +93,21 @@ public class testFunctions {
         System.out.println(airplane);
         System.out.println(airplane.isEven());
 
-        airplane.addPayment(matthias, 2.5);
+        airplane.addPayment(matthiasHash, 2.5);
 
         System.out.println(airplane);
         System.out.println(airplane.isEven());
 
-        TicketUnevenSplit restoUnEven = ticketFactory.getUnevenSplitTicket("Resto Stijn", 120, matthias, TypeEvents.RESTAURANT);
-        HashMap<User, Double> debts = new HashMap<>();
-        debts.put(matthias, -20.0);
-        debts.put(gones, -100.0);
+        TicketUnevenSplit restoUnEven = ticketFactory.getUnevenSplitTicket("Resto Stijn", 120, matthiasHash, TypeEvents.RESTAURANT);
+        HashMap<Integer, Double> debts = new HashMap<>();
+        debts.put(matthiasHash, -20.0);
+        debts.put(gonesHash, -100.0);
         restoUnEven.setInitialBalances(debts);
 
         System.out.println(restoUnEven);
         System.out.println(restoUnEven.isEven());
 
-        restoUnEven.addPayment(gones, 100);
+        restoUnEven.addPayment(gonesHash, 100);
 
         System.out.println(restoUnEven);
         System.out.println(restoUnEven.isEven());

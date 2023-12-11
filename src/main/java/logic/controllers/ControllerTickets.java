@@ -36,7 +36,7 @@ public class ControllerTickets {
     }
 
     public Ticket createTicket() {
-        // ToDo: implement this methode, depends on the factory
+        // ToDo: implement this method, depends on the factory
         //Ticket newTicket = ticketFactory;
         //ticketDB.addTicket(newTicket);
         return null;

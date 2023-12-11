@@ -27,13 +27,15 @@ public class TicketUnevenSplit_UTest {
     }
 
     User gones;
+    int gonesHash;
     EventTicket airplaneTicket;
     TicketUnevenSplit airplaneUnevenSplit;
 
     @Before
     public void initialize() {
         gones = new User("Gones", "Anseel", 1);
-        airplaneTicket = new TicketAirplane("Airplane Prague", 100.0, gones);
+        gonesHash = (gones.getName() + gones.getID()).hashCode();
+        airplaneTicket = new TicketAirplane("Airplane Prague", 100.0, gonesHash);
         airplaneUnevenSplit = new TicketUnevenSplit(airplaneTicket);
     }
 
@@ -47,7 +49,7 @@ public class TicketUnevenSplit_UTest {
     public void t_whoPaid() {
 
 
-        Assert.assertEquals("Testing user - input=Gones Anseel id 1", gones, airplaneUnevenSplit.whoPaid());
+        Assert.assertEquals("Testing user - input=Gones Anseel id 1", gonesHash, airplaneUnevenSplit.whoPaid());
     }
 
     @Test
@@ -74,35 +76,38 @@ public class TicketUnevenSplit_UTest {
     @Test
     public void t_setInitialBalances() {
         User matthias = new User("Matthias", "De Beukelaer", 2);
-        HashMap<User, Double> debtors = new HashMap<>();
-        debtors.put(gones, 40.0);
-        debtors.put(matthias, 60.0);
+        int matthiasHash = (matthias.getName() + matthias.getID()).hashCode();
+        HashMap<Integer, Double> debtors = new HashMap<>();
+        debtors.put(gonesHash, 40.0);
+        debtors.put(matthiasHash, 60.0);
 
         airplaneUnevenSplit.setInitialBalances(debtors);
 
         // Gones paid the ticket, but has debt of 40 so his balance is 60EU positive,
         // while Matthias has a balance of -60EU because he is 60EU in debt.
-        Assert.assertEquals("balance Gones = +50EU", 60.0, airplaneUnevenSplit.getBalances().get(gones), .1);
-        Assert.assertEquals("balance Matthias = -50EU", -60.0, airplaneUnevenSplit.getBalances().get(matthias), .1);
+        Assert.assertEquals("balance Gones = +50EU", 60.0, airplaneUnevenSplit.getBalances().get(gonesHash), .1);
+        Assert.assertEquals("balance Matthias = -50EU", -60.0, airplaneUnevenSplit.getBalances().get(matthiasHash), .1);
 
     }
 
     @Test
     public void t_getDebtors() {
         User matthias = new User("Matthias", "De Beukelaer", 2);
+        int matthiasHash = (matthias.getName() + matthias.getID()).hashCode();
         User stijn = new User("Stijn", "VR", 3);
-        HashMap<User, Double> debtors = new HashMap<>();
-        debtors.put(gones, 30.0);
-        debtors.put(matthias, 40.0);
-        debtors.put(stijn, 30.0);
+        int stijnHash = (stijn.getName() + stijn.getID()).hashCode();
+        HashMap<Integer, Double> debtors = new HashMap<>();
+        debtors.put(gonesHash, 30.0);
+        debtors.put(matthiasHash, 40.0);
+        debtors.put(stijnHash, 30.0);
 
         airplaneUnevenSplit.setInitialBalances(debtors);
 
         // debtors returned by ticket
-        Set<User> actualDebtors = airplaneUnevenSplit.getDebtors();
+        Set<Integer> actualDebtors = airplaneUnevenSplit.getDebtors();
 
         //
-        Set<User> expectedDebtors = debtors.keySet();
+        Set<Integer> expectedDebtors = debtors.keySet();
         expectedDebtors.remove(airplaneUnevenSplit.whoPaid());
 
         Assert.assertEquals("Debtors", expectedDebtors, actualDebtors);
@@ -111,41 +116,45 @@ public class TicketUnevenSplit_UTest {
     @Test
     public void t_addPayment() {
         User matthias = new User("Matthias", "De Beukelaer", 2);
+        int matthiasHash = (matthias.getName() + matthias.getID()).hashCode();
         User stijn = new User("Stijn", "VR", 3);
-        HashMap<User, Double> debtors = new HashMap<>();
-        debtors.put(gones, 30.0);
-        debtors.put(matthias, 40.0);
-        debtors.put(stijn, 30.0);
+        int stijnHash = (stijn.getName() + stijn.getID()).hashCode();
+        HashMap<Integer, Double> debtors = new HashMap<>();
+        debtors.put(gonesHash, 30.0);
+        debtors.put(matthiasHash, 40.0);
+        debtors.put(stijnHash, 30.0);
 
         airplaneUnevenSplit.setInitialBalances(debtors);
 
-        airplaneUnevenSplit.addPayment(stijn, 30.0);
-        Assert.assertEquals("balance stijn = 0.0", 0.0, airplaneUnevenSplit.getBalances().get(stijn), .1);
-        Assert.assertEquals("balance Matthias = -33.33EU", -40.0, airplaneUnevenSplit.getBalances().get(matthias), .1);
-        Assert.assertEquals("balance Gones = +33.33EU", 40.0, airplaneUnevenSplit.getBalances().get(gones), .1);
+        airplaneUnevenSplit.addPayment(stijnHash, 30.0);
+        Assert.assertEquals("balance stijn = 0.0", 0.0, airplaneUnevenSplit.getBalances().get(stijnHash), .1);
+        Assert.assertEquals("balance Matthias = -33.33EU", -40.0, airplaneUnevenSplit.getBalances().get(matthiasHash), .1);
+        Assert.assertEquals("balance Gones = +33.33EU", 40.0, airplaneUnevenSplit.getBalances().get(gonesHash), .1);
 
-        airplaneUnevenSplit.addPayment(matthias, 40.0);
-        Assert.assertEquals("balance stijn = 0.0", 0.0, airplaneUnevenSplit.getBalances().get(stijn), .1);
-        Assert.assertEquals("balance Matthias = 0", 0.0, airplaneUnevenSplit.getBalances().get(matthias), .1);
-        Assert.assertEquals("balance Gones = 0", 0.0, airplaneUnevenSplit.getBalances().get(gones), .1);
+        airplaneUnevenSplit.addPayment(matthiasHash, 40.0);
+        Assert.assertEquals("balance stijn = 0.0", 0.0, airplaneUnevenSplit.getBalances().get(stijnHash), .1);
+        Assert.assertEquals("balance Matthias = 0", 0.0, airplaneUnevenSplit.getBalances().get(matthiasHash), .1);
+        Assert.assertEquals("balance Gones = 0", 0.0, airplaneUnevenSplit.getBalances().get(gonesHash), .1);
 
     }
 
     @Test
     public void t_isEven() {
         User matthias = new User("Matthias", "De Beukelaer", 2);
+        int matthiasHash = (matthias.getName() + matthias.getID()).hashCode();
         User stijn = new User("Stijn", "VR", 3);
-        HashMap<User, Double> debtors = new HashMap<>();
-        debtors.put(gones, 30.0);
-        debtors.put(matthias, 40.0);
-        debtors.put(stijn, 30.0);
+        int stijnHash = (stijn.getName() + stijn.getID()).hashCode();
+        HashMap<Integer, Double> debtors = new HashMap<>();
+        debtors.put(gonesHash, 30.0);
+        debtors.put(matthiasHash, 40.0);
+        debtors.put(stijnHash, 30.0);
 
         airplaneUnevenSplit.setInitialBalances(debtors);
 
-        airplaneUnevenSplit.addPayment(stijn, 30.0);
+        airplaneUnevenSplit.addPayment(stijnHash, 30.0);
         Assert.assertFalse("balance = not even", airplaneUnevenSplit.isEven());
 
-        airplaneUnevenSplit.addPayment(matthias, 40.0);
+        airplaneUnevenSplit.addPayment(matthiasHash, 40.0);
         Assert.assertTrue("balance = even", airplaneUnevenSplit.isEven());
     }
 
