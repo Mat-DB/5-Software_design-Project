@@ -26,7 +26,7 @@ public abstract class DecoratorTicketSplit implements SplittableTicket {
     public DecoratorTicketSplit (EventTicket eventTicket) {
         this.eventTicket = eventTicket;
         balances = new HashMap<>();
-        balances.put(eventTicket.whoPaid(), eventTicket.getTotal());
+        balances.put(eventTicket.getWhoPaid(), eventTicket.getTotal());
     }
 
 
@@ -61,8 +61,8 @@ public abstract class DecoratorTicketSplit implements SplittableTicket {
      * @return
      */
     @Override
-    public int whoPaid() {
-        return eventTicket.whoPaid();
+    public int getWhoPaid() {
+        return eventTicket.getWhoPaid();
     }
 
     /**
@@ -86,7 +86,7 @@ public abstract class DecoratorTicketSplit implements SplittableTicket {
         return getEvent() + " Ticket{" +
                 "name='" + getName() + '\'' +
                 ", total=" + getTotal() +
-                ", paid=" + whoPaid() +
+                ", paid=" + getWhoPaid() +
                 ", balances=" + balances +
                 '}';
     }
@@ -96,8 +96,8 @@ public abstract class DecoratorTicketSplit implements SplittableTicket {
         double userCurrentBalance = balances.get(user);
         balances.replace(user, userCurrentBalance + payment);
 
-        double payerCurrentBalance = balances.get(whoPaid());
-        balances.replace(whoPaid(), payerCurrentBalance - payment);
+        double payerCurrentBalance = balances.get(getWhoPaid());
+        balances.replace(getWhoPaid(), payerCurrentBalance - payment);
 
     }
 

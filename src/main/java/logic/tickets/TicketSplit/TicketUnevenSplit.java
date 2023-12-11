@@ -23,14 +23,14 @@ public class TicketUnevenSplit extends DecoratorTicketSplit {
 
         // update balance for payer
         double payerBalance = eventTicket.getTotal();
-        if (debts.get(whoPaid()) != null) {
-            payerBalance -= debts.get(whoPaid());
+        if (debts.get(getWhoPaid()) != null) {
+            payerBalance -= debts.get(getWhoPaid());
         }
-        debts.put(whoPaid(), payerBalance);
+        debts.put(getWhoPaid(), payerBalance);
 
         // make debts negative numbers
         for (int key : debts.keySet()) {
-            if (key != whoPaid()) {
+            if (key != getWhoPaid()) {
                 debts.replace(key, -debts.get(key));
                 debtors.add(key);
             }

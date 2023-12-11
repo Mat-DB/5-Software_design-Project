@@ -5,6 +5,6 @@ public interface Ticket {
 
     double getTotal();
 
-    int whoPaid();
+    int getWhoPaid();
 }
 

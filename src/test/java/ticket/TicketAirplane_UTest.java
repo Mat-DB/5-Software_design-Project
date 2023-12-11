@@ -38,7 +38,7 @@ public class TicketAirplane_UTest {
 
     @Test
     public void t_whoPaid() {
-        Assert.assertEquals("Testing user - input=Gones Anseel id 1", gonesHash, airplaneTicket.whoPaid());
+        Assert.assertEquals("Testing user - input=Gones Anseel id 1", gonesHash, airplaneTicket.getWhoPaid());
     }
 
     @Test

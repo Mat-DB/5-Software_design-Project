@@ -49,7 +49,7 @@ public class TicketUnevenSplit_UTest {
     public void t_whoPaid() {
 
 
-        Assert.assertEquals("Testing user - input=Gones Anseel id 1", gonesHash, airplaneUnevenSplit.whoPaid());
+        Assert.assertEquals("Testing user - input=Gones Anseel id 1", gonesHash, airplaneUnevenSplit.getWhoPaid());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class TicketUnevenSplit_UTest {
 
         //
         Set<Integer> expectedDebtors = debtors.keySet();
-        expectedDebtors.remove(airplaneUnevenSplit.whoPaid());
+        expectedDebtors.remove(airplaneUnevenSplit.getWhoPaid());
 
         Assert.assertEquals("Debtors", expectedDebtors, actualDebtors);
     }

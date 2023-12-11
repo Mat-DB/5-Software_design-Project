@@ -35,7 +35,7 @@ public class TicketRestaurant implements EventTicket {
      * @return
      */
     @Override
-    public int whoPaid() {
+    public int getWhoPaid() {
         return paid;
     }
 

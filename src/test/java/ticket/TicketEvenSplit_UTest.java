@@ -49,7 +49,7 @@ public class TicketEvenSplit_UTest {
     public void t_whoPaid() {
 
 
-        Assert.assertEquals("Testing user - input=Gones Anseel id 1", gonesHash, airplaneEvenSplitTicket.whoPaid());
+        Assert.assertEquals("Testing user - input=Gones Anseel id 1", gonesHash, airplaneEvenSplitTicket.getWhoPaid());
     }
 
     @Test

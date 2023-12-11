@@ -3,6 +3,8 @@ package logic.controllers;
 import logic.database.DatabaseTickets;
 import logic.tickets.Ticket;
 import logic.factories.FactoryTicket;
+import logic.tickets.TicketEvents.TypeEvents;
+import logic.tickets.TicketSplit.TypeSplit;
 
 /**
  * This is the controller of the tickets.
@@ -35,14 +37,15 @@ public class ControllerTickets {
         return ticketDB.getTicket(id);
     }
 
-    public Ticket createTicket() {
-        // ToDo: implement this method, depends on the factory
-        //Ticket newTicket = ticketFactory;
-        //ticketDB.addTicket(newTicket);
-        return null;
+    public int createTicket(String name, double price, int paid, TypeEvents event, TypeSplit split) {
+        Ticket ticket = switch (split) {
+            case EVEN_SPLIT -> ticketFactory.getEvenSplitTicket(name, price, paid, event);
+            case UNEVEN_SPLIT -> ticketFactory.getUnevenSplitTicket(name, price, paid, event);
+        };
+        return ticketDB.addTicket(ticket);
     }
 
-    public void removeTicket(Ticket ticket) {
-        ticketDB.removeTicket(ticket);
+    public void removeTicket(int ticketHash) {
+        ticketDB.removeTicket(ticketHash);
     }
 }

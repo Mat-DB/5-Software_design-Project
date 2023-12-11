@@ -26,7 +26,7 @@ public class TicketEvenSplit extends DecoratorTicketSplit {
         double debt = ticketTotal / (debtors.size() + 1);
 
         // initial balance of payer is total of ticket minus his own debt
-        balances.replace(whoPaid(), ticketTotal - debt);
+        balances.replace(getWhoPaid(), ticketTotal - debt);
 
         // add other debtors to balances
         for (int debtor : debtors) {
@@ -47,7 +47,7 @@ public class TicketEvenSplit extends DecoratorTicketSplit {
         double debt = ticketTotal / (debtors.size() + 1);
 
         // initial balance of payer is total of ticket minus his own debt
-        balances.put(whoPaid(), ticketTotal - debt);
+        balances.put(getWhoPaid(), ticketTotal - debt);
 
         // add other debtors to balances
         for (int debtor : debtors) {

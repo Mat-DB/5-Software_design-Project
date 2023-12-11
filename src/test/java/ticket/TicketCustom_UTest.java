@@ -39,7 +39,7 @@ public class TicketCustom_UTest {
 
     @Test
     public void t_whoPaid() {
-        Assert.assertEquals("Testing user - input=matthias", gonesHash, customTicket.whoPaid());
+        Assert.assertEquals("Testing user - input=matthias", gonesHash, customTicket.getWhoPaid());
     }
 
     @Test

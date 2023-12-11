@@ -16,11 +16,10 @@ public class DatabaseUsers extends Database<User> {
         }
         return instance;
     }
-
     public int addUser(User user){
-        int hash = (user.getFullName()+user.getID()).hashCode();
-        System.out.println(hash);
+        int hash = getUserHash(user.getFullName(), user.getID());
         addEntry(hash, user);
+        observable.firePropertyChange("new user", null, user);
         return hash;
     }
 
@@ -41,9 +40,10 @@ public class DatabaseUsers extends Database<User> {
         return userNames;
     }
 
-    public void removeUser(User user) {
-        int id = getUserHash(user.getName(), user.getID());
-        removeEntry(id);
+    public void removeUser(int hash) {
+        User user = getEntry(hash);
+        observable.firePropertyChange("remove user", user, null);
+        removeEntry(hash);
     }
 
     public int userNameOccurrences(String fullUserName, int id){

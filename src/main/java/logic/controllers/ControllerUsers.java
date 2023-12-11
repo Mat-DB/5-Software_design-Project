@@ -43,10 +43,9 @@ public class ControllerUsers {
         return userDatabaseKey;
     }
 
-    public void removeUser(User user) {
-        userDB.removeUser(user);
+    public void removeUser(int dbID) {
+        userDB.removeUser(dbID);
     }
-
 
     public HashMap<String, Integer> getUsers() {
         return userDB.getUsers();
