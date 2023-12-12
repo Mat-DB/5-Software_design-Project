@@ -4,6 +4,7 @@ import graphics.ViewFrame;
 import logic.controllers.ControllerHelperFunctions;
 import logic.controllers.ControllerTickets;
 import logic.controllers.ControllerUsers;
+import logic.database.DatabaseUsers;
 import logic.groups.Group;
 
 import java.util.Scanner;
@@ -28,7 +29,7 @@ public class MoneyTrackerApplication {
         controllerTickets = ControllerTickets.getTicketController();
 
         appView.initialize();
-
+        DatabaseUsers.getUserDatabase().addObserver(appView);
         state = AppStates.HOMESCREEN;
     }
 
@@ -55,12 +56,17 @@ public class MoneyTrackerApplication {
 
         //System.out.println("Test payment");
         //testFunctions.testPayment();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         textApplication();
     }
     private void textApplication() {
         if (state == AppStates.HOMESCREEN) {
             System.out.println("Home screen");
-            appView.homescreen();
             // click 'Start' - > 'Create Group'
             state = AppStates.CREATE_GROUP;
 
@@ -72,7 +78,8 @@ public class MoneyTrackerApplication {
             Scanner userInput = new Scanner(System.in);  // Create a Scanner object
             System.out.println("Enter groupname");
 
-            String groupName = userInput.nextLine();
+            //String groupName = userInput.nextLine();
+            String groupName = "test";
             group = new Group(groupName);
 
             System.out.println("First name: ");
@@ -124,7 +131,7 @@ public class MoneyTrackerApplication {
 
     }
 
-    private enum AppStates {
+    public enum AppStates {
         HOMESCREEN,
         CREATE_GROUP,
         CREATE_TICKET,

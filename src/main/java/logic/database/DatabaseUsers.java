@@ -57,7 +57,7 @@ public class DatabaseUsers extends Database<User> {
         return newID;
     }
 
-    private int getUserHash(String fullName, int id) {
+    public int getUserHash(String fullName, int id) {
         return (fullName+id).hashCode();
     }
 }
