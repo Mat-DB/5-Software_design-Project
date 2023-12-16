@@ -1,6 +1,7 @@
 package graphics.panels;
 
 import graphics.ViewFrame;
+import graphics.panels.subPanels.PanelCreateTicketConfirm;
 import graphics.panels.subPanels.PanelCreateTicketDebtors;
 import graphics.panels.subPanels.PanelCreateTicketGroup;
 import graphics.panels.subPanels.PanelCreateTicketOwner;
@@ -27,9 +28,12 @@ import java.util.HashMap;
  */
 public class PanelTickets extends JPanel {
     private TicketPanelStates state;
+
+    // Sub panels to create a new ticket
     private PanelCreateTicketGroup panelGetGroup;
     private PanelCreateTicketOwner panelGetOwnerInfo;
     private PanelCreateTicketDebtors panelGetDebtors;
+    private PanelCreateTicketConfirm panelConfirmTicket;
 
     // New ticket info
     private Group selectedGroup;
@@ -54,6 +58,7 @@ public class PanelTickets extends JPanel {
         panelGetGroup = new PanelCreateTicketGroup(frame,this);
         panelGetOwnerInfo = new PanelCreateTicketOwner(this);
         panelGetDebtors = new PanelCreateTicketDebtors(this);
+        panelConfirmTicket = new PanelCreateTicketConfirm(this);
 
         createButton = new JButton("Create new ticket");
         viewButon = new JButton("View a ticket");
@@ -108,7 +113,10 @@ public class PanelTickets extends JPanel {
                 panelGetDebtors.init();
             }
             case CONFIRM -> {
-                System.out.println("CONFIM mode");
+                this.removeAll();
+                this.updateUI();
+                this.add(panelConfirmTicket);
+                panelConfirmTicket.init();
             }
         }
     }
@@ -140,6 +148,7 @@ public class PanelTickets extends JPanel {
             }
         }
         state = TicketPanelStates.CONFIRM;
+        changeUI();
     }
 
     public void setStarteState() {
@@ -156,6 +165,8 @@ public class PanelTickets extends JPanel {
             TicketUnevenSplit ticket = (TicketUnevenSplit) ticketsController.getTicket(ticketHash);
             ticket.setInitialBalances(debtors);
         }
+        state = TicketPanelStates.START;
+        changeUI();
     }
 
     public User getOwner() {

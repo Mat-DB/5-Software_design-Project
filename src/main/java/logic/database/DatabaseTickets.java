@@ -16,7 +16,7 @@ public class DatabaseTickets extends Database<Ticket> {
     }
 
     public int addTicket(Ticket ticket){
-        int hash = getTicketHash(ticket.getName(), ticket.getTotal(), ticket.getWhoPaid());
+        int hash = getTicketHash(ticket.getName());
         this.addEntry(hash, ticket);
         observable.firePropertyChange("new ticket", null, ticket);
         return hash;
@@ -32,7 +32,7 @@ public class DatabaseTickets extends Database<Ticket> {
         removeEntry(ticketHash);
     }
 
-    private int getTicketHash(String name, double price, int whoPaid) {
-        return (name+price+whoPaid).hashCode();
+    public int getTicketHash(String name) {
+        return name.hashCode();
     }
 }

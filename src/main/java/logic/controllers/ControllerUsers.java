@@ -56,7 +56,7 @@ public class ControllerUsers {
     }
 
     public int getUserHash(User user) {
-        return userDB.getUserHash(user.getFullName(), user.getID());
+        return userDB.getUserHash(user.getNameForDB(), user.getID());
     }
 
     public int getUserHash(String nameAndID) {

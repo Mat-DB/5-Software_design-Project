@@ -3,8 +3,11 @@ package graphics.panels.subPanels;
 import graphics.ViewFrame;
 import graphics.panels.PanelTickets;
 import logic.controllers.ControllerGroups;
+import logic.controllers.ControllerTickets;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
@@ -19,6 +22,7 @@ public class PanelCreateTicketGroup extends JPanel {
     private String selectedGroup;
     private boolean isGroupSelected;
     private PanelTickets ticketsPanel;
+    private JLabel ticketNameLabel;
     private JTextField ticketNameField;
     private JButton nextButton;
     private JButton cancelButton;
@@ -30,15 +34,27 @@ public class PanelCreateTicketGroup extends JPanel {
 
         init();
 
+        JPanel topPanel = new JPanel();
+        topPanel.add(groupJList);
+
+        JPanel namePanel = new JPanel();
+        BoxLayout boxLayout = new BoxLayout(namePanel, BoxLayout.Y_AXIS);
+        namePanel.setLayout(boxLayout);
+        namePanel.add(ticketNameLabel);
+        namePanel.add(ticketNameField);
+
+        topPanel.add(namePanel);
+
+        boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        this.setLayout(boxLayout);
+        this.add(topPanel);
+
         JPanel buttonPanel = new JPanel();
-        BoxLayout layout = new BoxLayout(buttonPanel, BoxLayout.X_AXIS);
-        buttonPanel.setLayout(layout);
+        boxLayout = new BoxLayout(buttonPanel, BoxLayout.X_AXIS);
+        buttonPanel.setLayout(boxLayout);
         buttonPanel.add(nextButton);
         buttonPanel.add(cancelButton);
 
-        layout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        this.setLayout(layout);
-        this.add(groupJList);
         this.add(buttonPanel);
     }
 
@@ -49,6 +65,7 @@ public class PanelCreateTicketGroup extends JPanel {
         groupJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         groupJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
         ticketNameField = new JTextField();
+        ticketNameLabel = new JLabel("Enter ticket name: ");
         nextButton = new JButton("Next");
         nextButton.setEnabled(false);
         cancelButton = new JButton("Cancel");
@@ -76,23 +93,56 @@ public class PanelCreateTicketGroup extends JPanel {
             }
         });
 
+        ticketNameField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkAllFilledIn();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                checkAllFilledIn();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                checkAllFilledIn();
+            }
+        });
+
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ticketsPanel.setProupSelectedAndName(groupController.getGroup(selectedGroup), ticketNameField.getText());
+                if (!doesTicketNameExists()) {
+                    ticketsPanel.setProupSelectedAndName(groupController.getGroup(selectedGroup), ticketNameField.getText());
+                    groupJList.clearSelection();
+                    ticketNameField.setText("");
+                }
             }
         });
 
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                groupJList.clearSelection();
+                ticketNameField.setText("");
                 ticketsPanel.setStarteState();
             }
         });
     }
 
+    private boolean doesTicketNameExists() {
+        boolean exists = false;
+        // If ticket name already exists
+        if (ControllerTickets.getTicketController().doesTicketNameExist(ticketNameField.getText())) {
+            exists = true;
+            JOptionPane.showMessageDialog(this, "This ticket name already exists. Please choose another one.", "Ticket name exists", JOptionPane.ERROR_MESSAGE);
+        }
+        return exists;
+    }
+
     private void checkAllFilledIn() {
-        if (isGroupSelected && !ticketNameField.getText().isEmpty()) {
+        if (isGroupSelected && !(ticketNameField.getText().isEmpty())) {
             nextButton.setEnabled(true);
         } else {
             nextButton.setEnabled(false);

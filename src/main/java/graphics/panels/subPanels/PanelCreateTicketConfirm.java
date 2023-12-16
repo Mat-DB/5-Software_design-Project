@@ -8,7 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 public class PanelCreateTicketConfirm extends JPanel {
@@ -16,7 +18,7 @@ public class PanelCreateTicketConfirm extends JPanel {
     private JLabel nameLabel;
     private JLabel ownerLabel;
     private JLabel totalAmountLabel;
-    private HashMap<JLabel, JLabel> debtorLabels;
+    private HashMap<Integer, ArrayList<JLabel>> debtorLabels;
     private JButton confirmButton;
     private JButton cancelButton;
     private PanelTickets panelTickets;
@@ -32,18 +34,28 @@ public class PanelCreateTicketConfirm extends JPanel {
         nameLabel = new JLabel("Ticket - " + panelTickets.getTicketName());
         User owner = panelTickets.getOwner();
         String ownerName;
-        if (owner.getID() == 1) {
-            ownerName = owner.getName();
-        } else {
-            ownerName = owner.getName() + " " + owner.getID();
-        }
+//        if (owner.getID() == 1) {
+//            ownerName = owner.getName();
+//        } else {
+//            ownerName = owner.getName() + " " + owner.getID();
+//        }
+        // Test
+        ownerName = owner.getName();
+        // End test
         ownerLabel = new JLabel("Person who paid: " + ownerName);
         totalAmountLabel = new JLabel("Total amount: " + panelTickets.getAmount() + " euro");
-        debtorLabels.put(new JLabel("Debtor"), new JLabel("Debt"));
+        debtorLabels = new HashMap<>();
+        int debtorLabelNum = 1;
+        ArrayList<JLabel> debtorSetFirst = new ArrayList<>();
+        debtorSetFirst.add(new JLabel("Debtor"));
+        debtorSetFirst.add(new JLabel("Debt"));
+        debtorLabels.put(debtorLabelNum, debtorSetFirst);
         for (int debtorHash : panelTickets.getDebtors().keySet()) {
-            String debtorName = usersController.getUser(debtorHash).getName();
-            String debtorAmount = String.valueOf(panelTickets.getDebtors().get(debtorHash));
-            debtorLabels.put(new JLabel(debtorName), new JLabel(debtorAmount));
+            debtorLabelNum += 1;
+            ArrayList<JLabel> debtorSet = new ArrayList<>();
+            debtorSet.add(new JLabel(usersController.getUser(debtorHash).getName()));
+            debtorSet.add(new JLabel(panelTickets.getDebtors().get(debtorHash) + " euro"));
+            debtorLabels.put(debtorLabelNum, debtorSet);
         }
         confirmButton = new JButton("Confirm");
         cancelButton = new JButton("Cancel");
@@ -56,12 +68,15 @@ public class PanelCreateTicketConfirm extends JPanel {
         this.add(ownerLabel);
         this.add(totalAmountLabel);
 
+        createListeners();
+
         JPanel debtorsPanel = new JPanel();
         GridLayout gridLayout = new GridLayout(panelTickets.getDebtors().size()+1, 2);
         debtorsPanel.setLayout(gridLayout);
-        for (JLabel debtorName : debtorLabels.keySet()) {
-            debtorsPanel.add(debtorName);
-            debtorsPanel.add(debtorLabels.get(debtorName));
+        for (int i : debtorLabels.keySet()) {
+            for (JLabel label : debtorLabels.get(i)) {
+                debtorsPanel.add(label);
+            }
         }
 
         this.add(debtorsPanel);

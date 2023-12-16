@@ -57,18 +57,23 @@ public class PanelCreateTicketDebtors extends JPanel {
     }
 
     public void init() {
+        userJList.removeAll();
         for (int userHash : panelTickets.getGroup().getParticipants()) {
             if (userHash != usersController.getUserHash(panelTickets.getOwner())) {
                 User user = usersController.getUser(userHash);
-                if (user.getID() == 1) {
-                    userList.addElement(user.getName());
-                    userMap.put(user.getName(), user.getID());
-                }
-                else {
-                    String displayName = user.getName() + " " + user.getID();
-                    userList.addElement(displayName);
-                    userMap.put(displayName, user.getID());
-                }
+//                if (user.getID() == 1) {
+//                    userList.addElement(user.getName());
+//                    userMap.put(user.getName(), user.getID());
+//                }
+//                else {
+//                    String displayName = user.getName() + " " + user.getID();
+//                    userList.addElement(displayName);
+//                    userMap.put(displayName, user.getID());
+//                }
+                // Test
+                userList.addElement(user.getName());
+                userMap.put(user.getName(), usersController.getUserHash(user));
+                // End test
             }
         }
     }
@@ -146,6 +151,7 @@ public class PanelCreateTicketDebtors extends JPanel {
                 debts.put(userMap.get(user), 0.0);
             }
             panelTickets.setDebtors(debts);
+            userJList.clearSelection();
         }
     }
 
@@ -179,8 +185,9 @@ public class PanelCreateTicketDebtors extends JPanel {
         if (!(total == panelTickets.getAmount())) {
             JOptionPane.showMessageDialog(this, "The sum does not equal the ticket total", "Total does not match", JOptionPane.ERROR_MESSAGE);
         } else {
-            usersSelected = false;
             panelTickets.setDebtors(debts);
+            usersSelected = false;
+            userJList.clearSelection();
         }
     }
 }

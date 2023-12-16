@@ -13,17 +13,17 @@ public class User {
         this.id = id;
     }
 
-    public String getFullName() {
+    public String getNameForDB() {
         return firstName + lastName;
     }
 
     public String getName() {
-//        if (id == 1) {
-//            return firstName + " " + lastName;
-//        } else {
-//            return firstName + " " + lastName + " " + id;
-//        }
-        return firstName + " " + lastName;
+        if (id == 1) {
+            return firstName + " " + lastName;
+        } else {
+            return firstName + " " + lastName + " " + id;
+        }
+        //return firstName + " " + lastName;
     }
 
     public ArrayList<Integer> getTickets() {

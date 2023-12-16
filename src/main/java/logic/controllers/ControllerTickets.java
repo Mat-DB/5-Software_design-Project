@@ -57,4 +57,8 @@ public class ControllerTickets {
     public void removeTicket(int ticketHash) {
         ticketDB.removeTicket(ticketHash);
     }
+
+    public boolean doesTicketNameExist(String ticketName) {
+        return (ticketDB.getTicket(ticketDB.getTicketHash(ticketName)) != null);
+    }
 }

@@ -99,21 +99,23 @@ public class PanelCreateTicketOwner extends JPanel {
 
     public void setGroup(Group group) {
         userList.removeAllElements();
-        System.out.println("group: " + group.getName());
-        System.out.println("group members: " + group.getParticipants());
         for (int member : groupController.getGroupMembers(group.getName())) {
             System.out.println("user hash: " + member);
             System.out.printf("user: " + userController.getUser(member));
             User user = userController.getUser(member);
-            if (user.getID() == 1) {
-                userList.addElement(user.getName());
-                userMap.put(user.getName(), userController.getUserHash(user));
-            }
-            else {
-                String displayName = user.getName() + " " + user.getID();
-                userList.addElement(displayName);
-                userMap.put(displayName, userController.getUserHash(user));
-            }
+//            if (user.getID() == 1) {
+//                userList.addElement(user.getName());
+//                userMap.put(user.getName(), userController.getUserHash(user));
+//            }
+//            else {
+//                String displayName = user.getName() + " " + user.getID();
+//                userList.addElement(displayName);
+//                userMap.put(displayName, userController.getUserHash(user));
+//            }
+            // Test
+            userList.addElement(user.getName());
+            userMap.put(user.getName(), userController.getUserHash(user));
+            // End test
         }
     }
 
@@ -161,6 +163,7 @@ public class PanelCreateTicketOwner extends JPanel {
                         TypeSplit.valueOf(String.valueOf(spiltTypeComboBox.getSelectedItem()))
                 );
                 isOwnerSelected = false;
+                userJList.clearSelection();
             }
         });
 
