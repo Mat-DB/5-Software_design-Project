@@ -25,6 +25,10 @@ public class Group {
         return 0;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Set<Integer> getParticipants() {
         return participants;
     }

@@ -59,6 +59,10 @@ public class ControllerUsers {
         return userDB.getUserHash(user.getFullName(), user.getID());
     }
 
+    public int getUserHash(String nameAndID) {
+        return userDB.getUserHash(nameAndID);
+    }
+
     public boolean doesUserExist(String firstName, String lastName) {
         int hash = userDB.getUserHash(firstName+lastName,1);
         if (userDB.getUser(hash) == null) {

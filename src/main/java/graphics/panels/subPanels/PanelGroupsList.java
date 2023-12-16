@@ -1,5 +1,8 @@
 package graphics.panels.subPanels;
 
+import graphics.ViewFrame;
+import logic.controllers.ControllerGroups;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -8,13 +11,15 @@ import java.awt.event.ActionListener;
 
 public class PanelGroupsList extends JPanel{
         private JList<String> groupJList;
-        private DefaultListModel<String> groupList;
         private JButton removeButton;
         private String selectedGroup;
+        private ControllerGroups groupController;
+        private ViewFrame frame;
 
-        public PanelGroupsList() {
-            groupList = new DefaultListModel<>();
-            groupJList = new JList<>(groupList);
+        public PanelGroupsList(ViewFrame frame) {
+            this.frame = frame;
+            groupController = ControllerGroups.getGroupController();
+            groupJList = new JList<>(frame.getGroupList());
             groupJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             groupJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 
@@ -41,6 +46,8 @@ public class PanelGroupsList extends JPanel{
                         else {
                             //Selection, enable the remove button.
                             removeButton.setEnabled(true);
+                            selectedGroup = groupJList.getSelectedValue();
+                            System.out.println(selectedGroup);
                         }
                     }
                 }
@@ -49,8 +56,7 @@ public class PanelGroupsList extends JPanel{
             removeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // ToDo: implement
-                    System.out.println("Group should be deleted now.");
+                    groupController.removeGroup(selectedGroup);
                 }
             });
         }

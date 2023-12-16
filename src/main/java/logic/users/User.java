@@ -16,7 +16,13 @@ public class User {
     public String getFullName() {
         return firstName + lastName;
     }
+
     public String getName() {
+//        if (id == 1) {
+//            return firstName + " " + lastName;
+//        } else {
+//            return firstName + " " + lastName + " " + id;
+//        }
         return firstName + " " + lastName;
     }
 

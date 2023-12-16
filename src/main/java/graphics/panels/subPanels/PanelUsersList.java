@@ -1,31 +1,31 @@
 package graphics.panels.subPanels;
 
+import graphics.ViewFrame;
 import logic.controllers.ControllerUsers;
 import logic.users.User;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 public class PanelUsersList extends JPanel {
     private JList<String> userJList;
-    private DefaultListModel<String> userList;
-    private HashMap<String, Integer> userMap;
     private JButton removeButton;
     private int selectedUser;
     private ControllerUsers userController;
+    private ViewFrame frame;
 
-    public PanelUsersList() {
+    public PanelUsersList(ViewFrame frame) {
+        this.frame = frame;
         userController = ControllerUsers.getUserController();
 
-        userList = new DefaultListModel<>();
-        userJList = new JList<>(userList);
+        userJList = new JList<>(frame.getUserList());
         userJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         userJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        userMap = new HashMap<>();
 
         removeButton = new JButton("Remove selected user");
         removeButton.setEnabled(false);
@@ -50,7 +50,7 @@ public class PanelUsersList extends JPanel {
                     else {
                         //Selection, enable the remove button.
                         removeButton.setEnabled(true);
-                        selectedUser = userMap.get(userList.get(e.getFirstIndex()));
+                        selectedUser = frame.getUserMap().get(frame.getUserList().get(userJList.getSelectedIndex()));
                     }
                 }
             }
@@ -64,25 +64,11 @@ public class PanelUsersList extends JPanel {
         });
     }
 
-    public void addUser(User user) {
-        if (user.getID() == 1) {
-            String name = user.getName();
-            userMap.put(name, userController.getUserHash(user));
-            userList.addElement(name);
-        }
-        else {
-            String name = user.getName() + " " + user.getID();
-            userMap.put(name, userController.getUserHash(user));
-            userList.addElement(name);
-        }
+    public void setSelectMultiple() {
+        userJList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     }
 
-    public void removeUser(User user) {
-        if (user.getID() == 1) {
-            userList.removeElement(user.getName());
-        }
-        else {
-            userList.removeElement(user.getName() + " " + user.getID());
-        }
+    public JList<String> getuserJList() {
+        return userJList;
     }
 }

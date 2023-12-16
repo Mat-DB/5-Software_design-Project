@@ -58,6 +58,10 @@ public class DatabaseUsers extends Database<User> {
     }
 
     public int getUserHash(String fullName, int id) {
-        return (fullName+id).hashCode();
+        return getUserHash(fullName + " " + id);
+    }
+
+    public int getUserHash(String userNameAndID) {
+        return userNameAndID.hashCode();
     }
 }

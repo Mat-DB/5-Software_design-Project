@@ -1,13 +1,18 @@
 package logic;
 
 import graphics.ViewFrame;
+import logic.controllers.ControllerGroups;
 import logic.controllers.ControllerHelperFunctions;
 import logic.controllers.ControllerTickets;
 import logic.controllers.ControllerUsers;
+import logic.database.DatabaseGroups;
+import logic.database.DatabaseTickets;
 import logic.database.DatabaseUsers;
 import logic.groups.Group;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class MoneyTrackerApplication {
     ViewFrame appView;
@@ -30,7 +35,33 @@ public class MoneyTrackerApplication {
 
         appView.initialize();
         DatabaseUsers.getUserDatabase().addObserver(appView);
+        DatabaseGroups.getGroupDatabase().addObserver(appView);
+        DatabaseTickets.getTicketDatabase().addObserver(appView);
         state = AppStates.HOMESCREEN;
+    }
+
+    public void addUsers() {
+        String groupName = "gones_1";
+
+        System.out.println("First name: ");
+        String firstName = "g";
+        System.out.println("Last name: ");
+        String lastName = "a";
+
+        // controller finds first available ID for User, add user to database and returns key.
+        int participantKey = controllerUsers.createUser(firstName, lastName);
+        Set<Integer> memberKeys = new HashSet<>();
+        memberKeys.add(participantKey);
+
+        System.out.println("First name: ");
+        firstName = "g";
+        System.out.println("Last name: ");
+        lastName = "a";
+
+        participantKey = controllerUsers.createUser(firstName, lastName);
+        memberKeys.add(participantKey);
+
+        ControllerGroups.getGroupController().createGroup(groupName, memberKeys);
     }
 
     public void run() {

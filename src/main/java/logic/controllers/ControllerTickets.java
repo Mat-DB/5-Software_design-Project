@@ -37,6 +37,15 @@ public class ControllerTickets {
         return ticketDB.getTicket(id);
     }
 
+    /**
+     * Create a new ticket.
+     * @param name name of the ticket
+     * @param price total amount of the ticket
+     * @param paid the hash of the user who paid
+     * @param event type of event
+     * @param split type of split, even or uneven
+     * @return the hash of the ticket
+     */
     public int createTicket(String name, double price, int paid, TypeEvents event, TypeSplit split) {
         Ticket ticket = switch (split) {
             case EVEN_SPLIT -> ticketFactory.getEvenSplitTicket(name, price, paid, event);
