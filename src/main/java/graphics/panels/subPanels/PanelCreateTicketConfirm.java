@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 public class PanelCreateTicketConfirm extends JPanel {
     private JLabel overviewLabel;
@@ -34,14 +32,7 @@ public class PanelCreateTicketConfirm extends JPanel {
         nameLabel = new JLabel("Ticket - " + panelTickets.getTicketName());
         User owner = panelTickets.getOwner();
         String ownerName;
-//        if (owner.getID() == 1) {
-//            ownerName = owner.getName();
-//        } else {
-//            ownerName = owner.getName() + " " + owner.getID();
-//        }
-        // Test
         ownerName = owner.getName();
-        // End test
         ownerLabel = new JLabel("Person who paid: " + ownerName);
         totalAmountLabel = new JLabel("Total amount: " + panelTickets.getAmount() + " euro");
         debtorLabels = new HashMap<>();

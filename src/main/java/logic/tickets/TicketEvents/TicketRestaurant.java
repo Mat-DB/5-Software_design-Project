@@ -15,6 +15,8 @@ public class TicketRestaurant implements EventTicket {
         this.paid = paid;
     }
 
+    // ToDo: add java doc or remove
+
     /**
      * @return
      */

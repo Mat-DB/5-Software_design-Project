@@ -2,15 +2,12 @@ package graphics.panels.subPanels;
 
 import graphics.ViewFrame;
 import logic.controllers.ControllerUsers;
-import logic.users.User;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 public class PanelUsersList extends JPanel {
     private JList<String> userJList;

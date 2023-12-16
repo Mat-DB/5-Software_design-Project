@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
+ * ToDo: Is this class still needed?
  * This class only has static methodes.
  */
 public class ControllerHelperFunctions {

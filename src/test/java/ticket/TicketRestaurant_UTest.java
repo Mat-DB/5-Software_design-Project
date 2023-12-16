@@ -1,5 +1,6 @@
 package ticket;
 
+import logic.controllers.ControllerUsers;
 import logic.users.User;
 import logic.tickets.TicketEvents.TicketRestaurant;
 import logic.tickets.TicketEvents.TypeEvents;
@@ -29,7 +30,7 @@ public class TicketRestaurant_UTest {
     @Before
     public void initialize() {
         matthias = new User("Matthias", "De Beukelaer", 1);
-        matthiasHash = (matthias.getName() + matthias.getID()).hashCode();
+        matthiasHash = ControllerUsers.getUserController().getUserHash(matthias);
         restaurantTicket = new TicketRestaurant("Restaurant B-day", 100.0, matthiasHash);
     }
     @Test

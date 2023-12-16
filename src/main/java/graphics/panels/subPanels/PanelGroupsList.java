@@ -14,10 +14,8 @@ public class PanelGroupsList extends JPanel{
         private JButton removeButton;
         private String selectedGroup;
         private ControllerGroups groupController;
-        private ViewFrame frame;
 
         public PanelGroupsList(ViewFrame frame) {
-            this.frame = frame;
             groupController = ControllerGroups.getGroupController();
             groupJList = new JList<>(frame.getGroupList());
             groupJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

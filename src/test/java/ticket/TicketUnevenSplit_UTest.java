@@ -1,5 +1,6 @@
 package ticket;
 
+import logic.controllers.ControllerUsers;
 import logic.tickets.TicketSplit.TicketUnevenSplit;
 import logic.users.User;
 import logic.tickets.EventTicket;
@@ -34,7 +35,7 @@ public class TicketUnevenSplit_UTest {
     @Before
     public void initialize() {
         gones = new User("Gones", "Anseel", 1);
-        gonesHash = (gones.getName() + gones.getID()).hashCode();
+        gonesHash = ControllerUsers.getUserController().getUserHash(gones);
         airplaneTicket = new TicketAirplane("Airplane Prague", 100.0, gonesHash);
         airplaneUnevenSplit = new TicketUnevenSplit(airplaneTicket);
     }

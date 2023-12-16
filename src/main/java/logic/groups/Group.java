@@ -20,6 +20,7 @@ public class Group {
         participants.add(newParticipant);
     }
 
+    // ToDo: implement or delete
     public int getParticipant(int userHash) {
         //return participants.stream();
         return 0;

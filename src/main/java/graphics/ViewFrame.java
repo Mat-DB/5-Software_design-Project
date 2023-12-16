@@ -60,33 +60,14 @@ public class ViewFrame extends JFrame implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (Objects.equals(evt.getPropertyName(), "new user")) {
             User user = (User) evt.getNewValue();
-//            if (user.getID() == 1) {
-//                String name = user.getName();
-//                userMap.put(name, userController.getUserHash(user));
-//                userList.addElement(name);
-//            }
-//            else {
-//                String name = user.getName() + " " + user.getID();
-//                userMap.put(name, userController.getUserHash(user));
-//                userList.addElement(name);
-//            }
-            // Test
+
             String name = user.getName();
             userMap.put(name, userController.getUserHash(user));
             userList.addElement(name);
-            // End test
         }
         else if (Objects.equals(evt.getPropertyName(), "remove user")) {
             User user = (User) evt.getOldValue();
-//            if (user.getID() == 1) {
-//                userList.removeElement(user.getName());
-//            }
-//            else {
-//                userList.removeElement(user.getName() + " " + user.getID());
-//            }
-            // Test
             userList.removeElement(user.getName());
-            // End test
         }
         else if (Objects.equals(evt.getPropertyName(), "new group")) {
             Group group = (Group) evt.getNewValue();

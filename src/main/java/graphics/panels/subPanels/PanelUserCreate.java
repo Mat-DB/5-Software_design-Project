@@ -19,7 +19,6 @@ public class PanelUserCreate extends JPanel {
     private JLabel labelLastName;
     private Boolean waitingToCreateUser;
     private ControllerUsers userController;
-    private int numFieldsFilledIn;
 
     public PanelUserCreate() {
         addUserButton = new JButton("add user");
@@ -32,7 +31,6 @@ public class PanelUserCreate extends JPanel {
         labelLastName = new JLabel("Lastname: ");
         waitingToCreateUser = true;
         userController = ControllerUsers.getUserController();
-        numFieldsFilledIn = 0;
 
         createListeners();
 
@@ -157,7 +155,6 @@ public class PanelUserCreate extends JPanel {
             fieldFirstName.setText("");
             fieldLastName.setText("");
             waitingToCreateUser = true;
-            numFieldsFilledIn = 0;
         }
         createUserButton.setEnabled(false);
         changeUI();

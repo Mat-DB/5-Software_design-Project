@@ -150,16 +150,8 @@ public class MoneyTrackerApplication {
             System.out.println(ControllerHelperFunctions.convertHashToUsers(group.getParticipants(), controllerUsers));
             int whoPaid = userInput.nextInt();
 
-
             //User payer = group.getParticipant();
-
-
-
         }
-
-
-
-
     }
 
     public enum AppStates {

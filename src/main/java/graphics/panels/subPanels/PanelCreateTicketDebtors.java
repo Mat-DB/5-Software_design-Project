@@ -61,19 +61,8 @@ public class PanelCreateTicketDebtors extends JPanel {
         for (int userHash : panelTickets.getGroup().getParticipants()) {
             if (userHash != usersController.getUserHash(panelTickets.getOwner())) {
                 User user = usersController.getUser(userHash);
-//                if (user.getID() == 1) {
-//                    userList.addElement(user.getName());
-//                    userMap.put(user.getName(), user.getID());
-//                }
-//                else {
-//                    String displayName = user.getName() + " " + user.getID();
-//                    userList.addElement(displayName);
-//                    userMap.put(displayName, user.getID());
-//                }
-                // Test
                 userList.addElement(user.getName());
                 userMap.put(user.getName(), usersController.getUserHash(user));
-                // End test
             }
         }
     }

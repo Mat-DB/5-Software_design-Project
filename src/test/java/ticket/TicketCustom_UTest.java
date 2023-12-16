@@ -1,5 +1,6 @@
 package ticket;
 
+import logic.controllers.ControllerUsers;
 import logic.users.User;
 import logic.tickets.TicketEvents.TicketCustom;
 import logic.tickets.TicketEvents.TypeEvents;
@@ -28,12 +29,11 @@ public class TicketCustom_UTest {
     @Before
     public void initialize() {
         gones = new User("Gones", "Anseel", 1);
-        gonesHash = (gones.getName() + gones.getID()).hashCode();
+        gonesHash = ControllerUsers.getUserController().getUserHash(gones);
         customTicket = new TicketCustom("Custom Suit", 100.0, gonesHash);
     }
     @Test
     public void t_getName() {
-
         Assert.assertEquals("Testing name - input=Custom Suit", "Custom Suit", customTicket.getName());
     }
 

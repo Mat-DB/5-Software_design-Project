@@ -20,34 +20,6 @@ public class FactoryTicket {
         return factory;
     }
 
-//    public Ticket getTicket(String name, double price, User paid, TypeEvents event) {
-//        // basic ticket
-//        Ticket ticket = switch (split) {
-//            case EVEN_SPLIT ->
-//                // ticket = even
-//                    new TicketEvenSplit(name, price, paid);
-//            case UNEVEN_SPLIT ->
-//                // ticket = uneven
-//                    new TicketUnevenSplit(name, price, paid);
-//        };
-//
-//
-//        Ticket ticket = new TicketBase(name, price, paid);
-//
-//        switch (event) {
-//            case AIRPLANE:
-//                ticket = new DecoratorTicketAirplane(ticket);
-//                break;
-//            case RESTAURANT:
-//                ticket = new DecoratorTicketRestaurant(ticket);
-//                break;
-//            case CUSTOM:
-//                break;
-//
-//        }
-//        return ticket;
-//    }
-
     public TicketEvenSplit getEvenSplitTicket(String name, double price, int paid, TypeEvents event) {
         return new TicketEvenSplit(getEventTicket(name, price, paid, event));
     }

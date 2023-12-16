@@ -3,7 +3,6 @@ package graphics.panels;
 import graphics.ViewFrame;
 import graphics.panels.subPanels.PanelUserCreate;
 import graphics.panels.subPanels.PanelUsersList;
-import logic.users.User;
 
 import javax.swing.*;
 
