@@ -37,6 +37,10 @@ public class ControllerTickets {
         return ticketDB.getTicket(id);
     }
 
+    public int getTicketHash(String ticketName) {
+        return ticketDB.getTicketHash(ticketName);
+    }
+
     /**
      * Create a new ticket.
      * @param name name of the ticket

@@ -16,7 +16,7 @@ import java.util.HashMap;
 /**
  * 4. Select debtors and if uneven set amounts
  */
-public class PanelCreateTicketDebtors extends JPanel {
+public class PanelTicketCreateDebtors extends JPanel {
     private PanelTickets panelTickets;
     private JLabel selectUserLabel;
     private JButton nextButton;
@@ -29,7 +29,7 @@ public class PanelCreateTicketDebtors extends JPanel {
     private HashMap<Integer, Double> debts;
     private boolean usersSelected;
 
-    public PanelCreateTicketDebtors(PanelTickets panelTickets) {
+    public PanelTicketCreateDebtors(PanelTickets panelTickets) {
         this.panelTickets = panelTickets;
 
         usersController = ControllerUsers.getUserController();
@@ -57,7 +57,7 @@ public class PanelCreateTicketDebtors extends JPanel {
     }
 
     public void init() {
-        userJList.removeAll();
+        userList.removeAllElements();
         for (int userHash : panelTickets.getGroup().getParticipants()) {
             if (userHash != usersController.getUserHash(panelTickets.getOwner())) {
                 User user = usersController.getUser(userHash);
@@ -114,8 +114,8 @@ public class PanelCreateTicketDebtors extends JPanel {
             this.removeAll();
             this.updateUI();
             userDebtsJStuff.clear();
-            for (String user : userJList.getSelectedValuesList()) {
-                userDebtsJStuff.put(new JLabel(user), new JTextField());
+            for (String userName : userJList.getSelectedValuesList()) {
+                userDebtsJStuff.put(new JLabel(userName), new JTextField());
             }
             JLabel amountLabel = new JLabel("Enter the amount each user needs to pay.");
 
@@ -167,7 +167,8 @@ public class PanelCreateTicketDebtors extends JPanel {
             JOptionPane.showMessageDialog(this, "Not all amounts are numbers", "Not all numbers", JOptionPane.ERROR_MESSAGE);
         } else {
             for (JLabel label : userDebtsJStuff.keySet()) {
-                debts.put(usersController.getUserHash(label.getText()), Double.parseDouble(userDebtsJStuff.get(label).getText()));
+                System.out.println("user label: '" + label.getText() + "'");
+                debts.put(userMap.get(label.getText()), Double.parseDouble(userDebtsJStuff.get(label).getText()));
                 total += Double.parseDouble(userDebtsJStuff.get(label).getText());
             }
         }

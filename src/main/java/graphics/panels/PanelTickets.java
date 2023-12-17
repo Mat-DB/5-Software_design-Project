@@ -1,10 +1,7 @@
 package graphics.panels;
 
 import graphics.ViewFrame;
-import graphics.panels.subPanels.PanelCreateTicketConfirm;
-import graphics.panels.subPanels.PanelCreateTicketDebtors;
-import graphics.panels.subPanels.PanelCreateTicketGroup;
-import graphics.panels.subPanels.PanelCreateTicketOwner;
+import graphics.panels.subPanels.*;
 import logic.controllers.ControllerTickets;
 import logic.controllers.ControllerUsers;
 import logic.groups.Group;
@@ -28,12 +25,13 @@ import java.util.HashMap;
  */
 public class PanelTickets extends JPanel {
     private TicketPanelStates state;
+    private PanelTicketList panelTicketList;
 
     // Sub panels to create a new ticket
-    private PanelCreateTicketGroup panelGetGroup;
-    private PanelCreateTicketOwner panelGetOwnerInfo;
-    private PanelCreateTicketDebtors panelGetDebtors;
-    private PanelCreateTicketConfirm panelConfirmTicket;
+    private PanelTicketCreateGroup panelGetGroup;
+    private PanelTicketCreateOwner panelGetOwnerInfo;
+    private PanelTicketCreateDebtors panelGetDebtors;
+    private PanelTicketCreateConfirm panelConfirmTicket;
 
     // New ticket info
     private Group selectedGroup;
@@ -41,6 +39,7 @@ public class PanelTickets extends JPanel {
     private double amount;
     private String ticketName;
     private TypeSplit splitType;
+    private TypeEvents eventType;
     private HashMap<Integer, Double> debtors;
 
     // Buttons
@@ -55,10 +54,11 @@ public class PanelTickets extends JPanel {
         state = TicketPanelStates.START;
         ticketsController = ControllerTickets.getTicketController();
         usersController = ControllerUsers.getUserController();
-        panelGetGroup = new PanelCreateTicketGroup(frame,this);
-        panelGetOwnerInfo = new PanelCreateTicketOwner(this);
-        panelGetDebtors = new PanelCreateTicketDebtors(this);
-        panelConfirmTicket = new PanelCreateTicketConfirm(this);
+        panelTicketList = new PanelTicketList(frame);
+        panelGetGroup = new PanelTicketCreateGroup(frame,this);
+        panelGetOwnerInfo = new PanelTicketCreateOwner(this);
+        panelGetDebtors = new PanelTicketCreateDebtors(this);
+        panelConfirmTicket = new PanelTicketCreateConfirm(this);
 
         createButton = new JButton("Create new ticket");
         viewButon = new JButton("View a ticket");
@@ -90,6 +90,7 @@ public class PanelTickets extends JPanel {
             case START -> {
                 this.removeAll();
                 this.updateUI();
+                this.add(panelTicketList);
                 this.add(createButton);
                 this.add(viewButon);
             }
@@ -99,22 +100,26 @@ public class PanelTickets extends JPanel {
             case GROUP -> {
                 this.removeAll();
                 this.updateUI();
+                this.add(panelTicketList);
                 this.add(panelGetGroup);
             }
             case OWNER -> {
                 this.removeAll();
                 this.updateUI();
+                this.add(panelTicketList);
                 this.add(panelGetOwnerInfo);
             }
             case DEBTORS -> {
                 this.removeAll();
                 this.updateUI();
+                this.add(panelTicketList);
                 this.add(panelGetDebtors);
                 panelGetDebtors.init();
             }
             case CONFIRM -> {
                 this.removeAll();
                 this.updateUI();
+                this.add(panelTicketList);
                 this.add(panelConfirmTicket);
                 panelConfirmTicket.init();
             }
@@ -130,10 +135,11 @@ public class PanelTickets extends JPanel {
         changeUI();
     }
 
-    public void setOwnerInfo(User owner, Double amount, TypeSplit splitType) {
+    public void setOwnerInfo(User owner, Double amount, TypeSplit splitType, TypeEvents eventType) {
         this.selectedOwner = owner;
         this.amount = amount;
         this.splitType = splitType;
+        this.eventType = eventType;
 
         state = TicketPanelStates.DEBTORS;
         changeUI();
@@ -157,7 +163,7 @@ public class PanelTickets extends JPanel {
     }
 
     public void confirmTicket() {
-        int ticketHash = ticketsController.createTicket(ticketName, amount, usersController.getUserHash(selectedOwner), TypeEvents.CUSTOM, splitType);
+        int ticketHash = ticketsController.createTicket(ticketName, amount, usersController.getUserHash(selectedOwner), eventType, splitType);
         if (splitType == TypeSplit.EVEN_SPLIT) {
             TicketEvenSplit ticket = (TicketEvenSplit) ticketsController.getTicket(ticketHash);
             ticket.setInitialBalances(debtors.keySet());

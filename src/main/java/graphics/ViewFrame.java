@@ -6,6 +6,7 @@ import graphics.panels.PanelTickets;
 import graphics.panels.PanelUsers;
 import logic.controllers.ControllerUsers;
 import logic.groups.Group;
+import logic.tickets.Ticket;
 import logic.users.User;
 
 import javax.swing.*;
@@ -23,6 +24,7 @@ public class ViewFrame extends JFrame implements PropertyChangeListener {
     private DefaultListModel<String> userList;
     private HashMap<String, Integer> userMap;
     private DefaultListModel<String> groupList;
+    private DefaultListModel<String> ticketList;
     private ControllerUsers userController;
 
     public ViewFrame() {
@@ -38,6 +40,7 @@ public class ViewFrame extends JFrame implements PropertyChangeListener {
         userList = new DefaultListModel<>();
         userMap = new HashMap<>();
         groupList = new DefaultListModel<>();
+        ticketList = new DefaultListModel<>();
         groupsPanel = new PanelGroups(this);
         usersPanel = new PanelUsers(this);
         ticketsPanel = new PanelTickets(this);
@@ -60,7 +63,6 @@ public class ViewFrame extends JFrame implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (Objects.equals(evt.getPropertyName(), "new user")) {
             User user = (User) evt.getNewValue();
-
             String name = user.getName();
             userMap.put(name, userController.getUserHash(user));
             userList.addElement(name);
@@ -77,17 +79,29 @@ public class ViewFrame extends JFrame implements PropertyChangeListener {
             Group group = (Group) evt.getOldValue();
             groupList.removeElement(group.getName());
         }
+        else if (Objects.equals(evt.getPropertyName(), "new ticket")) {
+            Ticket ticket = (Ticket) evt.getNewValue();
+            ticketList.addElement(ticket.getName());
+        }
+        else if (Objects.equals(evt.getPropertyName(), "remove ticket")) {
+            Ticket ticket = (Ticket) evt.getOldValue();
+            ticketList.removeElement(ticket.getName());
+        }
     }
 
     public DefaultListModel<String> getUserList() {
         return userList;
     }
 
+    public HashMap<String, Integer> getUserMap() {
+        return userMap;
+    }
+
     public DefaultListModel<String> getGroupList() {
         return groupList;
     }
 
-    public HashMap<String, Integer> getUserMap() {
-        return userMap;
+    public DefaultListModel<String> getTicketList() {
+        return ticketList;
     }
 }

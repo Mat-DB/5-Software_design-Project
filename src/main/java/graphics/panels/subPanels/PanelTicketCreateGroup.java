@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 /**
  * This class create the JPanel to select a group for a new ticket.
  */
-public class PanelCreateTicketGroup extends JPanel {
+public class PanelTicketCreateGroup extends JPanel {
     private JList<String> groupJList;
     private ControllerGroups groupController;
     private String selectedGroup;
@@ -28,7 +28,7 @@ public class PanelCreateTicketGroup extends JPanel {
     private JButton cancelButton;
     private ViewFrame frame;
 
-    public PanelCreateTicketGroup(ViewFrame frame, PanelTickets panelTickets) {
+    public PanelTicketCreateGroup(ViewFrame frame, PanelTickets panelTickets) {
         this.frame = frame;
         this.ticketsPanel = panelTickets;
 

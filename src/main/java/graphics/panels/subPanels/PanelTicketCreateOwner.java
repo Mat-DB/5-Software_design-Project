@@ -4,6 +4,7 @@ import graphics.panels.PanelTickets;
 import logic.controllers.ControllerGroups;
 import logic.controllers.ControllerUsers;
 import logic.groups.Group;
+import logic.tickets.TicketEvents.TypeEvents;
 import logic.tickets.TicketSplit.TypeSplit;
 import logic.users.User;
 
@@ -19,7 +20,7 @@ import java.util.HashMap;
 /**
  * 3. Select owner, set amount and even or uneven split
  */
-public class PanelCreateTicketOwner extends JPanel {
+public class PanelTicketCreateOwner extends JPanel {
     private JLabel selectOwnerLabel1;
     private JLabel selectOwnerLabel2;
     private JLabel selectOwnerLabel3;
@@ -34,10 +35,11 @@ public class PanelCreateTicketOwner extends JPanel {
     private JLabel amountLabel;
     private JTextField amountField;
     private JComboBox spiltTypeComboBox;
+    private JComboBox eventTypeComboBox;
     private boolean isOwnerSelected;
 
 
-    public PanelCreateTicketOwner(PanelTickets panelTickets) {
+    public PanelTicketCreateOwner(PanelTickets panelTickets) {
         this.ticketsPanel = panelTickets;
 
         init();
@@ -53,6 +55,7 @@ public class PanelCreateTicketOwner extends JPanel {
         rightSidePanel.setLayout(layout);
         rightSidePanel.add(amountPanel);
         rightSidePanel.add(spiltTypeComboBox);
+        rightSidePanel.add(eventTypeComboBox);
 
         JPanel topPanel = new JPanel();
         layout = new BoxLayout(topPanel, BoxLayout.X_AXIS);
@@ -90,9 +93,10 @@ public class PanelCreateTicketOwner extends JPanel {
         amountLabel = new JLabel("Enter amount: ");
         amountField = new JTextField();
         spiltTypeComboBox = new JComboBox(TypeSplit.values());
+        eventTypeComboBox = new JComboBox(TypeEvents.values());
         selectOwnerLabel1 = new JLabel("Select the user that has paid the ticket,");
         selectOwnerLabel2 = new JLabel("enter the total amount of the ticket");
-        selectOwnerLabel3 = new JLabel("and select the correct type of split!");
+        selectOwnerLabel3 = new JLabel("and select the correct type of split and event type!");
 
         createListeners();
     }
@@ -149,7 +153,8 @@ public class PanelCreateTicketOwner extends JPanel {
                 ticketsPanel.setOwnerInfo(
                         userController.getUser(userMap.get(userJList.getSelectedValue())),
                         Double.parseDouble(amountField.getText()),
-                        TypeSplit.valueOf(String.valueOf(spiltTypeComboBox.getSelectedItem()))
+                        TypeSplit.valueOf(String.valueOf(spiltTypeComboBox.getSelectedItem())),
+                        TypeEvents.valueOf(String.valueOf(eventTypeComboBox.getSelectedItem()))
                 );
                 isOwnerSelected = false;
                 userJList.clearSelection();

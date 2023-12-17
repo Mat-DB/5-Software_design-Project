@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PanelCreateTicketConfirm extends JPanel {
+public class PanelTicketCreateConfirm extends JPanel {
     private JLabel overviewLabel;
     private JLabel nameLabel;
     private JLabel ownerLabel;
@@ -22,7 +22,7 @@ public class PanelCreateTicketConfirm extends JPanel {
     private PanelTickets panelTickets;
     private ControllerUsers usersController;
 
-    public PanelCreateTicketConfirm(PanelTickets panelTickets) {
+    public PanelTicketCreateConfirm(PanelTickets panelTickets) {
         this.panelTickets = panelTickets;
     }
 
