@@ -1,13 +1,16 @@
 package graphics.panels.subPanels;
 
 import graphics.panels.PanelTickets;
+import logic.controllers.ControllerTickets;
 import logic.controllers.ControllerUsers;
+import logic.tickets.Ticket;
 import logic.users.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,15 +24,20 @@ public class PanelTicketCreateConfirm extends JPanel {
     private JButton cancelButton;
     private PanelTickets panelTickets;
     private ControllerUsers usersController;
+    private ControllerTickets ticketController;
 
     public PanelTicketCreateConfirm(PanelTickets panelTickets) {
         this.panelTickets = panelTickets;
+        usersController = ControllerUsers.getUserController();
+        ticketController = ControllerTickets.getTicketController();
+        overviewLabel = new JLabel("Overview of the ticket. Check if everything is correct.");
     }
 
     public void init() {
-        usersController = ControllerUsers.getUserController();
-        overviewLabel = new JLabel("Overview of the ticket. Check if everything is correct.");
-        nameLabel = new JLabel("TicketInfo - " + panelTickets.getTicketName());
+        this.removeAll();
+        this.updateUI();
+
+        nameLabel = new JLabel("Ticket - " + panelTickets.getTicketName());
         User owner = panelTickets.getOwner();
         String ownerName;
         ownerName = owner.getName();
@@ -41,11 +49,16 @@ public class PanelTicketCreateConfirm extends JPanel {
         debtorSetFirst.add(new JLabel("Debtor"));
         debtorSetFirst.add(new JLabel("Debt"));
         debtorLabels.put(debtorLabelNum, debtorSetFirst);
-        for (int debtorHash : panelTickets.getDebtors().keySet()) {
+
+        Ticket ticket = ticketController.getTicket(panelTickets.getCurrentTicket());
+        HashMap<Integer, Double> balance = ticket.getBalances();
+        // https://java2blog.com/format-double-to-2-decimal-places-java/
+        DecimalFormat df = new DecimalFormat("#.##");
+        for (int debtorHash : ticket.getDebtors()) {
             debtorLabelNum += 1;
             ArrayList<JLabel> debtorSet = new ArrayList<>();
             debtorSet.add(new JLabel(usersController.getUser(debtorHash).getName()));
-            debtorSet.add(new JLabel(panelTickets.getDebtors().get(debtorHash) + " euro"));
+            debtorSet.add(new JLabel(df.format(balance.get(debtorHash)) + " euro"));
             debtorLabels.put(debtorLabelNum, debtorSet);
         }
         confirmButton = new JButton("Confirm");
@@ -62,7 +75,7 @@ public class PanelTicketCreateConfirm extends JPanel {
         createListeners();
 
         JPanel debtorsPanel = new JPanel();
-        GridLayout gridLayout = new GridLayout(panelTickets.getDebtors().size()+1, 2);
+        GridLayout gridLayout = new GridLayout(ticket.getDebtors().size()+1, 2);
         debtorsPanel.setLayout(gridLayout);
         for (int i : debtorLabels.keySet()) {
             for (JLabel label : debtorLabels.get(i)) {
@@ -85,6 +98,7 @@ public class PanelTicketCreateConfirm extends JPanel {
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                clearComponents();
                 panelTickets.confirmTicket();
             }
         });
@@ -92,8 +106,13 @@ public class PanelTicketCreateConfirm extends JPanel {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelTickets.setStarteState();
+                clearComponents();
+                panelTickets.setStartState();
             }
         });
+    }
+
+    private void clearComponents() {
+        debtorLabels.clear();
     }
 }

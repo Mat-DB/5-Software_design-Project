@@ -47,7 +47,7 @@ public class PanelTicketList extends JPanel {
                     else {
                         //Selection, enable the remove button.
                         removeButton.setEnabled(true);
-                        selectedTicket = frame.getUserMap().get(frame.getUserList().get(ticketJList.getSelectedIndex()));
+                        selectedTicket = ticketsController.getTicketHash(frame.getTicketList().get(ticketJList.getSelectedIndex()));
                     }
                 }
             }

@@ -114,9 +114,8 @@ public class PanelTicketCreateGroup extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!doesTicketNameExists()) {
-                    ticketsPanel.setProupSelectedAndName(groupController.getGroup(selectedGroup), ticketNameField.getText());
-                    groupJList.clearSelection();
-                    ticketNameField.setText("");
+                    ticketsPanel.setGroupSelectedAndName(groupController.getGroup(selectedGroup), ticketNameField.getText());
+                    clearComponents();
                 }
             }
         });
@@ -124,11 +123,15 @@ public class PanelTicketCreateGroup extends JPanel {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                groupJList.clearSelection();
-                ticketNameField.setText("");
-                ticketsPanel.setStarteState();
+                clearComponents();
+                ticketsPanel.setStartState();
             }
         });
+    }
+
+    private void clearComponents() {
+        groupJList.clearSelection();
+        ticketNameField.setText("");
     }
 
     private boolean doesTicketNameExists() {
