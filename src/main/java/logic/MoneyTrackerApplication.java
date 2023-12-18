@@ -5,8 +5,14 @@ import logic.controllers.ControllerHelperFunctions;
 import logic.controllers.ControllerTickets;
 import logic.controllers.ControllerUsers;
 import logic.groups.Group;
+import logic.groups.GroupBalancer;
+import logic.tickets.TicketEvents.TypeEvents;
+import logic.tickets.TicketSplit.TypeSplit;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
 
 public class MoneyTrackerApplication {
     ViewFrame appView;
@@ -55,7 +61,9 @@ public class MoneyTrackerApplication {
 
         //System.out.println("Test payment");
         //testFunctions.testPayment();
-        textApplication();
+        //testFunctions.testTicketList();
+        //textApplication();
+        testFunctions.testGroupBalancer();
     }
     private void textApplication() {
         if (state == AppStates.HOMESCREEN) {
@@ -76,31 +84,32 @@ public class MoneyTrackerApplication {
             group = new Group(groupName);
 
             System.out.println("First name: ");
-            String firstName = "g";
+            String firstName = userInput.nextLine();
             System.out.println("Last name: ");
-            String lastName = "a";
+            String lastName = userInput.nextLine();
 
             // controller finds first available ID for User, add user to database and returns key.
             int participantKey = controllerUsers.createUser(firstName, lastName);
             group.addParticipant(participantKey);
 
             System.out.println("First name: ");
-            firstName = "g";
+            firstName = userInput.nextLine();
             System.out.println("Last name: ");
-            lastName = "a";
+            lastName = userInput.nextLine();
 
             participantKey = controllerUsers.createUser(firstName, lastName);
             group.addParticipant(participantKey);
 
             System.out.println(group);
 
-            state = AppStates.CREATE_TICKET;
+            state = AppStates.CREATE_EVENSPLIT;
 
         }
         // Create tickets in group
-        if (state == AppStates.CREATE_TICKET) {
+        if (state == AppStates.CREATE_EVENSPLIT) {
             System.out.println("create ticket");
             Scanner userInput = new Scanner(System.in);  // Create a Scanner object
+
             System.out.println("Enter ticket name: ");
             // 1. App-user input name-ticket, price, and selects who paid
             String ticketName = userInput.nextLine();
@@ -112,11 +121,44 @@ public class MoneyTrackerApplication {
             System.out.println(ControllerHelperFunctions.convertHashToUsers(group.getParticipants(), controllerUsers));
             int whoPaid = userInput.nextInt();
 
+            Set<Integer> debtors = new HashSet<>();
+            for (int part : group.getParticipants()) {
+                if (part != whoPaid)
+                    debtors.add(part);
+            }
+            System.out.println(debtors);
+            userInput.useDelimiter("\r");
 
-            //User payer = group.getParticipant();
+            group.addTicket(controllerTickets.createEvenSplitTicket(ticketName, price, whoPaid, TypeEvents.AIRPLANE, debtors));
 
+            System.out.println("Create 2nd ticket");
+            userInput = new Scanner(System.in);  // Create a Scanner object
 
+            System.out.println("Enter ticket name: ");
+            // 1. App-user input name-ticket, price, and selects who paid
+            ticketName = userInput.nextLine();
 
+            System.out.println("Enter total price: ");
+            price = userInput.nextDouble();
+
+            System.out.println("enter id who paid: ");
+            System.out.println(ControllerHelperFunctions.convertHashToUsers(group.getParticipants(), controllerUsers));
+            whoPaid = userInput.nextInt();
+
+            debtors = new HashSet<>();
+            for (int part : group.getParticipants()) {
+                if (part != whoPaid)
+                    debtors.add(part);
+            }
+            System.out.println(debtors);
+
+            group.addTicket(controllerTickets.createEvenSplitTicket(ticketName, price, whoPaid, TypeEvents.AIRPLANE, debtors));
+
+            System.out.println(ControllerHelperFunctions.convertHashToTickets(group.getTickets(), controllerTickets));
+
+            GroupBalancer.createBalance(group, controllerTickets);
+
+            System.out.println(group.getGroupBalances());
         }
 
 
@@ -127,7 +169,10 @@ public class MoneyTrackerApplication {
     private enum AppStates {
         HOMESCREEN,
         CREATE_GROUP,
-        CREATE_TICKET,
+
+        CREATE_EVENSPLIT,
+        CREATE_UNEVENSPLIT,
+
 
     }
 }
