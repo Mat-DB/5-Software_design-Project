@@ -6,7 +6,7 @@ import graphics.panels.PanelTickets;
 import graphics.panels.PanelUsers;
 import logic.controllers.ControllerUsers;
 import logic.groups.Group;
-import logic.tickets.Ticket;
+import logic.tickets.TicketInfo;
 import logic.users.User;
 
 import javax.swing.*;
@@ -80,11 +80,11 @@ public class ViewFrame extends JFrame implements PropertyChangeListener {
             groupList.removeElement(group.getName());
         }
         else if (Objects.equals(evt.getPropertyName(), "new ticket")) {
-            Ticket ticket = (Ticket) evt.getNewValue();
+            TicketInfo ticket = (TicketInfo) evt.getNewValue();
             ticketList.addElement(ticket.getName());
         }
         else if (Objects.equals(evt.getPropertyName(), "remove ticket")) {
-            Ticket ticket = (Ticket) evt.getOldValue();
+            TicketInfo ticket = (TicketInfo) evt.getOldValue();
             ticketList.removeElement(ticket.getName());
         }
     }

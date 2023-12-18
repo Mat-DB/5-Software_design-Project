@@ -1,8 +1,8 @@
 package ticket;
 
 import logic.controllers.ControllerUsers;
+import logic.tickets.TicketInfo;
 import logic.users.User;
-import logic.tickets.EventTicket;
 import logic.tickets.TicketEvents.TicketAirplane;
 import logic.tickets.TicketEvents.TypeEvents;
 import logic.tickets.TicketSplit.TicketEvenSplit;
@@ -31,7 +31,7 @@ public class TicketEvenSplit_UTest {
     User gones;
 
     int gonesHash;
-    EventTicket airplaneTicket;
+    TicketInfo airplaneTicket;
     TicketEvenSplit airplaneEvenSplitTicket;
     @Before
     public void initialize() {

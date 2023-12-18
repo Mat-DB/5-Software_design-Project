@@ -1,10 +1,9 @@
 package logic.groups;
 
 import logic.controllers.ControllerTickets;
-import logic.tickets.SplittableTicket;
+import logic.tickets.Ticket;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GroupBalancer {
 
@@ -15,7 +14,7 @@ public class GroupBalancer {
 
         // get balance of ticket, add balance per user to the hashmap
         for (int key : tickets) {
-            SplittableTicket actualTicket = (SplittableTicket) controllerTickets.getTicket(key);
+            Ticket actualTicket = (Ticket) controllerTickets.getTicket(key);
             HashMap<Integer, Double> balances = actualTicket.getBalances();
             for (int user : participants) {
                 // no value in ticket : return

@@ -1,7 +1,7 @@
 package logic.controllers;
 
 import logic.database.DatabaseTickets;
-import logic.tickets.Ticket;
+import logic.tickets.TicketInfo;
 import logic.factories.FactoryTicket;
 import logic.tickets.TicketEvents.TypeEvents;
 import logic.tickets.TicketSplit.TicketEvenSplit;
@@ -34,11 +34,11 @@ public class ControllerTickets {
         return controller;
     }
 
-    public void addTicketToDB(Ticket ticket) {
+    public void addTicketToDB(TicketInfo ticket) {
         ticketDB.addTicket(ticket);
     }
 
-    public Ticket getTicket(int id) {
+    public TicketInfo getTicket(int id) {
         return ticketDB.getTicket(id);
     }
 
@@ -56,7 +56,7 @@ public class ControllerTickets {
      * @return the hash of the ticket
      */
     public int createTicket(String name, double price, int paid, TypeEvents event, TypeSplit split) {
-        Ticket ticket = switch (split) {
+        TicketInfo ticket = switch (split) {
             case EVEN_SPLIT -> ticketFactory.getEvenSplitTicket(name, price, paid, event);
             case UNEVEN_SPLIT -> ticketFactory.getUnevenSplitTicket(name, price, paid, event);
         };

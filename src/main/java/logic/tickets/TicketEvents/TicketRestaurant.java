@@ -1,8 +1,8 @@
 package logic.tickets.TicketEvents;
 
-import logic.tickets.EventTicket;
+import logic.tickets.TicketInfo;
 
-public class TicketRestaurant implements EventTicket {
+public class TicketRestaurant implements TicketInfo {
     String name;
     String description;
     double total;

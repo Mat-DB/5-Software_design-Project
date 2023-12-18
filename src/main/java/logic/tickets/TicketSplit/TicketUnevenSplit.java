@@ -1,12 +1,12 @@
 package logic.tickets.TicketSplit;
 
-import logic.tickets.EventTicket;
+import logic.tickets.TicketInfo;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class TicketUnevenSplit extends DecoratorTicketSplit {
-    public TicketUnevenSplit(EventTicket eventTicket) {
+    public TicketUnevenSplit(TicketInfo eventTicket) {
         super(eventTicket);
     }
 

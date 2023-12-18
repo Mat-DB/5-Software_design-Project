@@ -5,8 +5,8 @@ import logic.controllers.ControllerTickets;
 import logic.controllers.ControllerUsers;
 import logic.groups.Group;
 import logic.groups.GroupBalancer;
+import logic.tickets.TicketInfo;
 import logic.users.User;
-import logic.tickets.Ticket;
 import logic.tickets.TicketEvents.TicketAirplane;
 import logic.tickets.TicketEvents.TicketRestaurant;
 import logic.tickets.TicketEvents.TypeEvents;
@@ -28,7 +28,7 @@ public class testFunctions {
         User gones = new User("Gones", "Anseel", 1);
         int gonesHash = (gones.getName() + gones.getID()).hashCode();
 
-        Ticket ticket = new TicketAirplane("Airplane Prague", 125, gonesHash);
+        TicketInfo ticket = new TicketAirplane("Airplane Prague", 125, gonesHash);
 
         System.out.println(ticket);
 
@@ -59,7 +59,7 @@ public class testFunctions {
         airplane.setInitialBalances(debtors);
 
         System.out.println(airplane);
-        ArrayList<Ticket> tickets = new ArrayList<>();
+        ArrayList<TicketInfo> tickets = new ArrayList<>();
         tickets.add(airplane);
         System.out.println(tickets.get(0) instanceof TicketEvenSplit);
 
@@ -119,7 +119,7 @@ public class testFunctions {
         User gones = new User("Gones", "Anseel", 1);
         int gonesHash = (gones.getName() + gones.getID()).hashCode();
 
-        ArrayList<Ticket> tickets = new ArrayList<>();
+        ArrayList<TicketInfo> tickets = new ArrayList<>();
 
         FactoryTicket ticketFactory = FactoryTicket.getTicketFactory();
 

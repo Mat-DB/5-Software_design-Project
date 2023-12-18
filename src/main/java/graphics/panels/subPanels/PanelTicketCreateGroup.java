@@ -136,7 +136,7 @@ public class PanelTicketCreateGroup extends JPanel {
         // If ticket name already exists
         if (ControllerTickets.getTicketController().doesTicketNameExist(ticketNameField.getText())) {
             exists = true;
-            JOptionPane.showMessageDialog(this, "This ticket name already exists. Please choose another one.", "Ticket name exists", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "This ticket name already exists. Please choose another one.", "TicketInfo name exists", JOptionPane.ERROR_MESSAGE);
         }
         return exists;
     }

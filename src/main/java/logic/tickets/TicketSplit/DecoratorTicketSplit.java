@@ -1,15 +1,14 @@
 package logic.tickets.TicketSplit;
 
-import logic.tickets.EventTicket;
-import logic.tickets.SplittableTicket;
 import logic.tickets.Ticket;
+import logic.tickets.TicketInfo;
 import logic.tickets.TicketEvents.TypeEvents;
 
 import java.util.HashMap;
 import java.util.Set;
 
-public abstract class DecoratorTicketSplit implements SplittableTicket {
-    protected EventTicket eventTicket;
+public abstract class DecoratorTicketSplit implements Ticket {
+    protected TicketInfo eventTicket;
 
     /**
      * balance of debtors in ticket.
@@ -23,14 +22,14 @@ public abstract class DecoratorTicketSplit implements SplittableTicket {
     protected Set<Integer> debtors;
     protected boolean balancesInitialized = false;
 
-    public DecoratorTicketSplit (EventTicket eventTicket) {
+    public DecoratorTicketSplit (TicketInfo eventTicket) {
         this.eventTicket = eventTicket;
         balances = new HashMap<>();
         balances.put(eventTicket.getWhoPaid(), eventTicket.getTotal());
     }
 
 
-    public Ticket getEventTicket() {
+    public TicketInfo getEventTicket() {
         return eventTicket;
     }
 
@@ -85,7 +84,7 @@ public abstract class DecoratorTicketSplit implements SplittableTicket {
 
     @Override
     public String toString() {
-        return getEvent() + " Ticket{" +
+        return getEvent() + " TicketInfo{" +
                 "name='" + getName() + '\'' +
                 ", total=" + getTotal() +
                 ", paid=" + getWhoPaid() +

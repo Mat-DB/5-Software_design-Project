@@ -1,6 +1,6 @@
 package logic.controllers;
 
-import logic.tickets.Ticket;
+import logic.tickets.TicketInfo;
 import logic.users.User;
 
 import java.util.HashMap;
@@ -20,8 +20,8 @@ public class ControllerHelperFunctions {
         return userSet;
     }
 
-    public static HashMap<Integer, Ticket> convertHashToTickets(Set<Integer> hashSet, ControllerTickets controllerTicket) {
-        HashMap<Integer, Ticket> ticketSet = new HashMap<>();
+    public static HashMap<Integer, TicketInfo> convertHashToTickets(Set<Integer> hashSet, ControllerTickets controllerTicket) {
+        HashMap<Integer, TicketInfo> ticketSet = new HashMap<>();
         for(int key : hashSet) {
             ticketSet.put(key, controllerTicket.getTicket(key));
         }

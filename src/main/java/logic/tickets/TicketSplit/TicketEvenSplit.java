@@ -1,11 +1,11 @@
 package logic.tickets.TicketSplit;
 
-import logic.tickets.EventTicket;
+import logic.tickets.TicketInfo;
 
 import java.util.Set;
 
 public class TicketEvenSplit extends DecoratorTicketSplit {
-    public TicketEvenSplit(EventTicket eventTicket) {
+    public TicketEvenSplit(TicketInfo eventTicket) {
         super(eventTicket);
 
     }

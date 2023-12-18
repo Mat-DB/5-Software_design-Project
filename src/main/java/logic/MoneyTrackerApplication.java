@@ -81,10 +81,10 @@ public class MoneyTrackerApplication {
          */
         //testFunctions.testTicketSplit();
         //testFunctions.globalTest();
-        //System.out.println("Test Ticket Events");
+        //System.out.println("Test TicketInfo Events");
         //testFunctions.testTicketEvents();
 
-        //System.out.println("Test Ticket Split Decoration and Factory");
+        //System.out.println("Test TicketInfo Split Decoration and Factory");
         //testFunctions.testTicketFactory();
 
         //System.out.println("Test payment");

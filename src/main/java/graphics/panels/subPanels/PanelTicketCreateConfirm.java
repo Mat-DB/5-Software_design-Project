@@ -29,7 +29,7 @@ public class PanelTicketCreateConfirm extends JPanel {
     public void init() {
         usersController = ControllerUsers.getUserController();
         overviewLabel = new JLabel("Overview of the ticket. Check if everything is correct.");
-        nameLabel = new JLabel("Ticket - " + panelTickets.getTicketName());
+        nameLabel = new JLabel("TicketInfo - " + panelTickets.getTicketName());
         User owner = panelTickets.getOwner();
         String ownerName;
         ownerName = owner.getName();
