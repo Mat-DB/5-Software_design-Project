@@ -156,17 +156,25 @@ public class PanelTicketCreateOwner extends JPanel {
                         TypeSplit.valueOf(String.valueOf(spiltTypeComboBox.getSelectedItem())),
                         TypeEvents.valueOf(String.valueOf(eventTypeComboBox.getSelectedItem()))
                 );
-                isOwnerSelected = false;
-                userJList.clearSelection();
+                clearComponents();
             }
         });
 
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ticketsPanel.setStarteState();
+                clearComponents();
+                ticketsPanel.setStartState();
             }
         });
+    }
+
+    private void clearComponents() {
+        isOwnerSelected = false;
+        userJList.clearSelection();
+        userList.removeAllElements();
+        userMap.clear();
+        amountField.setText("");
     }
 
     private void checkAllFiledIn() {

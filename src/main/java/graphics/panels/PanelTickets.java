@@ -6,8 +6,6 @@ import logic.controllers.ControllerTickets;
 import logic.controllers.ControllerUsers;
 import logic.groups.Group;
 import logic.tickets.TicketEvents.TypeEvents;
-import logic.tickets.TicketSplit.TicketEvenSplit;
-import logic.tickets.TicketSplit.TicketUnevenSplit;
 import logic.tickets.TicketSplit.TypeSplit;
 import logic.users.User;
 
@@ -15,6 +13,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * 1. Click create ticket button
@@ -25,30 +24,30 @@ import java.util.HashMap;
  */
 public class PanelTickets extends JPanel {
     private TicketPanelStates state;
-    private PanelTicketList panelTicketList;
+    private final PanelTicketList panelTicketList;
 
     // Sub panels to create a new ticket
-    private PanelTicketCreateGroup panelGetGroup;
-    private PanelTicketCreateOwner panelGetOwnerInfo;
-    private PanelTicketCreateDebtors panelGetDebtors;
-    private PanelTicketCreateConfirm panelConfirmTicket;
+    private final PanelTicketCreateGroup panelGetGroup;
+    private final PanelTicketCreateOwner panelGetOwnerInfo;
+    private final PanelTicketCreateDebtors panelGetDebtors;
+    private final PanelTicketCreateConfirm panelConfirmTicket;
 
     // New ticket info
+    private int currentTicket = 0;
     private Group selectedGroup;
-    private User selectedOwner;
+    private User owner;
     private double amount;
     private String ticketName;
     private TypeSplit splitType;
     private TypeEvents eventType;
-    private HashMap<Integer, Double> debtors;
 
     // Buttons
-    private JButton createButton;
-    private JButton viewButon;
+    private final JButton createButton;
+    private final JButton viewButton;
 
     // Controllers
-    private ControllerTickets ticketsController;
-    private ControllerUsers usersController;
+    private final ControllerTickets ticketsController;
+    private final ControllerUsers usersController;
 
     public PanelTickets(ViewFrame frame) {
         state = TicketPanelStates.START;
@@ -61,7 +60,7 @@ public class PanelTickets extends JPanel {
         panelConfirmTicket = new PanelTicketCreateConfirm(this);
 
         createButton = new JButton("Create new ticket");
-        viewButon = new JButton("View a ticket");
+        viewButton = new JButton("View a ticket");
 
         changeUI();
         createListeners();
@@ -76,7 +75,7 @@ public class PanelTickets extends JPanel {
             }
         });
 
-        viewButon.addActionListener(new ActionListener() {
+        viewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 state = TicketPanelStates.VIEW;
@@ -92,7 +91,7 @@ public class PanelTickets extends JPanel {
                 this.updateUI();
                 this.add(panelTicketList);
                 this.add(createButton);
-                this.add(viewButon);
+                this.add(viewButton);
             }
             case VIEW -> {
                 System.out.println("VIEW mode");
@@ -126,7 +125,7 @@ public class PanelTickets extends JPanel {
         }
     }
 
-    public void setProupSelectedAndName(Group group, String ticketName) {
+    public void setGroupSelectedAndName(Group group, String ticketName) {
         this.selectedGroup = group;
         this.ticketName = ticketName;
         panelGetOwnerInfo.setGroup(group);
@@ -136,7 +135,7 @@ public class PanelTickets extends JPanel {
     }
 
     public void setOwnerInfo(User owner, Double amount, TypeSplit splitType, TypeEvents eventType) {
-        this.selectedOwner = owner;
+        this.owner = owner;
         this.amount = amount;
         this.splitType = splitType;
         this.eventType = eventType;
@@ -145,38 +144,32 @@ public class PanelTickets extends JPanel {
         changeUI();
     }
 
-    public void setDebtors(HashMap<Integer, Double> debtorsIn) {
-        debtors = debtorsIn;
-        if (splitType == TypeSplit.EVEN_SPLIT) {
-            double amountPP = amount/(debtors.size()+1);
-            for (int debtor : debtors.keySet()) {
-                debtors.put(debtor, amountPP);
-            }
-        }
+    public void setDebtorsUnevenSplit(HashMap<Integer, Double> debtorsIn) {
+        currentTicket = ticketsController.createUnevenSplitTicket(ticketName, amount, usersController.getUserHash(owner), eventType, debtorsIn);
         state = TicketPanelStates.CONFIRM;
         changeUI();
     }
 
-    public void setStarteState() {
+    public void setDebtorsEvenSplit(Set<Integer> debtorsIn) {
+        currentTicket = ticketsController.createEvenSplitTicket(ticketName, amount, usersController.getUserHash(owner), eventType, debtorsIn);
+        state = TicketPanelStates.CONFIRM;
+        changeUI();
+    }
+
+    public void setStartState() {
+        ticketsController.removeTicket(currentTicket);
+        currentTicket = 0;
         state = TicketPanelStates.START;
         changeUI();
     }
 
     public void confirmTicket() {
-        int ticketHash = ticketsController.createTicket(ticketName, amount, usersController.getUserHash(selectedOwner), eventType, splitType);
-        if (splitType == TypeSplit.EVEN_SPLIT) {
-            TicketEvenSplit ticket = (TicketEvenSplit) ticketsController.getTicket(ticketHash);
-            ticket.setInitialBalances(debtors.keySet());
-        } else {
-            TicketUnevenSplit ticket = (TicketUnevenSplit) ticketsController.getTicket(ticketHash);
-            ticket.setInitialBalances(debtors);
-        }
         state = TicketPanelStates.START;
         changeUI();
     }
 
     public User getOwner() {
-        return selectedOwner;
+        return owner;
     }
 
     public TypeSplit getSplitType() {
@@ -195,7 +188,7 @@ public class PanelTickets extends JPanel {
         return ticketName;
     }
 
-    public HashMap<Integer, Double> getDebtors() {
-        return debtors;
+    public int getCurrentTicket() {
+        return currentTicket;
     }
 }

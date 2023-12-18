@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 4. Select debtors and if uneven set amounts
@@ -48,22 +50,23 @@ public class PanelTicketCreateDebtors extends JPanel {
         debts = new HashMap<>();
 
         createListeners();
+    }
+
+    public void init() {
+        this.removeAll();
+        this.updateUI();
 
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
         this.add(selectUserLabel);
         this.add(userJList);
         this.add(getButtonPanel());
-    }
 
-    public void init() {
         userList.removeAllElements();
         for (int userHash : panelTickets.getGroup().getParticipants()) {
-            if (userHash != usersController.getUserHash(panelTickets.getOwner())) {
-                User user = usersController.getUser(userHash);
-                userList.addElement(user.getName());
-                userMap.put(user.getName(), usersController.getUserHash(user));
-            }
+            User user = usersController.getUser(userHash);
+            userList.addElement(user.getName());
+            userMap.put(user.getName(), usersController.getUserHash(user));
         }
     }
 
@@ -90,7 +93,8 @@ public class PanelTicketCreateDebtors extends JPanel {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                panelTickets.setStarteState();
+                clearComponents();
+                panelTickets.setStartState();
             }
         });
 
@@ -104,6 +108,13 @@ public class PanelTicketCreateDebtors extends JPanel {
                 }
             }
         });
+    }
+
+    private void clearComponents() {
+        debts.clear();
+        userMap.clear();
+        userList.removeAllElements();
+        userJList.clearSelection();
     }
 
     /**
@@ -135,12 +146,15 @@ public class PanelTicketCreateDebtors extends JPanel {
 
             usersSelected = true;
 
-        } else {
-            for (String user : userJList.getSelectedValuesList()) {
-                debts.put(userMap.get(user), 0.0);
+        } else { // EVEN SPLIT
+            Set<Integer> debts1 = new HashSet<>();
+            for (String userName : userJList.getSelectedValuesList()) {
+                if (usersController.getUserHash(panelTickets.getOwner()) != userMap.get(userName)) {
+                    debts1.add(userMap.get(userName));
+                }
             }
-            panelTickets.setDebtors(debts);
-            userJList.clearSelection();
+            panelTickets.setDebtorsEvenSplit(debts1);
+            clearComponents();
         }
     }
 
@@ -174,10 +188,10 @@ public class PanelTicketCreateDebtors extends JPanel {
         }
         if (!(total == panelTickets.getAmount())) {
             JOptionPane.showMessageDialog(this, "The sum does not equal the ticket total", "Total does not match", JOptionPane.ERROR_MESSAGE);
-        } else {
-            panelTickets.setDebtors(debts);
+        } else { // UNEVEN SPLIT
+            panelTickets.setDebtorsUnevenSplit(debts);
             usersSelected = false;
-            userJList.clearSelection();
+            clearComponents();
         }
     }
 }
