@@ -11,7 +11,6 @@ import logic.database.DatabaseUsers;
 import logic.groups.Group;
 import logic.groups.GroupBalancer;
 import logic.tickets.TicketEvents.TypeEvents;
-import logic.tickets.TicketSplit.TypeSplit;
 
 import java.util.HashSet;
 import java.util.Scanner;
@@ -108,8 +107,7 @@ public class MoneyTrackerApplication {
             Scanner userInput = new Scanner(System.in);  // Create a Scanner object
             System.out.println("Enter groupname");
 
-            //String groupName = userInput.nextLine();
-            String groupName = "test";
+            String groupName = userInput.nextLine();
             group = new Group(groupName);
 
             System.out.println("First name: ");

@@ -148,7 +148,7 @@ public class PanelTickets extends JPanel {
     public void setDebtors(HashMap<Integer, Double> debtorsIn) {
         debtors = debtorsIn;
         if (splitType == TypeSplit.EVEN_SPLIT) {
-            double amountPP = amount/debtors.size();
+            double amountPP = amount/(debtors.size()+1);
             for (int debtor : debtors.keySet()) {
                 debtors.put(debtor, amountPP);
             }
