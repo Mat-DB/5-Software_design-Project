@@ -42,6 +42,27 @@ public class ControllerTickets {
         return ticketDB.getTicket(id);
     }
 
+    public int getTicketHash(String ticketName) {
+        return ticketDB.getTicketHash(ticketName);
+    }
+
+    /**
+     * Create a new ticket.
+     * @param name name of the ticket
+     * @param price total amount of the ticket
+     * @param paid the hash of the user who paid
+     * @param event type of event
+     * @param split type of split, even or uneven
+     * @return the hash of the ticket
+     */
+    public int createTicket(String name, double price, int paid, TypeEvents event, TypeSplit split) {
+        Ticket ticket = switch (split) {
+            case EVEN_SPLIT -> ticketFactory.getEvenSplitTicket(name, price, paid, event);
+            case UNEVEN_SPLIT -> ticketFactory.getUnevenSplitTicket(name, price, paid, event);
+        };
+        return ticketDB.addTicket(ticket);
+    }
+
     public int createEvenSplitTicket(String name, double price, int paid, TypeEvents event, Set<Integer> debtors) {
         TicketEvenSplit ticket = ticketFactory.getEvenSplitTicket(name, price, paid, event);
         ticket.setInitialBalances(debtors);
@@ -56,5 +77,9 @@ public class ControllerTickets {
 
     public void removeTicket(int ticketHash) {
         ticketDB.removeTicket(ticketHash);
+    }
+
+    public boolean doesTicketNameExist(String ticketName) {
+        return (ticketDB.getTicket(ticketDB.getTicketHash(ticketName)) != null);
     }
 }

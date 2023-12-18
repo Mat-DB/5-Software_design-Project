@@ -34,6 +34,8 @@ public abstract class DecoratorTicketSplit implements SplittableTicket {
         return eventTicket;
     }
 
+    // ToDo: add java doc or remove
+
     /**
      * @return
      */

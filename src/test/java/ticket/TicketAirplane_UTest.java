@@ -1,5 +1,6 @@
 package ticket;
 
+import logic.controllers.ControllerUsers;
 import logic.users.User;
 import logic.tickets.TicketEvents.TicketAirplane;
 import logic.tickets.TicketEvents.TypeEvents;
@@ -28,7 +29,7 @@ public class TicketAirplane_UTest {
     @Before
     public void initialize() {
          gones = new User("Gones", "Anseel", 1);
-         gonesHash = (gones.getName() + gones.getID()).hashCode();
+         gonesHash = ControllerUsers.getUserController().getUserHash(gones);
          airplaneTicket = new TicketAirplane("Airplane Prague", 100.0, gonesHash);
     }
     @Test

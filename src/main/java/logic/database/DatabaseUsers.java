@@ -17,7 +17,7 @@ public class DatabaseUsers extends Database<User> {
         return instance;
     }
     public int addUser(User user){
-        int hash = getUserHash(user.getFullName(), user.getID());
+        int hash = getUserHash(user.getNameForDB(), user.getID());
         addEntry(hash, user);
         observable.firePropertyChange("new user", null, user);
         return hash;
@@ -35,7 +35,7 @@ public class DatabaseUsers extends Database<User> {
         HashMap<String, Integer> userNames = new HashMap<>();
         for (int key : db.keySet()) {
             User user = getEntry(key);
-            userNames.put(user.getFullName(), user.getID());
+            userNames.put(user.getNameForDB(), user.getID());
         }
         return userNames;
     }
@@ -57,7 +57,11 @@ public class DatabaseUsers extends Database<User> {
         return newID;
     }
 
-    private int getUserHash(String fullName, int id) {
-        return (fullName+id).hashCode();
+    public int getUserHash(String fullName, int id) {
+        return getUserHash(fullName + " " + id);
+    }
+
+    public int getUserHash(String userNameAndID) {
+        return userNameAndID.hashCode();
     }
 }

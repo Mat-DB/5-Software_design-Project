@@ -20,6 +20,8 @@ public class TicketAirplane implements EventTicket {
         this.paid = paid;
     }
 
+    // ToDo: add java doc or remove
+
     /**
      * @return
      */

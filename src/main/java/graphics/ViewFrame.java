@@ -1,59 +1,107 @@
 package graphics;
 
-//import database.RegistrationDB;
-//import observers.Observer;
-//import observers.RegistrationObserver;
-//import view.panels.ListPanel;
-//import view.panels.RegistrationButtonPanel;
-//import view.panels.RegistrationInfoLabel;
+import graphics.panels.PanelBalances;
+import graphics.panels.PanelGroups;
+import graphics.panels.PanelTickets;
+import graphics.panels.PanelUsers;
+import logic.controllers.ControllerUsers;
+import logic.groups.Group;
+import logic.tickets.Ticket;
+import logic.users.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.HashMap;
+import java.util.Objects;
 
-public class ViewFrame extends JFrame
-{
-    // Get your controller in this private field
-//    ListPanel panel;
-//    RegistrationButtonPanel buttons;
-//    Observer registrationObserver;
-//    RegistrationInfoLabel registrationInfoLabel;
+public class ViewFrame extends JFrame implements PropertyChangeListener {
+    private PanelGroups groupsPanel;
+    private PanelUsers usersPanel;
+    private PanelTickets ticketsPanel;
+    private PanelBalances balancesPanel;
+    private DefaultListModel<String> userList;
+    private HashMap<String, Integer> userMap;
+    private DefaultListModel<String> groupList;
+    private DefaultListModel<String> ticketList;
+    private ControllerUsers userController;
 
-    public ViewFrame()
-    {
+    public ViewFrame() {
         super("MoneyTrackerApp");
     }
 
-    public void initialize()
-    {
-        this.setSize(500, 800);
+    public void initialize() {
+        //this.setSize(500, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        userController = ControllerUsers.getUserController();
 
-        GridBagLayout layout = new GridBagLayout();
-        this.setLayout(layout);
+        JTabbedPane tabbedPane = new JTabbedPane();
+        userList = new DefaultListModel<>();
+        userMap = new HashMap<>();
+        groupList = new DefaultListModel<>();
+        ticketList = new DefaultListModel<>();
+        groupsPanel = new PanelGroups(this);
+        usersPanel = new PanelUsers(this);
+        ticketsPanel = new PanelTickets(this);
+        balancesPanel = new PanelBalances();
 
-        GridBagConstraints c = new GridBagConstraints();
+        tabbedPane.addTab("Groups", groupsPanel);
+        tabbedPane.addTab("Users", usersPanel);
+        tabbedPane.addTab("Tickets", ticketsPanel);
+        tabbedPane.addTab("Balances", balancesPanel);
+        tabbedPane.setPreferredSize(new Dimension(800, 500));
 
-//        registrationObserver = new RegistrationObserver(RegistrationDB.getInstance());
-//
-//        // Pass the controller to the ButtonPanel
-//
-//        buttons = new RegistrationButtonPanel();
-//        panel = new ListPanel();
-//
-//        c.gridy = 0;
-//        this.add(panel, c);
-//        c.gridy = 0;
-//        this.add(buttons, c);
-//
-//        registrationInfoLabel = new RegistrationInfoLabel(RegistrationDB.getInstance());
-//        c.gridy = 2;
-//        c.gridx = 1;
-//        c.anchor = GridBagConstraints.PAGE_END;
-//        this.add(registrationInfoLabel, c);
+        JPanel panel = new JPanel();
+        panel.add(tabbedPane);
+        this.add(panel, BorderLayout.CENTER);
+        this.pack();
         this.setVisible(true);
     }
 
-    public void homescreen() {
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (Objects.equals(evt.getPropertyName(), "new user")) {
+            User user = (User) evt.getNewValue();
+            String name = user.getName();
+            userMap.put(name, userController.getUserHash(user));
+            userList.addElement(name);
+        }
+        else if (Objects.equals(evt.getPropertyName(), "remove user")) {
+            User user = (User) evt.getOldValue();
+            userList.removeElement(user.getName());
+        }
+        else if (Objects.equals(evt.getPropertyName(), "new group")) {
+            Group group = (Group) evt.getNewValue();
+            groupList.addElement(group.getName());
+        }
+        else if (Objects.equals(evt.getPropertyName(), "remove group")) {
+            Group group = (Group) evt.getOldValue();
+            groupList.removeElement(group.getName());
+        }
+        else if (Objects.equals(evt.getPropertyName(), "new ticket")) {
+            Ticket ticket = (Ticket) evt.getNewValue();
+            ticketList.addElement(ticket.getName());
+        }
+        else if (Objects.equals(evt.getPropertyName(), "remove ticket")) {
+            Ticket ticket = (Ticket) evt.getOldValue();
+            ticketList.removeElement(ticket.getName());
+        }
+    }
 
+    public DefaultListModel<String> getUserList() {
+        return userList;
+    }
+
+    public HashMap<String, Integer> getUserMap() {
+        return userMap;
+    }
+
+    public DefaultListModel<String> getGroupList() {
+        return groupList;
+    }
+
+    public DefaultListModel<String> getTicketList() {
+        return ticketList;
     }
 }
