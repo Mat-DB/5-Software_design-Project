@@ -22,6 +22,9 @@ public class PanelTicketCreateConfirm extends JPanel {
     private final PanelTickets panelTickets;
     private final ControllerUsers usersController;
     private final ControllerTickets ticketController;
+    private PanelTickets panelTickets;
+    private ControllerUsers usersController;
+    private ControllerTickets ticketController;
 
     public PanelTicketCreateConfirm(PanelTickets panelTickets) {
         this.panelTickets = panelTickets;
