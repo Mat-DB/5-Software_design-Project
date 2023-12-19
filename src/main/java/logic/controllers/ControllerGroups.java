@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class ControllerGroups {
     private static ControllerGroups controller;
-    private DatabaseGroups groupDB;
+    private final DatabaseGroups groupDB;
 
     private ControllerGroups() {
         groupDB = DatabaseGroups.getGroupDatabase();

@@ -17,10 +17,6 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class ViewFrame extends JFrame implements PropertyChangeListener {
-    private PanelGroups groupsPanel;
-    private PanelUsers usersPanel;
-    private PanelTickets ticketsPanel;
-    private PanelBalances balancesPanel;
     private DefaultListModel<String> userList;
     private HashMap<String, Integer> userMap;
     private DefaultListModel<String> groupList;
@@ -41,10 +37,10 @@ public class ViewFrame extends JFrame implements PropertyChangeListener {
         userMap = new HashMap<>();
         groupList = new DefaultListModel<>();
         ticketList = new DefaultListModel<>();
-        groupsPanel = new PanelGroups(this);
-        usersPanel = new PanelUsers(this);
-        ticketsPanel = new PanelTickets(this);
-        balancesPanel = new PanelBalances();
+        PanelGroups groupsPanel = new PanelGroups(this);
+        PanelUsers usersPanel = new PanelUsers(this);
+        PanelTickets ticketsPanel = new PanelTickets(this);
+        PanelBalances balancesPanel = new PanelBalances();
 
         tabbedPane.addTab("Groups", groupsPanel);
         tabbedPane.addTab("Users", usersPanel);

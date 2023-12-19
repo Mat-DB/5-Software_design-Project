@@ -178,13 +178,13 @@ public class PanelTicketCreateOwner extends JPanel {
     }
 
     private void checkAllFiledIn() {
-        boolean isNumer = true;
+        boolean isDouble = true;
         try {
             Double.parseDouble(amountField.getText());
         } catch (NumberFormatException exception){
-            isNumer = false;
+            isDouble = false;
         }
-        if (isOwnerSelected && isNumer) {
+        if (isOwnerSelected && isDouble) {
             nextButton.setEnabled(true);
         } else {
             nextButton.setEnabled(false);

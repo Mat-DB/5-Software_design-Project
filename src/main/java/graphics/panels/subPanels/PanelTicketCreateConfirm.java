@@ -15,16 +15,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PanelTicketCreateConfirm extends JPanel {
-    private JLabel overviewLabel;
-    private JLabel nameLabel;
-    private JLabel ownerLabel;
-    private JLabel totalAmountLabel;
+    private final JLabel overviewLabel;
     private HashMap<Integer, ArrayList<JLabel>> debtorLabels;
     private JButton confirmButton;
     private JButton cancelButton;
-    private PanelTickets panelTickets;
-    private ControllerUsers usersController;
-    private ControllerTickets ticketController;
+    private final PanelTickets panelTickets;
+    private final ControllerUsers usersController;
+    private final ControllerTickets ticketController;
 
     public PanelTicketCreateConfirm(PanelTickets panelTickets) {
         this.panelTickets = panelTickets;
@@ -37,12 +34,12 @@ public class PanelTicketCreateConfirm extends JPanel {
         this.removeAll();
         this.updateUI();
 
-        nameLabel = new JLabel("Ticket - " + panelTickets.getTicketName());
+        JLabel nameLabel = new JLabel("Ticket - " + panelTickets.getTicketName());
         User owner = panelTickets.getOwner();
         String ownerName;
         ownerName = owner.getName();
-        ownerLabel = new JLabel("Person who paid: " + ownerName);
-        totalAmountLabel = new JLabel("Total amount: " + panelTickets.getAmount() + " euro");
+        JLabel ownerLabel = new JLabel("Person who paid: " + ownerName);
+        JLabel totalAmountLabel = new JLabel("Total amount: " + panelTickets.getAmount() + " euro");
         debtorLabels = new HashMap<>();
         int debtorLabelNum = 1;
         ArrayList<JLabel> debtorSetFirst = new ArrayList<>();

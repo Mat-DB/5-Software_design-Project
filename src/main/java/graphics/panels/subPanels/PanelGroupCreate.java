@@ -25,7 +25,6 @@ public class PanelGroupCreate extends JPanel {
     private JLabel groupNameLabel;
     private Boolean waitingToCreateGroup;
     private ControllerGroups groupsController;
-    private ControllerUsers usersController;
     private Set<Integer> usersInGroup;
     private PanelUsersList panelUsersList;
     private JList<String> userJList;
@@ -41,7 +40,6 @@ public class PanelGroupCreate extends JPanel {
         groupNameLabel = new JLabel("Groupname: ");
         waitingToCreateGroup = true;
         groupsController = ControllerGroups.getGroupController();
-        usersController = ControllerUsers.getUserController();
         panelUsersList = new PanelUsersList(frame);
         panelUsersList.setSelectMultiple();
         userJList = panelUsersList.getuserJList();

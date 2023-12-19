@@ -2,7 +2,6 @@ package logic.controllers;
 
 import logic.database.DatabaseTickets;
 import logic.tickets.Ticket;
-import logic.tickets.TicketInfo;
 import logic.factories.FactoryTicket;
 import logic.tickets.TicketEvents.TypeEvents;
 import logic.tickets.TicketSplit.TicketEvenSplit;
@@ -20,8 +19,8 @@ import java.util.Set;
  */
 public class ControllerTickets {
     private static ControllerTickets controller;
-    private DatabaseTickets ticketDB;
-    private FactoryTicket ticketFactory;
+    private final DatabaseTickets ticketDB;
+    private final FactoryTicket ticketFactory;
 
     private ControllerTickets() {
         ticketDB = DatabaseTickets.getTicketDatabase();

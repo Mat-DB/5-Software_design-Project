@@ -7,11 +7,9 @@ import graphics.panels.subPanels.PanelGroupsList;
 import javax.swing.*;
 
 public class PanelGroups extends JPanel {
-    private PanelGroupsList panelGroupsList;
-    private PanelGroupCreate panelGroupCreate;
     public PanelGroups(ViewFrame frame) {
-        panelGroupsList = new PanelGroupsList(frame);
-        panelGroupCreate = new PanelGroupCreate(frame);
+        PanelGroupsList panelGroupsList = new PanelGroupsList(frame);
+        PanelGroupCreate panelGroupCreate = new PanelGroupCreate(frame);
 
         this.add(panelGroupsList);
         this.add(panelGroupCreate);

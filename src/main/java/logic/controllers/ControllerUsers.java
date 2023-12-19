@@ -39,8 +39,7 @@ public class ControllerUsers {
         int existingID = userDB.userNameOccurrences(firstName+lastname, 1);
         User newUser = new User(firstName, lastname, existingID);
         System.out.println(newUser);
-        int userDatabaseKey = userDB.addUser(newUser);
-        return userDatabaseKey;
+        return userDB.addUser(newUser);
     }
 
     public void removeUser(int dbID) {

@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * ToDo: Is this class still needed?
- * This class only has static methodes.
+ * This class only has static methods.
  */
 public class ControllerHelperFunctions {
 
