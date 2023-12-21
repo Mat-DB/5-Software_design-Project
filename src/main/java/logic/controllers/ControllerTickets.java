@@ -1,12 +1,12 @@
 package logic.controllers;
 
 import logic.database.DatabaseTickets;
+import logic.groups.Group;
 import logic.tickets.Ticket;
 import logic.factories.FactoryTicket;
 import logic.tickets.TicketEvents.TypeEvents;
 import logic.tickets.TicketSplit.TicketEvenSplit;
 import logic.tickets.TicketSplit.TicketUnevenSplit;
-import logic.tickets.TicketSplit.TypeSplit;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -52,27 +52,32 @@ public class ControllerTickets {
      * @param price total amount of the ticket
      * @param paid the hash of the user who paid
      * @param event type of event
-     * @param split type of split, even or uneven
+     * @param debtors a set of the hash values of the users who needs to pay
      * @return the hash of the ticket
      */
-    public int createTicket(String name, double price, int paid, TypeEvents event, TypeSplit split) {
-        Ticket ticket = switch (split) {
-            case EVEN_SPLIT -> ticketFactory.getEvenSplitTicket(name, price, paid, event);
-            case UNEVEN_SPLIT -> ticketFactory.getUnevenSplitTicket(name, price, paid, event);
-        };
-        return ticketDB.addTicket(ticket);
-    }
-
-    public int createEvenSplitTicket(String name, double price, int paid, TypeEvents event, Set<Integer> debtors) {
+    public int createEvenSplitTicket(Group group, String name, double price, int paid, TypeEvents event, Set<Integer> debtors) {
         TicketEvenSplit ticket = ticketFactory.getEvenSplitTicket(name, price, paid, event);
         ticket.setInitialBalances(debtors);
-        return ticketDB.addTicket(ticket);
+        int hash = ticketDB.addTicket(ticket);
+        group.addTicket(hash);
+        return hash;
     }
 
-    public int createUnevenSplitTicket(String name, double price, int paid, TypeEvents event, HashMap<Integer, Double> balances) {
+    /**
+     * Create a new ticket.
+     * @param name name of the ticket
+     * @param price total amount of the ticket
+     * @param paid the hash of the user who paid
+     * @param event type of event
+     * @param balances a hashmap of the hash values of the users who needs to pay and the amount
+     * @return the hash of the ticket
+     */
+    public int createUnevenSplitTicket(Group group, String name, double price, int paid, TypeEvents event, HashMap<Integer, Double> balances) {
         TicketUnevenSplit ticket = ticketFactory.getUnevenSplitTicket(name, price, paid, event);
         ticket.setInitialBalances(balances);
-        return ticketDB.addTicket(ticket);
+        int hash = ticketDB.addTicket(ticket);
+        group.addTicket(hash);
+        return hash;
     }
 
     public void removeTicket(int ticketHash) {

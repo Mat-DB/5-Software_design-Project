@@ -14,7 +14,10 @@ public class Group {
 
     HashMap<Integer, Double> groupBalances = new HashMap<>();
 
+    // HashMap with as key a user (A) hash and
+    // as value a Map.Entry where the first is the user to whom the user (A) needs to pay and how much.
     HashMap<Integer, Map.Entry<Integer, Double>> whoPaysWhoHowMuch = new HashMap<>();
+
     public Group(String name) {
         this.name = name;
     }
@@ -45,6 +48,11 @@ public class Group {
         return groupBalances;
     }
 
+    public HashMap<Integer, Double> updateAndgetGroupBalances() {
+        GroupBalancer.createBalance(this);
+        return groupBalances;
+    }
+
     public void addTicket(int hash) {
         tickets.add(hash);
     }
@@ -60,6 +68,15 @@ public class Group {
     public HashMap<Integer, Map.Entry<Integer, Double>> getWhoPaysWhoHowMuch() {
         return whoPaysWhoHowMuch;
     }
+
+    public HashMap<Integer, Map.Entry<Integer, Double>> updateAndGetWhoPaysWhoHowMuch() {
+        GroupBalancer.createBalance(this);
+        System.out.println("\nBalance created (normally) - group class");
+        GroupBalancer.calculateWhoPaysWho(this);
+        System.out.println("debts calculated (normally) - group class");
+        return whoPaysWhoHowMuch;
+    }
+
     @Override
     public String toString() {
         return "Group{" +

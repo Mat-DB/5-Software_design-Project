@@ -187,7 +187,8 @@ public class PanelTicketCreateDebtors extends JPanel {
             }
         }
         if (!(total == panelTickets.getAmount())) {
-            JOptionPane.showMessageDialog(this, "The sum does not equal the ticket total", "Total does not match", JOptionPane.ERROR_MESSAGE);
+            String message = "The sum does not equal the ticket total,\nthe total should be " + panelTickets.getAmount();
+            JOptionPane.showMessageDialog(this, message, "Total does not match", JOptionPane.ERROR_MESSAGE);
         } else { // UNEVEN SPLIT
             panelTickets.setDebtorsUnevenSplit(debts);
             usersSelected = false;

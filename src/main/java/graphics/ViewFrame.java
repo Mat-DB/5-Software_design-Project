@@ -40,7 +40,7 @@ public class ViewFrame extends JFrame implements PropertyChangeListener {
         PanelGroups groupsPanel = new PanelGroups(this);
         PanelUsers usersPanel = new PanelUsers(this);
         PanelTickets ticketsPanel = new PanelTickets(this);
-        PanelBalances balancesPanel = new PanelBalances();
+        PanelBalances balancesPanel = new PanelBalances(this);
 
         tabbedPane.addTab("Groups", groupsPanel);
         tabbedPane.addTab("Users", usersPanel);

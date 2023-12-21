@@ -2,6 +2,7 @@ package graphics.panels.subPanels;
 
 import graphics.ViewFrame;
 import graphics.panels.PanelBalances;
+import logic.controllers.ControllerGroups;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -24,12 +25,10 @@ public class PanelBalanceGroup extends JPanel {
 
         init();
 
-        JPanel topPanel = new JPanel();
-        topPanel.add(groupJList);
-
         BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(boxLayout);
-        this.add(topPanel);
+        this.add(infoLabel);
+        this.add(groupJList);
 
         JPanel buttonPanel = new JPanel();
         boxLayout = new BoxLayout(buttonPanel, BoxLayout.X_AXIS);
@@ -41,6 +40,7 @@ public class PanelBalanceGroup extends JPanel {
     }
 
     private void init() {
+        infoLabel = new JLabel("Select the group you want to check the balance for.");
         groupJList = new JList<>(frame.getGroupList());
         groupJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         groupJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
@@ -72,7 +72,7 @@ public class PanelBalanceGroup extends JPanel {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //ticketsPanel.setGroupSelectedAndName(groupController.getGroup(selectedGroup), ticketNameField.getText());
+                panelBalances.setGroup(ControllerGroups.getGroupController().getGroup(selectedGroup));
                 clearComponents();
             }
         });

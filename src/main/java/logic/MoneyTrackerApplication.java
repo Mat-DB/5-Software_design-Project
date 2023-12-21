@@ -145,7 +145,7 @@ public class MoneyTrackerApplication {
             double price = userInput.nextDouble();
 
             System.out.println("enter id who paid: ");
-            System.out.println(ControllerHelperFunctions.convertHashToUsers(group.getParticipants(), controllerUsers));
+            System.out.println(ControllerHelperFunctions.convertHashesToUsers(group.getParticipants(), controllerUsers));
             int whoPaid = userInput.nextInt();
 
             Set<Integer> debtors = new HashSet<>();
@@ -156,7 +156,7 @@ public class MoneyTrackerApplication {
             System.out.println(debtors);
             userInput.useDelimiter("\r");
 
-            group.addTicket(controllerTickets.createEvenSplitTicket(ticketName, price, whoPaid, TypeEvents.AIRPLANE, debtors));
+            controllerTickets.createEvenSplitTicket(group, ticketName, price, whoPaid, TypeEvents.AIRPLANE, debtors);
 
             System.out.println("Create 2nd ticket");
             userInput = new Scanner(System.in);  // Create a Scanner object
@@ -169,7 +169,7 @@ public class MoneyTrackerApplication {
             price = userInput.nextDouble();
 
             System.out.println("enter id who paid: ");
-            System.out.println(ControllerHelperFunctions.convertHashToUsers(group.getParticipants(), controllerUsers));
+            System.out.println(ControllerHelperFunctions.convertHashesToUsers(group.getParticipants(), controllerUsers));
             whoPaid = userInput.nextInt();
 
             debtors = new HashSet<>();
@@ -179,11 +179,11 @@ public class MoneyTrackerApplication {
             }
             System.out.println(debtors);
 
-            group.addTicket(controllerTickets.createEvenSplitTicket(ticketName, price, whoPaid, TypeEvents.AIRPLANE, debtors));
+            controllerTickets.createEvenSplitTicket(group, ticketName, price, whoPaid, TypeEvents.AIRPLANE, debtors);
 
-            System.out.println(ControllerHelperFunctions.convertHashToTickets(group.getTickets(), controllerTickets));
+            System.out.println(ControllerHelperFunctions.convertHashesToTickets(group.getTickets(), controllerTickets));
 
-            GroupBalancer.createBalance(group, controllerTickets);
+            GroupBalancer.createBalance(group);
 
             System.out.println(group.getGroupBalances());
         }

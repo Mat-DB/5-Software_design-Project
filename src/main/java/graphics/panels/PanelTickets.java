@@ -145,13 +145,13 @@ public class PanelTickets extends JPanel {
     }
 
     public void setDebtorsUnevenSplit(HashMap<Integer, Double> debtorsIn) {
-        currentTicket = ticketsController.createUnevenSplitTicket(ticketName, amount, usersController.getUserHash(owner), eventType, debtorsIn);
+        currentTicket = ticketsController.createUnevenSplitTicket(selectedGroup, ticketName, amount, usersController.getUserHash(owner), eventType, debtorsIn);
         state = TicketPanelStates.CONFIRM;
         changeUI();
     }
 
     public void setDebtorsEvenSplit(Set<Integer> debtorsIn) {
-        currentTicket = ticketsController.createEvenSplitTicket(ticketName, amount, usersController.getUserHash(owner), eventType, debtorsIn);
+        currentTicket = ticketsController.createEvenSplitTicket(selectedGroup, ticketName, amount, usersController.getUserHash(owner), eventType, debtorsIn);
         state = TicketPanelStates.CONFIRM;
         changeUI();
     }

@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class ControllerHelperFunctions {
 
-    public static HashMap<Integer, User> convertHashToUsers(Set<Integer> hashSet, ControllerUsers controllerUsers) {
+    public static HashMap<Integer, User> convertHashesToUsers(Set<Integer> hashSet, ControllerUsers controllerUsers) {
         HashMap<Integer, User> userSet = new HashMap<>();
         for(int key : hashSet) {
             userSet.put(key, controllerUsers.getUser(key));
@@ -20,7 +20,7 @@ public class ControllerHelperFunctions {
         return userSet;
     }
 
-    public static HashMap<Integer, TicketInfo> convertHashToTickets(Set<Integer> hashSet, ControllerTickets controllerTicket) {
+    public static HashMap<Integer, TicketInfo> convertHashesToTickets(Set<Integer> hashSet, ControllerTickets controllerTicket) {
         HashMap<Integer, TicketInfo> ticketSet = new HashMap<>();
         for(int key : hashSet) {
             ticketSet.put(key, controllerTicket.getTicket(key));

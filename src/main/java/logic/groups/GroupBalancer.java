@@ -6,8 +6,8 @@ import logic.tickets.Ticket;
 import java.util.*;
 
 public class GroupBalancer {
-
-    public static void createBalance(Group group, ControllerTickets controllerTickets) {
+    public static void createBalance(Group group) {
+        ControllerTickets controllerTickets = ControllerTickets.getTicketController();
         Set<Integer> participants = group.getParticipants();
         Set<Integer> tickets = group.getTickets();
         HashMap<Integer, Double> groupBalances = new HashMap<>();
@@ -30,17 +30,11 @@ public class GroupBalancer {
                 groupBalances.put(user, balances.get(user) + groupBalances.get(user));
             }
         }
-
         group.setGroupBalances(groupBalances);
-
     }
 
-    public static void calculateWhoPaysWho(Group group, ControllerTickets controllerTickets) {
-        Set<Integer> participants = group.getParticipants();
-        Set<Integer> tickets = group.getTickets();
+    public static void calculateWhoPaysWho(Group group) {
         HashMap<Integer, Double> groupBalances = group.getGroupBalances();
-        ArrayList<Double> list = new ArrayList<>();
-
         List<Map.Entry<Integer, Double>> sortedBalances = sortedListByValueOfHashmap(groupBalances, true);
         System.out.println(sortedBalances);
 
@@ -78,19 +72,15 @@ public class GroupBalancer {
                 sortedBalances.sort(Map.Entry.comparingByValue());
                 Collections.reverse(sortedBalances);
             }
-
             // update index
             highestDebtorIndex = sortedBalances.size() - 1;
         }
-
         group.setWhoPaysWhoHowMuch(whoPaysWhoHowMuch);
-
     }
 
     //https://www.geeksforgeeks.org/sorting-a-hashmap-according-to-values/
     // function to sort hashmap by values
-    public static List<Map.Entry<Integer, Double>> sortedListByValueOfHashmap(HashMap<Integer, Double> hm, boolean descending)
-    {
+    public static List<Map.Entry<Integer, Double>> sortedListByValueOfHashmap(HashMap<Integer, Double> hm, boolean descending) {
         // Create a list from elements of HashMap
         List<Map.Entry<Integer, Double>> list = new LinkedList<>(hm.entrySet());
 
@@ -101,11 +91,5 @@ public class GroupBalancer {
         }
 
         return list;
-        // put data from sorted list to hashmap
-//        HashMap<Integer, Double> temp = new LinkedHashMap<>();
-//        for (Map.Entry<Integer, Double> aa : list) {
-//            temp.put(aa.getKey(), aa.getValue());
-//        }
-//        return temp;
     }
 }

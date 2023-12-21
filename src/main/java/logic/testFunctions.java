@@ -171,17 +171,17 @@ public class testFunctions {
         System.out.println(group);
 
         Set<Integer> debtors = Set.of(mKey, jdpKey, sKey, jgKey);
-        group.addTicket(controllerTickets.createEvenSplitTicket("To pra", 11, gKey, TypeEvents.AIRPLANE, debtors));
+        controllerTickets.createEvenSplitTicket(group, "To pra", 11, gKey, TypeEvents.AIRPLANE, debtors);
         debtors = Set.of(gKey, jdpKey, sKey, jgKey);
-        group.addTicket(controllerTickets.createEvenSplitTicket("Fro pra", 12, mKey, TypeEvents.AIRPLANE, debtors));
+        controllerTickets.createEvenSplitTicket(group, "Fro pra", 12, mKey, TypeEvents.AIRPLANE, debtors);
 
-        System.out.println(ControllerHelperFunctions.convertHashToTickets(group.getTickets(), controllerTickets));
+        System.out.println(ControllerHelperFunctions.convertHashesToTickets(group.getTickets(), controllerTickets));
 
-        GroupBalancer.createBalance(group, controllerTickets);
+        GroupBalancer.createBalance(group);
 
         System.out.println(group.getGroupBalances());
 
-        GroupBalancer.calculateWhoPaysWho(group, controllerTickets);
+        GroupBalancer.calculateWhoPaysWho(group);
 
         System.out.println(group.getWhoPaysWhoHowMuch());
     }

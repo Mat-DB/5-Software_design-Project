@@ -72,7 +72,7 @@ public class PanelTicketCreateConfirm extends JPanel {
         createListeners();
 
         JPanel debtorsPanel = new JPanel();
-        GridLayout gridLayout = new GridLayout(ticket.getDebtors().size()+1, 2);
+        GridLayout gridLayout = new GridLayout(debtorLabels.size(), 2);
         debtorsPanel.setLayout(gridLayout);
         for (int i : debtorLabels.keySet()) {
             for (JLabel label : debtorLabels.get(i)) {
