@@ -35,7 +35,7 @@ public class MoneyTrackerApplication {
         controllerUsers = ControllerUsers.getUserController();
         controllerTickets = ControllerTickets.getTicketController();
 
-        appView.initialize();
+        appView.init();
         DatabaseUsers.getUserDatabase().addObserver(appView);
         DatabaseGroups.getGroupDatabase().addObserver(appView);
         DatabaseTickets.getTicketDatabase().addObserver(appView);

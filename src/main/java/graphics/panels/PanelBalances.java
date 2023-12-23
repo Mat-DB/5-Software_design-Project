@@ -19,7 +19,7 @@ public class PanelBalances extends JPanel {
 
         state = BalancesPanelStates.SELECT_GROUP;
         panelGetGroup = new PanelBalanceGroup(frame, this);
-        panelBalanceView = new PanelBalanceView();
+        panelBalanceView = new PanelBalanceView(this);
 
         changeUI();
     }

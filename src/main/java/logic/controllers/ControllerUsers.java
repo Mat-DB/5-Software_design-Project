@@ -4,6 +4,7 @@ import logic.database.DatabaseUsers;
 import logic.users.User;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /**
 * This is the controller of the user.
@@ -13,10 +14,14 @@ import java.util.HashMap;
 */
 public class ControllerUsers {
     private static ControllerUsers controller;
-    private DatabaseUsers userDB;
+    private final DatabaseUsers userDB;
+    private final ControllerTickets controllerTickets;
+    private final ControllerGroups controllerGroups;
 
     private ControllerUsers() {
         userDB = DatabaseUsers.getUserDatabase();
+        controllerTickets = ControllerTickets.getTicketController();
+        controllerGroups = ControllerGroups.getGroupController();
     }
 
     public static ControllerUsers getUserController() {
@@ -42,8 +47,19 @@ public class ControllerUsers {
         return userDB.addUser(newUser);
     }
 
-    public void removeUser(int dbID) {
-        userDB.removeUser(dbID);
+    /** Try to remove a user.
+     * @param userHash
+     * @return
+     */
+    public int removeUser(int userHash) {
+        Set<Integer> groups = controllerGroups.findUserInGroup(userHash);
+        if (groups.isEmpty()) {
+            userDB.removeUser(userHash);
+            return 0;
+        }
+        else {
+            return -1;
+        }
     }
 
     public HashMap<String, Integer> getUsers() {

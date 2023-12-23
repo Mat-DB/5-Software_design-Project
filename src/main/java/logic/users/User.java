@@ -26,9 +26,9 @@ public class User {
         //return firstName + " " + lastName;
     }
 
-    public ArrayList<Integer> getTickets() {
-        return tickets;
-    }
+//    public ArrayList<Integer> getTickets() {
+//        return tickets;
+//    }
 
     public int getID() {
         return id;

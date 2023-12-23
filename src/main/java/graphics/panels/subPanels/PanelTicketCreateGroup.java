@@ -87,7 +87,7 @@ public class PanelTicketCreateGroup extends JPanel {
                         //Selection, enable the remove button.
                         isGroupSelected = true;
                         checkAllFilledIn();
-                        selectedGroup = frame.getGroupList().get(e.getFirstIndex());
+                        selectedGroup = groupJList.getSelectedValue();
                     }
                 }
             }

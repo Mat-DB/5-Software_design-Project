@@ -45,7 +45,7 @@ public class TicketRestaurant implements TicketInfo {
      * @return
      */
     @Override
-    public TypeEvents getEvent() {
+    public TypeEvents getEventType() {
         return TypeEvents.RESTAURANT;
     }
 

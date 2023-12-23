@@ -7,6 +7,7 @@ import logic.controllers.ControllerGroups;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,10 +15,9 @@ public class PanelBalanceGroup extends JPanel {
     private JLabel infoLabel;
     private JList<String> groupJList;
     private String selectedGroup;
-    private PanelBalances panelBalances;
-    private JButton nextButton;
-    private JButton cancelButton;
-    private ViewFrame frame;
+    private final PanelBalances panelBalances;
+    private JButton checkButton;
+    private final ViewFrame frame;
 
     public PanelBalanceGroup(ViewFrame frame, PanelBalances panelBalances) {
         this.frame = frame;
@@ -25,18 +25,14 @@ public class PanelBalanceGroup extends JPanel {
 
         init();
 
-        BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        this.setLayout(boxLayout);
-        this.add(infoLabel);
-        this.add(groupJList);
+        // https://stackoverflow.com/questions/32628964/how-to-align-multiple-elements-below-each-other
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
 
-        JPanel buttonPanel = new JPanel();
-        boxLayout = new BoxLayout(buttonPanel, BoxLayout.X_AXIS);
-        buttonPanel.setLayout(boxLayout);
-        buttonPanel.add(nextButton);
-        buttonPanel.add(cancelButton);
-
-        this.add(buttonPanel);
+        this.add(infoLabel, gbc);
+        this.add(groupJList, gbc);
+        this.add(checkButton, gbc);
     }
 
     private void init() {
@@ -44,9 +40,8 @@ public class PanelBalanceGroup extends JPanel {
         groupJList = new JList<>(frame.getGroupList());
         groupJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         groupJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        nextButton = new JButton("Next");
-        nextButton.setEnabled(false);
-        cancelButton = new JButton("Cancel");
+        checkButton = new JButton("Check group");
+        checkButton.setEnabled(false);
 
         createListeners();
     }
@@ -58,30 +53,22 @@ public class PanelBalanceGroup extends JPanel {
                 if (e.getValueIsAdjusting() == false) {
                     if (groupJList.getSelectedIndex() == -1) {
                         //No selection, disable remove button.
-                        nextButton.setEnabled(false);
+                        checkButton.setEnabled(false);
                     }
                     else {
                         //Selection, enable the remove button.
-                        nextButton.setEnabled(true);
+                        checkButton.setEnabled(true);
                         selectedGroup = frame.getGroupList().get(e.getFirstIndex());
                     }
                 }
             }
         });
 
-        nextButton.addActionListener(new ActionListener() {
+        checkButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 panelBalances.setGroup(ControllerGroups.getGroupController().getGroup(selectedGroup));
                 clearComponents();
-            }
-        });
-
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                clearComponents();
-                panelBalances.setStartState();
             }
         });
     }

@@ -50,6 +50,6 @@ public class TicketCustom_UTest {
 
     @Test
     public void t_getEvent() {
-        Assert.assertEquals("Testing event - input=TypeEvents.Custom", TypeEvents.CUSTOM, customTicket.getEvent());
+        Assert.assertEquals("Testing event - input=TypeEvents.Custom", TypeEvents.CUSTOM, customTicket.getEventType());
     }
 }

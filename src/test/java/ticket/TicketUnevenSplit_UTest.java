@@ -61,7 +61,7 @@ public class TicketUnevenSplit_UTest {
 
     @Test
     public void t_getEvent() {
-        Assert.assertEquals("Testing event - input=TypeEvents.AIRPLANE", TypeEvents.AIRPLANE, airplaneUnevenSplit.getEvent());
+        Assert.assertEquals("Testing event - input=TypeEvents.AIRPLANE", TypeEvents.AIRPLANE, airplaneUnevenSplit.getEventType());
     }
 
     @Test

@@ -10,14 +10,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PanelGroupsList extends JPanel{
-        private JList<String> groupJList;
-        private JButton removeButton;
+        private final JList<String> groupJList;
+        private final JButton removeButton;
         private String selectedGroup;
-        private ControllerGroups groupController;
+        private final ControllerGroups groupController;
+        private final ViewFrame frame;
 
         public PanelGroupsList(ViewFrame frame) {
+            this.frame = frame;
             groupController = ControllerGroups.getGroupController();
-            groupJList = new JList<>(frame.getGroupList());
+            groupJList = new JList<>(this.frame.getGroupList());
             groupJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             groupJList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 
@@ -54,7 +56,9 @@ public class PanelGroupsList extends JPanel{
             removeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    groupController.removeGroup(selectedGroup);
+                    if (groupController.removeGroup(selectedGroup) == -1) {
+                        JOptionPane.showMessageDialog(frame, "The group has one or more undivided tickets.\nPlease resolve this first.", "Error group is not even", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             });
         }

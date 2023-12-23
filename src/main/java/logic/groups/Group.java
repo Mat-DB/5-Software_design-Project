@@ -53,8 +53,16 @@ public class Group {
         return groupBalances;
     }
 
-    public void addTicket(int hash) {
-        tickets.add(hash);
+    public void addTicket(int ticketHash) {
+        tickets.add(ticketHash);
+    }
+
+    public void removeTicket(int ticketHash) {
+        tickets.remove(ticketHash);
+    }
+
+    public void removeAllTickets() {
+        tickets.clear();
     }
 
     public void setGroupBalances(HashMap<Integer, Double> balances) {

@@ -52,6 +52,6 @@ public class TicketRestaurant_UTest {
 
     @Test
     public void t_getEvent() {
-        Assert.assertEquals("Testing event - input=TypeEvents.Restaurant", TypeEvents.RESTAURANT, restaurantTicket.getEvent());
+        Assert.assertEquals("Testing event - input=TypeEvents.Restaurant", TypeEvents.RESTAURANT, restaurantTicket.getEventType());
     }
 }

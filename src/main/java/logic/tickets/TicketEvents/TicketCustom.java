@@ -45,7 +45,7 @@ public class TicketCustom implements TicketInfo {
      * @return
      */
     @Override
-    public TypeEvents getEvent() {
+    public TypeEvents getEventType() {
         return TypeEvents.CUSTOM;
     }
 

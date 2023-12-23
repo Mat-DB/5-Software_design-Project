@@ -78,13 +78,13 @@ public abstract class DecoratorTicketSplit implements Ticket {
      * @return
      */
     @Override
-    public TypeEvents getEvent() {
-        return eventTicket.getEvent();
+    public TypeEvents getEventType() {
+        return eventTicket.getEventType();
     }
 
     @Override
     public String toString() {
-        return getEvent() + " TicketInfo{" +
+        return getEventType() + " TicketInfo{" +
                 "name='" + getName() + '\'' +
                 ", total=" + getTotal() +
                 ", paid=" + getWhoPaid() +

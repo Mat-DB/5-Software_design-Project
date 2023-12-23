@@ -9,6 +9,6 @@ public interface TicketInfo {
 
     int getWhoPaid();
 
-    TypeEvents getEvent();
+    TypeEvents getEventType();
 }
 

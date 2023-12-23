@@ -1,6 +1,7 @@
 package graphics.panels.subPanels;
 
 import graphics.ViewFrame;
+import graphics.panels.PanelTickets;
 import logic.controllers.ControllerTickets;
 
 import javax.swing.*;
@@ -15,9 +16,11 @@ public class PanelTicketList extends JPanel {
     private int selectedTicket;
     private ControllerTickets ticketsController;
     private ViewFrame frame;
+    private PanelTickets panelTickets;
 
-    public PanelTicketList(ViewFrame frame) {
+    public PanelTicketList(ViewFrame frame, PanelTickets panelTickets) {
         this.frame = frame;
+        this.panelTickets = panelTickets;
         ticketsController = ControllerTickets.getTicketController();
 
         ticketJList = new JList<>(frame.getTicketList());
@@ -43,11 +46,13 @@ public class PanelTicketList extends JPanel {
                     if (ticketJList.getSelectedIndex() == -1) {
                         //No selection, disable remove button.
                         removeButton.setEnabled(false);
+                        panelTickets.clearSelectedTicketName();
                     }
                     else {
                         //Selection, enable the remove button.
                         removeButton.setEnabled(true);
-                        selectedTicket = ticketsController.getTicketHash(frame.getTicketList().get(ticketJList.getSelectedIndex()));
+                        selectedTicket = ticketsController.getTicketHash(ticketJList.getSelectedValue());
+                        panelTickets.setSelectedTicketName(ticketJList.getSelectedValue());
                     }
                 }
             }

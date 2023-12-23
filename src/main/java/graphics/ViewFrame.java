@@ -22,37 +22,55 @@ public class ViewFrame extends JFrame implements PropertyChangeListener {
     private DefaultListModel<String> groupList;
     private DefaultListModel<String> ticketList;
     private ControllerUsers userController;
+    private JTabbedPane tabbedPane;
+
+    // Panels for the tabbed pane
+    private PanelGroups groupsPanel;
+    private PanelUsers usersPanel;
+    private PanelTickets ticketsPanel;
+    private PanelBalances balancesPanel;
 
     public ViewFrame() {
         super("MoneyTrackerApp");
     }
 
-    public void initialize() {
-        //this.setSize(500, 800);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public void init() {
         userController = ControllerUsers.getUserController();
 
-        JTabbedPane tabbedPane = new JTabbedPane();
         userList = new DefaultListModel<>();
         userMap = new HashMap<>();
         groupList = new DefaultListModel<>();
         ticketList = new DefaultListModel<>();
-        PanelGroups groupsPanel = new PanelGroups(this);
-        PanelUsers usersPanel = new PanelUsers(this);
-        PanelTickets ticketsPanel = new PanelTickets(this);
-        PanelBalances balancesPanel = new PanelBalances(this);
 
+        createPanels();
+        createTabbedPane();
+
+        // https://alvinalexander.com/java/java-set-jframe-size/
+        // https://stackoverflow.com/questions/9924282/auto-resize-jtabbedpane
+        this.setResizable(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setPreferredSize(new Dimension(1000, 800));
+        this.getContentPane().setLayout(new BorderLayout());
+        this.getContentPane().add(tabbedPane, BorderLayout.CENTER);
+        this.pack();
+        this.setVisible(true);
+    }
+
+    private void createPanels() {
+        groupsPanel = new PanelGroups(this);
+        usersPanel = new PanelUsers(this);
+        ticketsPanel = new PanelTickets(this);
+        balancesPanel = new PanelBalances(this);
+    }
+
+    private void createTabbedPane() {
+        tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Groups", groupsPanel);
         tabbedPane.addTab("Users", usersPanel);
         tabbedPane.addTab("Tickets", ticketsPanel);
         tabbedPane.addTab("Balances", balancesPanel);
-        tabbedPane.setPreferredSize(new Dimension(800, 500));
-
-        JPanel panel = new JPanel();
-        panel.add(tabbedPane);
-        this.add(panel, BorderLayout.CENTER);
-        this.pack();
-        this.setVisible(true);
+        tabbedPane.setEnabled(true);
+        tabbedPane.setAutoscrolls(true);
     }
 
     @Override

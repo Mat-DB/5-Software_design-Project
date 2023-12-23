@@ -56,7 +56,9 @@ public class PanelUsersList extends JPanel {
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                userController.removeUser(selectedUser);
+                if (userController.removeUser(selectedUser) == -1) {
+                    JOptionPane.showMessageDialog(frame, "The user is still part of 1 or more groups.\nPlease resolve this first.", "Error, user is still part of a group", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }

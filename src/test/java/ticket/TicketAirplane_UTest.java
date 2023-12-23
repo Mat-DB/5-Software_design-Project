@@ -49,6 +49,6 @@ public class TicketAirplane_UTest {
 
     @Test
     public void t_getEvent() {
-        Assert.assertEquals("Testing event - input=TypeEvents.AIRPLANE", TypeEvents.AIRPLANE, airplaneTicket.getEvent());
+        Assert.assertEquals("Testing event - input=TypeEvents.AIRPLANE", TypeEvents.AIRPLANE, airplaneTicket.getEventType());
     }
 }

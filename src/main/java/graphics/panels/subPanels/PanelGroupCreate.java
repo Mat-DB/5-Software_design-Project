@@ -2,7 +2,6 @@ package graphics.panels.subPanels;
 
 import graphics.ViewFrame;
 import logic.controllers.ControllerGroups;
-import logic.controllers.ControllerUsers;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -18,26 +17,29 @@ import java.util.*;
  * Select users and enter a group name.
  */
 public class PanelGroupCreate extends JPanel {
-    private JButton addGroupButton;
-    private JButton createGroupButton;
-    private JButton cancelButton;
-    private JTextField groupNameField;
-    private JLabel groupNameLabel;
+    private final JButton addGroupButton;
+    private final JButton createGroupButton;
+    private final JButton cancelButton;
+    private final JCheckBox selectAllBox;
+    private final JTextField groupNameField;
+    private final JLabel groupNameLabel;
     private Boolean waitingToCreateGroup;
-    private ControllerGroups groupsController;
-    private Set<Integer> usersInGroup;
-    private PanelUsersList panelUsersList;
-    private JList<String> userJList;
+    private final ControllerGroups groupsController;
+    private final Set<Integer> usersInGroup;
+    private final PanelUsersList panelUsersList;
+    private final JList<String> userJList;
     private boolean usersSelected;
-    private ViewFrame frame;
+    private final ViewFrame frame;
 
     public PanelGroupCreate(ViewFrame frame) {
         this.frame = frame;
         addGroupButton = new JButton("add group");
         createGroupButton = new JButton("create group");
+        createGroupButton.setEnabled(false);
         cancelButton = new JButton("Cancel");
+        selectAllBox = new JCheckBox("Select all");
         groupNameField = new JTextField();
-        groupNameLabel = new JLabel("Groupname: ");
+        groupNameLabel = new JLabel("Group name: ");
         waitingToCreateGroup = true;
         groupsController = ControllerGroups.getGroupController();
         panelUsersList = new PanelUsersList(frame);
@@ -90,7 +92,7 @@ public class PanelGroupCreate extends JPanel {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                waitingToCreateGroup = true;
+                resetComponents();
                 changeUI();
             }
         });
@@ -102,6 +104,14 @@ public class PanelGroupCreate extends JPanel {
                     usersSelected = true;
                     checkFieldsFilledIn();
                 }
+            }
+        });
+
+        selectAllBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                usersSelected = true;
+                checkFieldsFilledIn();
             }
         });
     }
@@ -130,7 +140,11 @@ public class PanelGroupCreate extends JPanel {
             topPanelLeft.add(groupNameField);
 
             JPanel topPanelRight = new JPanel();
-            topPanelRight.add(userJList);
+            topPanelRight.setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridwidth = GridBagConstraints.REMAINDER;
+            topPanelRight.add(selectAllBox, gbc);
+            topPanelRight.add(userJList, gbc);
 
             JPanel topPanel = new JPanel();
             topPanel.add(topPanelLeft);
@@ -158,14 +172,27 @@ public class PanelGroupCreate extends JPanel {
         }
         if (createGroup) {
             usersInGroup.clear();
-            for (String userName : userJList.getSelectedValuesList()) {
-                usersInGroup.add(frame.getUserMap().get(userName));
+            if (!selectAllBox.isSelected()) {
+                for (String userName : userJList.getSelectedValuesList()) {
+                    usersInGroup.add(frame.getUserMap().get(userName));
+                }
+            }
+            else {
+                for (Object listObject : frame.getUserList().toArray()) {
+                    usersInGroup.add(frame.getUserMap().get(listObject.toString()));
+                }
             }
             groupsController.createGroup(groupname, usersInGroup);
-            groupNameField.setText("");
-            waitingToCreateGroup = true;
-            usersSelected = false;
+            resetComponents();
         }
         changeUI();
+    }
+
+    private void resetComponents() {
+        groupNameField.setText("");
+        waitingToCreateGroup = true;
+        usersSelected = false;
+        selectAllBox.setSelected(false);
+        createGroupButton.setEnabled(false);
     }
 }

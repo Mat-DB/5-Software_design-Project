@@ -19,16 +19,17 @@ import java.util.Set;
  * 4. Select debtors and if uneven set amounts
  */
 public class PanelTicketCreateDebtors extends JPanel {
-    private PanelTickets panelTickets;
-    private JLabel selectUserLabel;
-    private JButton nextButton;
-    private JButton cancelButton;
-    private JList<String> userJList;
-    private DefaultListModel<String> userList;
-    private HashMap<String, Integer> userMap;
-    private ControllerUsers usersController;
-    private HashMap<JLabel, JTextField> userDebtsJStuff;
-    private HashMap<Integer, Double> debts;
+    private final PanelTickets panelTickets;
+    private final JLabel selectUserLabel;
+    private final JButton nextButton;
+    private final JButton cancelButton;
+    private final JCheckBox selectAllBox;
+    private final JList<String> userJList;
+    private final DefaultListModel<String> userList;
+    private final HashMap<String, Integer> userMap;
+    private final ControllerUsers usersController;
+    private final HashMap<JLabel, JTextField> userDebtsJStuff;
+    private final HashMap<Integer, Double> debts;
     private boolean usersSelected;
 
     public PanelTicketCreateDebtors(PanelTickets panelTickets) {
@@ -40,6 +41,7 @@ public class PanelTicketCreateDebtors extends JPanel {
         nextButton = new JButton("Next");
         nextButton.setEnabled(false);
         cancelButton = new JButton("Cancel");
+        selectAllBox = new JCheckBox("Select all");
         userList = new DefaultListModel<>();
         userJList = new JList<>(userList);
         userJList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -59,6 +61,7 @@ public class PanelTicketCreateDebtors extends JPanel {
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
         this.add(selectUserLabel);
+        this.add(selectAllBox);
         this.add(userJList);
         this.add(getButtonPanel());
 
@@ -90,10 +93,17 @@ public class PanelTicketCreateDebtors extends JPanel {
             }
         });
 
+        selectAllBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nextButton.setEnabled(true);
+            }
+        });
+
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clearComponents();
+                resetComponents();
                 panelTickets.setStartState();
             }
         });
@@ -110,23 +120,34 @@ public class PanelTicketCreateDebtors extends JPanel {
         });
     }
 
-    private void clearComponents() {
+    private void resetComponents() {
+        usersSelected = false;
         debts.clear();
         userMap.clear();
         userList.removeAllElements();
         userJList.clearSelection();
+        selectAllBox.setSelected(false);
+        nextButton.setEnabled(false);
     }
 
     /**
      * Change/update the UI if needed.
      */
     private void changeUI() {
-        if (panelTickets.getSplitType() == TypeSplit.UNEVEN_SPLIT) {
+        if (panelTickets.getSplitType() == TypeSplit.UNEVEN_SPLIT) { //UNEVEN SPLIT
             this.removeAll();
             this.updateUI();
             userDebtsJStuff.clear();
-            for (String userName : userJList.getSelectedValuesList()) {
-                userDebtsJStuff.put(new JLabel(userName), new JTextField());
+            if (!selectAllBox.isSelected()) {
+                for (String userName : userJList.getSelectedValuesList()) {
+                    userDebtsJStuff.put(new JLabel(userName), new JTextField());
+                }
+            }
+            else {
+                for (Object listObject : userList.toArray()) {
+                    String userName = listObject.toString();
+                    userDebtsJStuff.put(new JLabel(userName), new JTextField());
+                }
             }
             JLabel amountLabel = new JLabel("Enter the amount each user needs to pay.");
 
@@ -148,13 +169,23 @@ public class PanelTicketCreateDebtors extends JPanel {
 
         } else { // EVEN SPLIT
             Set<Integer> debts1 = new HashSet<>();
-            for (String userName : userJList.getSelectedValuesList()) {
-                if (usersController.getUserHash(panelTickets.getOwner()) != userMap.get(userName)) {
-                    debts1.add(userMap.get(userName));
+            if (!selectAllBox.isSelected()) {
+                for (String userName : userJList.getSelectedValuesList()) {
+                    if (usersController.getUserHash(panelTickets.getOwner()) != userMap.get(userName)) {
+                        debts1.add(userMap.get(userName));
+                    }
+                }
+            }
+            else {
+                for (Object listObject : userList.toArray()) {
+                    String userName = listObject.toString();
+                    if (usersController.getUserHash(panelTickets.getOwner()) != userMap.get(userName)) {
+                        debts1.add(userMap.get(userName));
+                    }
                 }
             }
             panelTickets.setDebtorsEvenSplit(debts1);
-            clearComponents();
+            resetComponents();
         }
     }
 
@@ -192,7 +223,7 @@ public class PanelTicketCreateDebtors extends JPanel {
         } else { // UNEVEN SPLIT
             panelTickets.setDebtorsUnevenSplit(debts);
             usersSelected = false;
-            clearComponents();
+            resetComponents();
         }
     }
 }

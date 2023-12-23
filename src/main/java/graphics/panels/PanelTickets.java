@@ -26,6 +26,10 @@ public class PanelTickets extends JPanel {
     private TicketPanelStates state;
     private final PanelTicketList panelTicketList;
 
+    // View ticket
+    private String selectedTicketName;
+    private JButton backButton;
+
     // Sub panels to create a new ticket
     private final PanelTicketCreateGroup panelGetGroup;
     private final PanelTicketCreateOwner panelGetOwnerInfo;
@@ -53,7 +57,7 @@ public class PanelTickets extends JPanel {
         state = TicketPanelStates.START;
         ticketsController = ControllerTickets.getTicketController();
         usersController = ControllerUsers.getUserController();
-        panelTicketList = new PanelTicketList(frame);
+        panelTicketList = new PanelTicketList(frame, this);
         panelGetGroup = new PanelTicketCreateGroup(frame,this);
         panelGetOwnerInfo = new PanelTicketCreateOwner(this);
         panelGetDebtors = new PanelTicketCreateDebtors(this);
@@ -61,6 +65,8 @@ public class PanelTickets extends JPanel {
 
         createButton = new JButton("Create new ticket");
         viewButton = new JButton("View a ticket");
+        viewButton.setEnabled(false);
+        backButton = new JButton("Back");
 
         changeUI();
         createListeners();
@@ -82,6 +88,14 @@ public class PanelTickets extends JPanel {
                 changeUI();
             }
         });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                state = TicketPanelStates.START;
+                changeUI();
+            }
+        });
     }
 
     private void changeUI() {
@@ -94,7 +108,16 @@ public class PanelTickets extends JPanel {
                 this.add(viewButton);
             }
             case VIEW -> {
-                System.out.println("VIEW mode");
+                this.removeAll();
+                this.updateUI();
+                String title = "Viewing a ticket";
+                this.add(panelTicketList);
+                JPanel viewPanel = new JPanel();
+                BoxLayout boxLayout = new BoxLayout(viewPanel, BoxLayout.Y_AXIS);
+                viewPanel.setLayout(boxLayout);
+                viewPanel.add(new PanelTicketView(title, selectedTicketName));
+                viewPanel.add(backButton);
+                this.add(viewPanel);
             }
             case GROUP -> {
                 this.removeAll();
@@ -123,6 +146,15 @@ public class PanelTickets extends JPanel {
                 panelConfirmTicket.init();
             }
         }
+    }
+
+    public void setSelectedTicketName(String ticketName) {
+        viewButton.setEnabled(true);
+        this.selectedTicketName = ticketName;
+    }
+
+    public void clearSelectedTicketName() {
+        viewButton.setEnabled(false);
     }
 
     public void setGroupSelectedAndName(Group group, String ticketName) {
@@ -157,13 +189,16 @@ public class PanelTickets extends JPanel {
     }
 
     public void setStartState() {
-        ticketsController.removeTicket(currentTicket);
-        currentTicket = 0;
+        if (currentTicket != 0) {
+            ticketsController.removeTicket(currentTicket);
+            currentTicket = 0;
+        }
         state = TicketPanelStates.START;
         changeUI();
     }
 
     public void confirmTicket() {
+        currentTicket = 0;
         state = TicketPanelStates.START;
         changeUI();
     }
