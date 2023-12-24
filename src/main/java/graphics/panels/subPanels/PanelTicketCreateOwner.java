@@ -173,7 +173,7 @@ public class PanelTicketCreateOwner extends JPanel {
         isOwnerSelected = false;
         userJList.clearSelection();
         userList.removeAllElements();
-        userMap.clear();
+        userMap = new HashMap<>();
         amountField.setText("");
     }
 

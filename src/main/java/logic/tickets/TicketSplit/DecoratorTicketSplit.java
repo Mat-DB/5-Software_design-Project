@@ -71,6 +71,8 @@ public abstract class DecoratorTicketSplit implements Ticket {
      */
 
     public HashMap<Integer, Double> getBalances() {
+        System.out.println(this.getClass() + ", balance: " + balances);
+        System.out.println(this.getClass() + ", toString: " + toString());
         return balances;
     }
 

@@ -62,7 +62,7 @@ public class Group {
     }
 
     public void removeAllTickets() {
-        tickets.clear();
+        tickets = new HashSet<>();
     }
 
     public void setGroupBalances(HashMap<Integer, Double> balances) {

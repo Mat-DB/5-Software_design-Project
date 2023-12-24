@@ -25,7 +25,7 @@ public class PanelGroupCreate extends JPanel {
     private final JLabel groupNameLabel;
     private Boolean waitingToCreateGroup;
     private final ControllerGroups groupsController;
-    private final Set<Integer> usersInGroup;
+    private Set<Integer> usersInGroup;
     private final PanelUsersList panelUsersList;
     private final JList<String> userJList;
     private boolean usersSelected;
@@ -171,7 +171,7 @@ public class PanelGroupCreate extends JPanel {
             createGroup = true;
         }
         if (createGroup) {
-            usersInGroup.clear();
+            usersInGroup = new HashSet<>();
             if (!selectAllBox.isSelected()) {
                 for (String userName : userJList.getSelectedValuesList()) {
                     usersInGroup.add(frame.getUserMap().get(userName));

@@ -18,47 +18,58 @@ public class PanelTicketView extends JPanel {
     private final ControllerUsers usersController;
     private final ControllerTickets ticketController;
 
-    public PanelTicketView(String titel, String ticketName) {
-        overviewLabel = new JLabel(titel);
+    public PanelTicketView(String title, String ticketName) {
+        overviewLabel = new JLabel(title);
         usersController = ControllerUsers.getUserController();
         ticketController = ControllerTickets.getTicketController();
-        ticket = ticketController.getTicket(ticketController.getTicketHash(ticketName));
+        ticket = ticketController.getTicket(ticketName);
+        System.out.println("\n\nPanelTicketView, TEST POINT\n\n");
+//        System.out.println("Ticket name: '" + ticketName + "'");
+//        System.out.println("PanelTicketView, ticket.getName(): " + ticket.getName());
+//        System.out.println("TEST POINT 2");
         init();
     }
 
     private void init() {
+        // https://java2blog.com/format-double-to-2-decimal-places-java/
+        DecimalFormat df = new DecimalFormat("#.##");
+
         User owner = usersController.getUser(ticket.getWhoPaid());
         String nameL   = "Ticket name:     " + ticket.getName();
         String ownerL  = "Person who paid: " + owner.getName();
-        String eventL   = "Event type:     " + ticket.getEventType();
-        String splitL   = "Split type:     " + ticket.getSplitType();
-        String amountL = "Total amount:    " + ticket.getTotal() + " euro";
+        String eventL  = "Event type:      " + ticket.getEventType();
+        String splitL  = "Split type:      " + ticket.getSplitType();
+        String amountL = "Total amount:    " + df.format(ticket.getTotal()) + " euro";
+
+        System.out.println(nameL + ownerL + eventL + splitL + amountL);
+
         JLabel nameLabel = new JLabel(nameL);
         JLabel ownerLabel = new JLabel(ownerL);
         JLabel eventTypeLabel = new JLabel(eventL);
         JLabel splitTypeLabel = new JLabel(splitL);
         JLabel totalAmountLabel = new JLabel(amountL);
+
         debtorLabels = new HashMap<>();
         int debtorLabelNum = 1;
+
         ArrayList<JLabel> debtorSetFirst = new ArrayList<>();
         debtorSetFirst.add(new JLabel("Debtor"));
         debtorSetFirst.add(new JLabel("Debt"));
         debtorLabels.put(debtorLabelNum, debtorSetFirst);
 
         HashMap<Integer, Double> balance = ticket.getBalances();
-        // https://java2blog.com/format-double-to-2-decimal-places-java/
-        DecimalFormat df = new DecimalFormat("#.##");
+        System.out.println(this.getClass() + ", balance: " + balance);
         for (int debtorHash : ticket.getDebtors()) {
             debtorLabelNum += 1;
             ArrayList<JLabel> debtorSet = new ArrayList<>();
             debtorSet.add(new JLabel(usersController.getUser(debtorHash).getName()));
+//            System.out.println("PanelTicketView, balance.get(debtorHash).getClass(): " + balance.get(debtorHash).getClass());
+//            System.out.println("PanelTicketView, balance.get(debtorHash): " + balance.get(debtorHash));
             debtorSet.add(new JLabel(df.format(balance.get(debtorHash)) + " euro"));
             debtorLabels.put(debtorLabelNum, debtorSet);
         }
 
         // Put everything on the panel
-        //BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        //this.setLayout(boxLayout);
         // https://stackoverflow.com/questions/4135680/vertical-align-of-gridbaglayout-panel-on-borderlayout-center
         // https://docs.oracle.com/javase/tutorial//uiswing/layout/gridbag.html
         this.setLayout(new GridBagLayout());

@@ -26,10 +26,10 @@ public class PanelTicketCreateDebtors extends JPanel {
     private final JCheckBox selectAllBox;
     private final JList<String> userJList;
     private final DefaultListModel<String> userList;
-    private final HashMap<String, Integer> userMap;
+    private HashMap<String, Integer> userMap;
     private final ControllerUsers usersController;
-    private final HashMap<JLabel, JTextField> userDebtsJStuff;
-    private final HashMap<Integer, Double> debts;
+    private HashMap<JLabel, JTextField> userDebtsJStuff;
+    private HashMap<Integer, Double> debts;
     private boolean usersSelected;
 
     public PanelTicketCreateDebtors(PanelTickets panelTickets) {
@@ -65,7 +65,9 @@ public class PanelTicketCreateDebtors extends JPanel {
         this.add(userJList);
         this.add(getButtonPanel());
 
+        //resetComponents();
         userList.removeAllElements();
+        userMap = new HashMap<>();
         for (int userHash : panelTickets.getGroup().getParticipants()) {
             User user = usersController.getUser(userHash);
             userList.addElement(user.getName());
@@ -122,8 +124,8 @@ public class PanelTicketCreateDebtors extends JPanel {
 
     private void resetComponents() {
         usersSelected = false;
-        debts.clear();
-        userMap.clear();
+        debts = new HashMap<>();
+        userMap = new HashMap<>();
         userList.removeAllElements();
         userJList.clearSelection();
         selectAllBox.setSelected(false);
@@ -137,7 +139,7 @@ public class PanelTicketCreateDebtors extends JPanel {
         if (panelTickets.getSplitType() == TypeSplit.UNEVEN_SPLIT) { //UNEVEN SPLIT
             this.removeAll();
             this.updateUI();
-            userDebtsJStuff.clear();
+            userDebtsJStuff = new HashMap<>();
             if (!selectAllBox.isSelected()) {
                 for (String userName : userJList.getSelectedValuesList()) {
                     userDebtsJStuff.put(new JLabel(userName), new JTextField());
@@ -199,30 +201,33 @@ public class PanelTicketCreateDebtors extends JPanel {
             } else {
                 try {
                     Double.parseDouble(textField.getText());
-                } catch (NumberFormatException exception){
+                } catch (Exception e){
                     isNumber = false;
                 }
             }
         }
-        if (!allFiledIn) {
+        if (!allFiledIn) { // Not all filled in
             // https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
             JOptionPane.showMessageDialog(this, "Please fill in the debts of all users", "Set all debts", JOptionPane.WARNING_MESSAGE);
         }
-        else if(!isNumber) {
+        else if(!isNumber) { // Not all are a number
             JOptionPane.showMessageDialog(this, "Not all amounts are numbers", "Not all numbers", JOptionPane.ERROR_MESSAGE);
-        } else {
+        }
+        else { // All filled in and are numbers
             for (JLabel label : userDebtsJStuff.keySet()) {
-                System.out.println("user label: '" + label.getText() + "'");
-                debts.put(userMap.get(label.getText()), Double.parseDouble(userDebtsJStuff.get(label).getText()));
-                total += Double.parseDouble(userDebtsJStuff.get(label).getText());
+                double amount = Double.parseDouble(userDebtsJStuff.get(label).getText());
+                System.out.println(this.getClass() + ", amount: " + amount);
+                debts.put(userMap.get(label.getText()), amount);
+                total += amount;
             }
         }
         if (!(total == panelTickets.getAmount())) {
             String message = "The sum does not equal the ticket total,\nthe total should be " + panelTickets.getAmount();
             JOptionPane.showMessageDialog(this, message, "Total does not match", JOptionPane.ERROR_MESSAGE);
-        } else { // UNEVEN SPLIT
+        }
+        else { // UNEVEN SPLIT
+            System.out.println(this.getClass() + ", debts: " + debts);
             panelTickets.setDebtorsUnevenSplit(debts);
-            usersSelected = false;
             resetComponents();
         }
     }

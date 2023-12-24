@@ -14,7 +14,7 @@ public class GroupBalancer {
 
         // get balance of ticket, add balance per user to the hashmap
         for (int key : tickets) {
-            Ticket actualTicket = (Ticket) controllerTickets.getTicket(key);
+            Ticket actualTicket = controllerTickets.getTicket(key);
             HashMap<Integer, Double> balances = actualTicket.getBalances();
             for (int user : participants) {
                 // no value in ticket : return

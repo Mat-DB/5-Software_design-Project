@@ -34,12 +34,12 @@ public class ControllerTickets {
         return controller;
     }
 
-    public void addTicketToDB(Ticket ticket) {
-        ticketDB.addTicket(ticket);
-    }
-
     public Ticket getTicket(int id) {
         return ticketDB.getTicket(id);
+    }
+
+    public Ticket getTicket(String ticketName) {
+        return ticketDB.getTicket(getTicketHash(ticketName));
     }
 
     public int getTicketHash(String ticketName) {
@@ -81,6 +81,9 @@ public class ControllerTickets {
     }
 
     public void removeTicket(int ticketHash) {
+        //ControllerGroups controllerGroups = ControllerGroups.getGroupController();
+        //controllerGroups.findTicketInGroup(ticketHash);
+
         ticketDB.removeTicket(ticketHash);
     }
 

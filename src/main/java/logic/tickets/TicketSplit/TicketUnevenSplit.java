@@ -37,6 +37,7 @@ public class TicketUnevenSplit extends DecoratorTicketSplit {
         }
 
         // add other debtors
+
         this.balances = debts;
         balancesInitialized = true;
 
