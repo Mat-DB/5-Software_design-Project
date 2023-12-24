@@ -10,6 +10,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,12 +22,12 @@ public class PanelTicketCreateGroup extends JPanel {
     private ControllerGroups groupController;
     private String selectedGroup;
     private boolean isGroupSelected;
-    private PanelTickets ticketsPanel;
+    private final PanelTickets ticketsPanel;
     private JLabel ticketNameLabel;
     private JTextField ticketNameField;
     private JButton nextButton;
     private JButton cancelButton;
-    private ViewFrame frame;
+    private final ViewFrame frame;
 
     public PanelTicketCreateGroup(ViewFrame frame, PanelTickets panelTickets) {
         this.frame = frame;
@@ -45,9 +46,14 @@ public class PanelTicketCreateGroup extends JPanel {
 
         topPanel.add(namePanel);
 
-        boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        this.setLayout(boxLayout);
-        this.add(topPanel);
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        JLabel explainLabel = new JLabel("Select the group for the ticket and enter a name.");
+        this.add(explainLabel, gbc);
+        this.add(topPanel, gbc);
 
         JPanel buttonPanel = new JPanel();
         boxLayout = new BoxLayout(buttonPanel, BoxLayout.X_AXIS);
@@ -55,7 +61,7 @@ public class PanelTicketCreateGroup extends JPanel {
         buttonPanel.add(nextButton);
         buttonPanel.add(cancelButton);
 
-        this.add(buttonPanel);
+        this.add(buttonPanel, gbc);
     }
 
     private void init() {

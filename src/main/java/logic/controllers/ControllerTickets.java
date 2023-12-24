@@ -81,9 +81,12 @@ public class ControllerTickets {
     }
 
     public void removeTicket(int ticketHash) {
-        //ControllerGroups controllerGroups = ControllerGroups.getGroupController();
-        //controllerGroups.findTicketInGroup(ticketHash);
-
+        ControllerGroups controllerGroups = ControllerGroups.getGroupController();
+        Set<Integer> groups = controllerGroups.findTicketInGroup(ticketHash);
+        for (int groupHash : groups) {
+            Group group = controllerGroups.getGroup(groupHash);
+            group.removeTicket(ticketHash);
+        }
         ticketDB.removeTicket(ticketHash);
     }
 

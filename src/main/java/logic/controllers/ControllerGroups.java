@@ -129,6 +129,16 @@ public class ControllerGroups {
         return groupSet;
     }
 
+    public Set<Integer> findTicketInGroup(int ticketHash) {
+        Set<Integer> groupSet = new HashSet<>();
+        for (Group group : groupDB.getGroups()) {
+            if (group.getTickets().contains(ticketHash)) {
+                groupSet.add(groupDB.getGroupHash(group.getName()));
+            }
+        }
+        return groupSet;
+    }
+
     public int getGroupHash(String groupName) {
         return groupDB.getGroupHash(groupName);
     }

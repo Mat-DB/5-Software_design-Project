@@ -211,7 +211,8 @@ public class PanelTicketCreateDebtors extends JPanel {
             JOptionPane.showMessageDialog(this, "Please fill in the debts of all users", "Set all debts", JOptionPane.WARNING_MESSAGE);
         }
         else if(!isNumber) { // Not all are a number
-            JOptionPane.showMessageDialog(this, "Not all amounts are numbers", "Not all numbers", JOptionPane.ERROR_MESSAGE);
+            String message = "Not all amounts are numbers\nor you used a comma instead of a point";
+            JOptionPane.showMessageDialog(this, message, "Not all numbers", JOptionPane.ERROR_MESSAGE);
         }
         else { // All filled in and are numbers
             for (JLabel label : userDebtsJStuff.keySet()) {

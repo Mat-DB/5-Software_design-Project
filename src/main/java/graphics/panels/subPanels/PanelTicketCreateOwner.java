@@ -95,7 +95,7 @@ public class PanelTicketCreateOwner extends JPanel {
         spiltTypeComboBox = new JComboBox(TypeSplit.values());
         eventTypeComboBox = new JComboBox(TypeEvents.values());
         selectOwnerLabel1 = new JLabel("Select the user that has paid the ticket,");
-        selectOwnerLabel2 = new JLabel("enter the total amount of the ticket");
+        selectOwnerLabel2 = new JLabel("enter the total amount of the ticket (example 54.68)");
         selectOwnerLabel3 = new JLabel("and select the correct type of split and event type!");
 
         createListeners();
@@ -119,44 +119,21 @@ public class PanelTicketCreateOwner extends JPanel {
                 if (e.getValueIsAdjusting() == false) {
                     if (userJList.getSelectedIndex() == -1) {
                         //No selection, disable remove button.
-                        isOwnerSelected = false;
+                        nextButton.setEnabled(false);
                     } else {
                         //Selection, enable the remove button.
-                        isOwnerSelected = true;
+                        nextButton.setEnabled(true);
                     }
-                    checkAllFiledIn();
                 }
-            }
-        });
-
-        // https://stackoverflow.com/questions/17132452/java-check-if-jtextfield-is-empty-or-not
-        amountField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                checkAllFiledIn();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                checkAllFiledIn();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                checkAllFiledIn();
             }
         });
 
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ticketsPanel.setOwnerInfo(
-                        userController.getUser(userMap.get(userJList.getSelectedValue())),
-                        Double.parseDouble(amountField.getText()),
-                        TypeSplit.valueOf(String.valueOf(spiltTypeComboBox.getSelectedItem())),
-                        TypeEvents.valueOf(String.valueOf(eventTypeComboBox.getSelectedItem()))
-                );
-                clearComponents();
+                if (checkFilledInCorrect()) {
+                    setInfo();
+                }
             }
         });
 
@@ -177,17 +154,31 @@ public class PanelTicketCreateOwner extends JPanel {
         amountField.setText("");
     }
 
-    private void checkAllFiledIn() {
-        boolean isDouble = true;
+    private boolean checkFilledInCorrect() {
+        boolean isNumber = true;
         try {
             Double.parseDouble(amountField.getText());
-        } catch (NumberFormatException exception){
-            isDouble = false;
+        } catch (Exception e){
+            isNumber = false;
         }
-        if (isOwnerSelected && isDouble) {
-            nextButton.setEnabled(true);
-        } else {
-            nextButton.setEnabled(false);
+        if (amountField.getText().isEmpty()) {
+            // https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
+            JOptionPane.showMessageDialog(this, "Please fill in the amount.", "Amount is empty", JOptionPane.WARNING_MESSAGE);
         }
+        else if(!isNumber) { // Not all are a number
+            String message = "Not all amounts are numbers\nor you used a comma instead of a point";
+            JOptionPane.showMessageDialog(this, message, "Not all numbers", JOptionPane.ERROR_MESSAGE);
+        }
+        return isNumber;
+    }
+
+    private void setInfo() {
+        ticketsPanel.setOwnerInfo(
+                userController.getUser(userMap.get(userJList.getSelectedValue())),
+                Double.parseDouble(amountField.getText()),
+                TypeSplit.valueOf(String.valueOf(spiltTypeComboBox.getSelectedItem())),
+                TypeEvents.valueOf(String.valueOf(eventTypeComboBox.getSelectedItem()))
+        );
+        clearComponents();
     }
 }

@@ -50,8 +50,8 @@ public class PanelGroupCreate extends JPanel {
 
         createListeners();
 
-        BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        this.setLayout(layout);
+        //BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        //this.setLayout(layout);
         this.add(addGroupButton);
     }
 
@@ -133,37 +133,46 @@ public class PanelGroupCreate extends JPanel {
         else {
             this.removeAll();
             this.updateUI();
-            JPanel topPanelLeft = new JPanel();
+
+            JLabel explainLabel = new JLabel("Fill in the name of the group and select the users.");
+
+            JPanel middlePanelLeft = new JPanel();
             GridLayout gridLayout = new GridLayout(2, 2);
-            topPanelLeft.setLayout(gridLayout);
-            topPanelLeft.add(groupNameLabel);
-            topPanelLeft.add(groupNameField);
+            middlePanelLeft.setLayout(gridLayout);
+            middlePanelLeft.add(groupNameLabel);
+            middlePanelLeft.add(groupNameField);
 
-            JPanel topPanelRight = new JPanel();
-            topPanelRight.setLayout(new GridBagLayout());
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridwidth = GridBagConstraints.REMAINDER;
-            topPanelRight.add(selectAllBox, gbc);
-            topPanelRight.add(userJList, gbc);
+            JPanel middlePanelRight = new JPanel();
+            middlePanelRight.setLayout(new GridBagLayout());
+            GridBagConstraints gbc1 = new GridBagConstraints();
+            gbc1.gridwidth = GridBagConstraints.REMAINDER;
+            middlePanelRight.add(selectAllBox, gbc1);
+            middlePanelRight.add(userJList, gbc1);
 
-            JPanel topPanel = new JPanel();
-            topPanel.add(topPanelLeft);
-            topPanel.add(topPanelRight);
+            JPanel middlePanel = new JPanel();
+            middlePanel.add(middlePanelLeft);
+            middlePanel.add(middlePanelRight);
 
             JPanel bottomPanel = new JPanel();
-            BoxLayout layout = new BoxLayout(bottomPanel, BoxLayout.X_AXIS);
-            bottomPanel.setLayout(layout);
+            BoxLayout boxLayout = new BoxLayout(bottomPanel, BoxLayout.X_AXIS);
+            bottomPanel.setLayout(boxLayout);
             bottomPanel.add(createGroupButton);
             bottomPanel.add(cancelButton);
 
-            this.add(topPanel);
-            this.add(bottomPanel);
+
+            GridBagConstraints gbc2 = new GridBagConstraints();
+            gbc2.gridwidth = GridBagConstraints.REMAINDER;
+            gbc2.anchor = GridBagConstraints.CENTER;
+            this.setLayout(new GridBagLayout());
+            this.add(explainLabel, gbc2);
+            this.add(middlePanel, gbc2);
+            this.add(bottomPanel, gbc2);
         }
     }
 
     private  void createNewGroup() {
         String groupname = groupNameField.getText();
-        Boolean createGroup = false;
+        boolean createGroup = false;
         if (groupsController.doesGroupExist(groupname)) {
             // https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
             JOptionPane.showMessageDialog(this, "This group name exits.\nChoose another one.", "Group exists", JOptionPane.ERROR_MESSAGE);
