@@ -26,4 +26,4 @@ replay_pid*
 .idea/
 
 # .bak files visual paradigms
-*.bak
+*.bak*
