@@ -191,8 +191,14 @@ public class PanelGroupCreate extends JPanel {
                     usersInGroup.add(frame.getUserMap().get(listObject.toString()));
                 }
             }
-            groupsController.createGroup(groupname, usersInGroup);
-            resetComponents();
+            int returnCode = groupsController.createGroup(groupname, usersInGroup);
+            if (returnCode == -1) {
+                String message = "The group name " + groupname + " already exists!";
+                JOptionPane.showMessageDialog(this, message, "Group name exists", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                resetComponents();
+            }
         }
         changeUI();
     }
