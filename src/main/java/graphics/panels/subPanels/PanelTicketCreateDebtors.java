@@ -1,6 +1,7 @@
 package graphics.panels.subPanels;
 
 import graphics.panels.PanelTickets;
+import logic.MoneyTrackerLogger;
 import logic.controllers.ControllerUsers;
 import logic.tickets.TicketSplit.TypeSplit;
 import logic.users.User;
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
  * 4. Select debtors and if uneven set amounts
  */
 public class PanelTicketCreateDebtors extends JPanel {
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private final Logger logger = MoneyTrackerLogger.getInstance().getLogger(this.getClass().getName());
     private final PanelTickets panelTickets;
     private final JLabel selectUserLabel;
     private final JButton nextButton;
@@ -219,7 +220,7 @@ public class PanelTicketCreateDebtors extends JPanel {
         else { // All filled in and are numbers
             for (JLabel label : userDebtsJStuff.keySet()) {
                 double amount = Double.parseDouble(userDebtsJStuff.get(label).getText());
-                logger.info( "amount: " + amount);
+                logger.finer( "amount: " + amount);
                 debts.put(userMap.get(label.getText()), amount);
                 total += amount;
             }
@@ -229,7 +230,7 @@ public class PanelTicketCreateDebtors extends JPanel {
             JOptionPane.showMessageDialog(this, message, "Total does not match", JOptionPane.ERROR_MESSAGE);
         }
         else { // UNEVEN SPLIT
-            logger.info("debts: " + debts);
+            logger.finer("debts: " + debts);
             panelTickets.setDebtorsUnevenSplit(debts);
             resetComponents();
         }

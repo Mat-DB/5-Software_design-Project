@@ -1,16 +1,19 @@
 package logic.tickets.TicketSplit;
 
+import logic.MoneyTrackerLogger;
 import logic.tickets.Ticket;
 import logic.tickets.TicketInfo;
 import logic.tickets.TicketEvents.TypeEvents;
 
 import java.util.HashMap;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * A decorator for an event ticket to make the ticket splittable.
  */
 public abstract class DecoratorTicketSplit implements Ticket {
+    private final Logger logger = MoneyTrackerLogger.getInstance().getLogger(this.getClass().getName());
     protected TicketInfo eventTicket;
     /**
      * Balance of debtors in ticket.
@@ -82,8 +85,8 @@ public abstract class DecoratorTicketSplit implements Ticket {
      * @return balance
      */
     public HashMap<Integer, Double> getBalances() {
-        System.out.println(this.getClass() + ", balance: " + balances);
-        System.out.println(this.getClass() + ", toString: " + toString());
+        logger.finer("balance: " + balances);
+        logger.finer("toString: " + toString());
         return balances;
     }
 

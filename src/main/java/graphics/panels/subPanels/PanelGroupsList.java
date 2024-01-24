@@ -1,6 +1,7 @@
 package graphics.panels.subPanels;
 
 import graphics.ViewFrame;
+import logic.MoneyTrackerLogger;
 import logic.controllers.ControllerGroups;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
 public class PanelGroupsList extends JPanel{
-        private Logger logger = Logger.getLogger(this.getClass().getName());
+        private final Logger logger = MoneyTrackerLogger.getInstance().getLogger(this.getClass().getName());
         private final JList<String> groupJList;
         private final JButton removeButton;
         private String selectedGroup;
@@ -52,7 +53,7 @@ public class PanelGroupsList extends JPanel{
                             //Selection, enable the remove button.
                             removeButton.setEnabled(true);
                             selectedGroup = groupJList.getSelectedValue();
-                            logger.info("selectedGroup: " + selectedGroup);
+                            logger.finer("selectedGroup: " + selectedGroup);
                         }
                     }
                 }

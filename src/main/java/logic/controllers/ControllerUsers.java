@@ -1,10 +1,12 @@
 package logic.controllers;
 
+import logic.MoneyTrackerLogger;
 import logic.database.DatabaseUsers;
 import logic.users.User;
 
 import java.util.HashMap;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
 * This is the controller of the user.
@@ -13,6 +15,7 @@ import java.util.Set;
  * - Manges the user database
 */
 public class ControllerUsers {
+    private final Logger logger = MoneyTrackerLogger.getInstance().getLogger(this.getClass().getName());
     private static ControllerUsers controller;
     private final DatabaseUsers userDB;
     private final ControllerGroups controllerGroups;
@@ -41,7 +44,7 @@ public class ControllerUsers {
     public int createUser(String firstName, String lastname) {
         int existingID = userDB.userNameOccurrences(firstName+lastname, 1);
         User newUser = new User(firstName, lastname, existingID);
-        System.out.println(newUser);
+        logger.finer(newUser.toString());
         return userDB.addUser(newUser);
     }
 

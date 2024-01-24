@@ -4,6 +4,7 @@ import logic.controllers.ControllerTickets;
 import logic.tickets.Ticket;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 public class GroupBalancer {
 
@@ -35,9 +36,10 @@ public class GroupBalancer {
     }
 
     public static void calculateWhoPaysWho(Group group) {
+        Logger logger = Logger.getLogger("GroupBalancer.calculateWhoPaysWho");
         HashMap<Integer, Double> groupBalances = group.getGroupBalances();
         List<Map.Entry<Integer, Double>> sortedBalances = sortedListByValueOfHashmap(groupBalances, true);
-        System.out.println(sortedBalances);
+        logger.finer(sortedBalances.toString());
 
         HashMap<Integer, Map.Entry<Integer, Double>> whoPaysWhoHowMuch = new HashMap<>();
 
@@ -47,7 +49,7 @@ public class GroupBalancer {
         int highestCreditorIndex = 0;
 
         while(!sortedBalances.isEmpty()) {
-            System.out.println(sortedBalances);
+            logger.finer(sortedBalances.toString());
 
             Map.Entry<Integer, Double> highestDebtorEntry = sortedBalances.get(highestDebtorIndex);
             Map.Entry<Integer, Double> highestCreditorEntry = sortedBalances.get(highestCreditorIndex);

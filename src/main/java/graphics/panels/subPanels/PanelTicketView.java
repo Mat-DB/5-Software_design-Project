@@ -1,5 +1,6 @@
 package graphics.panels.subPanels;
 
+import logic.MoneyTrackerLogger;
 import logic.controllers.ControllerTickets;
 import logic.controllers.ControllerUsers;
 import logic.tickets.Ticket;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class PanelTicketView extends JPanel {
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private final Logger logger = MoneyTrackerLogger.getInstance().getLogger(this.getClass().getName());
     private final JLabel overviewLabel;
     private HashMap<Integer, ArrayList<JLabel>> debtorLabels;
     private final Ticket ticket;
@@ -25,10 +26,9 @@ public class PanelTicketView extends JPanel {
         usersController = ControllerUsers.getUserController();
         ticketController = ControllerTickets.getTicketController();
         ticket = ticketController.getTicket(ticketName);
-        logger.info("\n\nPanelTicketView, TEST POINT\n\n");
-//        System.out.println("Ticket name: '" + ticketName + "'");
-//        System.out.println("PanelTicketView, ticket.getName(): " + ticket.getName());
-//        System.out.println("TEST POINT 2");
+        logger.finer("PanelTicketView, TEST POINT\n");
+        logger.finer("Ticket name: '" + ticketName + "'");
+        logger.finer("PanelTicketView, ticket.getName(): " + ticket.getName());
         init();
     }
 
@@ -43,7 +43,7 @@ public class PanelTicketView extends JPanel {
         String splitL  = "Split type:      " + ticket.getSplitType();
         String amountL = "Total amount:    " + df.format(ticket.getTotal()) + " euro";
 
-        logger.info(nameL + ownerL + eventL + splitL + amountL);
+        logger.finer(nameL + ownerL + eventL + splitL + amountL);
 
         JLabel nameLabel = new JLabel(nameL);
         JLabel ownerLabel = new JLabel(ownerL);
@@ -60,13 +60,13 @@ public class PanelTicketView extends JPanel {
         debtorLabels.put(debtorLabelNum, debtorSetFirst);
 
         HashMap<Integer, Double> balance = ticket.getBalances();
-        logger.info("balance: " + balance);
+        logger.finer("balance: " + balance);
         for (int debtorHash : ticket.getDebtors()) {
             debtorLabelNum += 1;
             ArrayList<JLabel> debtorSet = new ArrayList<>();
             debtorSet.add(new JLabel(usersController.getUser(debtorHash).getName()));
-            logger.info("balance.get(debtorHash).getClass(): " + balance.get(debtorHash).getClass());
-            logger.info("balance.get(debtorHash): " + balance.get(debtorHash));
+            logger.finer("balance.get(debtorHash).getClass(): " + balance.get(debtorHash).getClass());
+            logger.finer("balance.get(debtorHash): " + balance.get(debtorHash));
             debtorSet.add(new JLabel(df.format(balance.get(debtorHash)) + " euro"));
             debtorLabels.put(debtorLabelNum, debtorSet);
         }

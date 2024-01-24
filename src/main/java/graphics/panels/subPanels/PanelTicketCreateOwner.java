@@ -1,6 +1,7 @@
 package graphics.panels.subPanels;
 
 import graphics.panels.PanelTickets;
+import logic.MoneyTrackerLogger;
 import logic.controllers.ControllerGroups;
 import logic.controllers.ControllerUsers;
 import logic.groups.Group;
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
  * 3. Select owner, set amount and even or uneven split
  */
 public class PanelTicketCreateOwner extends JPanel {
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    private final Logger logger = MoneyTrackerLogger.getInstance().getLogger(this.getClass().getName());
     private JLabel selectOwnerLabel1;
     private JLabel selectOwnerLabel2;
     private JLabel selectOwnerLabel3;
@@ -104,8 +105,8 @@ public class PanelTicketCreateOwner extends JPanel {
     public void setGroup(Group group) {
         userList.removeAllElements();
         for (int member : groupController.getGroupMembers(group.getName())) {
-            logger.info("user hash: " + member);
-            logger.info("user: " + userController.getUser(member));
+            logger.finer("user hash: " + member);
+            logger.finer("user: " + userController.getUser(member));
             User user = userController.getUser(member);
             userList.addElement(user.getName());
             userMap.put(user.getName(), userController.getUserHash(user));

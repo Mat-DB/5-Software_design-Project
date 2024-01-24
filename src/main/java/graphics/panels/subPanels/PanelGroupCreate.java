@@ -173,10 +173,21 @@ public class PanelGroupCreate extends JPanel {
     private  void createNewGroup() {
         String groupname = groupNameField.getText();
         boolean createGroup = false;
-        if (groupsController.doesGroupExist(groupname)) {
+        boolean errorThrown = false;
+        if (groupsController.doesGroupExist(groupname) && !errorThrown) {
             // https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
             JOptionPane.showMessageDialog(this, "This group name exits.\nChoose another one.", "Group exists", JOptionPane.ERROR_MESSAGE);
-        } else {
+            errorThrown = true;
+        }
+        else if (userJList.getSelectedValuesList().size() <= 1 && !selectAllBox.isSelected() && !errorThrown) {
+            JOptionPane.showMessageDialog(this, "Select at least 2 users to create a group.", "Not enough users selected", JOptionPane.ERROR_MESSAGE);
+            errorThrown = true;
+        }
+        else if (frame.getUserList().size() <= 1 && selectAllBox.isSelected() && !errorThrown) {
+            JOptionPane.showMessageDialog(this, "Not enough users to create a group.", "Not enough users", JOptionPane.ERROR_MESSAGE);
+            errorThrown = true;
+        }
+        else {
             createGroup = true;
         }
         if (createGroup) {

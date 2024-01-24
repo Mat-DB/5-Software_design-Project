@@ -1,10 +1,13 @@
 package logic.database;
 
+import logic.MoneyTrackerLogger;
 import logic.users.User;
 
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class DatabaseUsers extends Database<User> {
+    private final Logger logger = MoneyTrackerLogger.getInstance().getLogger(this.getClass().getName());
     private static DatabaseUsers instance;
 
     private DatabaseUsers() {
@@ -47,7 +50,7 @@ public class DatabaseUsers extends Database<User> {
     public int userNameOccurrences(String fullUserName, int id){
         int newID = 1;
         int hash = getUserHash(fullUserName, id);
-        System.out.println(hash);
+        logger.finer(String.valueOf(hash));
         if (getEntry(hash) != null){
             newID += userNameOccurrences(fullUserName, id+1);
         }

@@ -8,8 +8,10 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 public class PanelUserCreate extends JPanel {
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
     private JButton addUserButton;
     private JButton createUserButton;
     private JButton cancelButton;
@@ -139,8 +141,8 @@ public class PanelUserCreate extends JPanel {
     private  void createNewUser() {
         String firstName = fieldFirstName.getText();
         String lastName = fieldLastName.getText();
-        Boolean createUser = false;
-        System.out.println(userController.doesUserExist(firstName, lastName));
+        boolean createUser = false;
+        logger.finer(String.valueOf(userController.doesUserExist(firstName, lastName)));
         if (userController.doesUserExist(firstName, lastName)) {
             // https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
             int answer = JOptionPane.showConfirmDialog(this, "This user already exits.\nDo you want to create it a again?");

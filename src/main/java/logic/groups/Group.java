@@ -1,11 +1,15 @@
 package logic.groups;
 
+import logic.MoneyTrackerLogger;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class Group {
+    private final Logger logger = MoneyTrackerLogger.getInstance().getLogger(this.getClass().getName());
     private final String name;
     private final Set<Integer> participants = new HashSet<>();
     private Set<Integer> tickets = new HashSet<>();
@@ -67,9 +71,9 @@ public class Group {
 
     public HashMap<Integer, Map.Entry<Integer, Double>> updateAndGetWhoPaysWhoHowMuch() {
         GroupBalancer.createBalance(this);
-        System.out.println("\nBalance created (normally) - group class");
+        logger.finer("Balance created (normally) - group class");
         GroupBalancer.calculateWhoPaysWho(this);
-        System.out.println("debts calculated (normally) - group class");
+        logger.finer("debts calculated (normally) - group class");
         return whoPaysWhoHowMuch;
     }
 
