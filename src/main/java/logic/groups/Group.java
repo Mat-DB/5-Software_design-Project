@@ -6,16 +6,15 @@ import java.util.Map;
 import java.util.Set;
 
 public class Group {
-    private String name;
-
-    private Set<Integer> participants = new HashSet<>();
-
+    private final String name;
+    private final Set<Integer> participants = new HashSet<>();
     private Set<Integer> tickets = new HashSet<>();
-
     HashMap<Integer, Double> groupBalances = new HashMap<>();
 
-    // HashMap with as key a user (A) hash and
-    // as value a Map.Entry where the first is the user to whom the user (A) needs to pay and how much.
+    /**
+     * HashMap with as key a user (A) hash and
+     * as value a Map.Entry where the first is the user to whom the user (A) needs to pay and how much.
+     */
     HashMap<Integer, Map.Entry<Integer, Double>> whoPaysWhoHowMuch = new HashMap<>();
 
     public Group(String name) {
@@ -24,12 +23,6 @@ public class Group {
 
     public void addParticipant(int newParticipant) {
         participants.add(newParticipant);
-    }
-
-    // ToDo: implement or delete
-    public int getParticipant(int userHash) {
-        //return participants.stream();
-        return 0;
     }
 
     public String getName() {
@@ -45,11 +38,6 @@ public class Group {
     }
 
     public HashMap<Integer, Double> getGroupBalances() {
-        return groupBalances;
-    }
-
-    public HashMap<Integer, Double> updateAndgetGroupBalances() {
-        GroupBalancer.createBalance(this);
         return groupBalances;
     }
 

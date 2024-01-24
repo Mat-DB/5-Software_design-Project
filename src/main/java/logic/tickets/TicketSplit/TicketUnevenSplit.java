@@ -10,7 +10,6 @@ public class TicketUnevenSplit extends DecoratorTicketSplit {
         super(eventTicket);
     }
 
-
     /**
      * initial balances when the ticket is first made
      * @param debts

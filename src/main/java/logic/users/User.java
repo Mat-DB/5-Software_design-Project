@@ -1,11 +1,9 @@
 package logic.users;
 
-import java.util.ArrayList;
-
 public class User {
-    String firstName, lastName;
-    ArrayList<Integer> tickets;
-    int id;
+    private final String firstName;
+    private final String lastName;
+    private final int id;
 
     public User(String firstName, String lastName, int id) {
         this.firstName = firstName;
@@ -23,12 +21,7 @@ public class User {
         } else {
             return firstName + " " + lastName + " " + id;
         }
-        //return firstName + " " + lastName;
     }
-
-//    public ArrayList<Integer> getTickets() {
-//        return tickets;
-//    }
 
     public int getID() {
         return id;

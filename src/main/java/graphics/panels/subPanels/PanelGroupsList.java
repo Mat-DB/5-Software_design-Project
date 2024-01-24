@@ -9,8 +9,10 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 public class PanelGroupsList extends JPanel{
+        private Logger logger = Logger.getLogger(this.getClass().getName());
         private final JList<String> groupJList;
         private final JButton removeButton;
         private String selectedGroup;
@@ -50,7 +52,7 @@ public class PanelGroupsList extends JPanel{
                             //Selection, enable the remove button.
                             removeButton.setEnabled(true);
                             selectedGroup = groupJList.getSelectedValue();
-                            System.out.println(selectedGroup);
+                            logger.info("selectedGroup: " + selectedGroup);
                         }
                     }
                 }

@@ -12,13 +12,11 @@ import java.util.Set;
  */
 public abstract class DecoratorTicketSplit implements Ticket {
     protected TicketInfo eventTicket;
-
     /**
      * Balance of debtors in ticket.
      * Negative balance means debt.
      */
     protected HashMap<Integer, Double> balances;
-
     /**
      * List of people with debt to payer.
      */
@@ -34,7 +32,6 @@ public abstract class DecoratorTicketSplit implements Ticket {
         balances = new HashMap<>();
         balances.put(eventTicket.getWhoPaid(), eventTicket.getTotal());
     }
-
 
     /**
      * Gets event ticket.

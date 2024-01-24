@@ -14,11 +14,13 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * 4. Select debtors and if uneven set amounts
  */
 public class PanelTicketCreateDebtors extends JPanel {
+    private Logger logger = Logger.getLogger(this.getClass().getName());
     private final PanelTickets panelTickets;
     private final JLabel selectUserLabel;
     private final JButton nextButton;
@@ -217,7 +219,7 @@ public class PanelTicketCreateDebtors extends JPanel {
         else { // All filled in and are numbers
             for (JLabel label : userDebtsJStuff.keySet()) {
                 double amount = Double.parseDouble(userDebtsJStuff.get(label).getText());
-                System.out.println(this.getClass() + ", amount: " + amount);
+                logger.info( "amount: " + amount);
                 debts.put(userMap.get(label.getText()), amount);
                 total += amount;
             }
@@ -227,7 +229,7 @@ public class PanelTicketCreateDebtors extends JPanel {
             JOptionPane.showMessageDialog(this, message, "Total does not match", JOptionPane.ERROR_MESSAGE);
         }
         else { // UNEVEN SPLIT
-            System.out.println(this.getClass() + ", debts: " + debts);
+            logger.info("debts: " + debts);
             panelTickets.setDebtorsUnevenSplit(debts);
             resetComponents();
         }

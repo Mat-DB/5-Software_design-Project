@@ -6,6 +6,7 @@ import logic.tickets.Ticket;
 import java.util.*;
 
 public class GroupBalancer {
+
     public static void createBalance(Group group) {
         ControllerTickets controllerTickets = ControllerTickets.getTicketController();
         Set<Integer> participants = group.getParticipants();
@@ -89,7 +90,6 @@ public class GroupBalancer {
         if (descending) {
             Collections.reverse(list);
         }
-
         return list;
     }
 }

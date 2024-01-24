@@ -15,12 +15,10 @@ import java.util.Set;
 public class ControllerUsers {
     private static ControllerUsers controller;
     private final DatabaseUsers userDB;
-    private final ControllerTickets controllerTickets;
     private final ControllerGroups controllerGroups;
 
     private ControllerUsers() {
         userDB = DatabaseUsers.getUserDatabase();
-        controllerTickets = ControllerTickets.getTicketController();
         controllerGroups = ControllerGroups.getGroupController();
     }
 
@@ -48,8 +46,8 @@ public class ControllerUsers {
     }
 
     /** Try to remove a user.
-     * @param userHash
-     * @return
+     * @param userHash hash ID of the user
+     * @return 0 if successful else -1
      */
     public int removeUser(int userHash) {
         Set<Integer> groups = controllerGroups.findUserInGroup(userHash);
@@ -80,9 +78,6 @@ public class ControllerUsers {
 
     public boolean doesUserExist(String firstName, String lastName) {
         int hash = userDB.getUserHash(firstName+lastName,1);
-        if (userDB.getUser(hash) == null) {
-            return false;
-        }
-        return true;
+        return userDB.getUser(hash) != null;
     }
 }

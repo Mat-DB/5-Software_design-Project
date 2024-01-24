@@ -27,7 +27,7 @@ public class ControllerGroups {
 
     /**
      * Create a new group.
-     * @param groupName
+     * @param groupName name of the group
      * @return hash of the group, key in the database. -1 if failed.
      */
     public int createGroup(String groupName, Set<Integer> users) {
@@ -102,7 +102,6 @@ public class ControllerGroups {
             return 0;
         }
     }
-
 
     /**
      * Force to remove a group and the tickets linked to this group.

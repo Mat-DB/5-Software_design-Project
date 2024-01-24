@@ -5,10 +5,11 @@ import logic.users.User;
 import java.util.HashMap;
 
 public class DatabaseUsers extends Database<User> {
+    private static DatabaseUsers instance;
+
     private DatabaseUsers() {
         super();
     }
-    private static DatabaseUsers instance;
 
     public static DatabaseUsers getUserDatabase() {
         if (instance == null) {
@@ -16,15 +17,12 @@ public class DatabaseUsers extends Database<User> {
         }
         return instance;
     }
+
     public int addUser(User user){
         int hash = getUserHash(user.getNameForDB(), user.getID());
         addEntry(hash, user);
         observable.firePropertyChange("new user", null, user);
         return hash;
-    }
-
-    public User getUser(String fullUserName) {
-        return getEntry(getUserHash(fullUserName, 1));
     }
 
     public User getUser(int userHash) {
@@ -50,7 +48,6 @@ public class DatabaseUsers extends Database<User> {
         int newID = 1;
         int hash = getUserHash(fullUserName, id);
         System.out.println(hash);
-//        System.out.println(getEntry(hash));
         if (getEntry(hash) != null){
             newID += userNameOccurrences(fullUserName, id+1);
         }

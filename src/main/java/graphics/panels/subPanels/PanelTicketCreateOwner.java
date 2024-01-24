@@ -9,18 +9,18 @@ import logic.tickets.TicketSplit.TypeSplit;
 import logic.users.User;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 /**
  * 3. Select owner, set amount and even or uneven split
  */
 public class PanelTicketCreateOwner extends JPanel {
+    private Logger logger = Logger.getLogger(this.getClass().getName());
     private JLabel selectOwnerLabel1;
     private JLabel selectOwnerLabel2;
     private JLabel selectOwnerLabel3;
@@ -104,8 +104,8 @@ public class PanelTicketCreateOwner extends JPanel {
     public void setGroup(Group group) {
         userList.removeAllElements();
         for (int member : groupController.getGroupMembers(group.getName())) {
-            System.out.println("user hash: " + member);
-            System.out.printf("user: " + userController.getUser(member));
+            logger.info("user hash: " + member);
+            logger.info("user: " + userController.getUser(member));
             User user = userController.getUser(member);
             userList.addElement(user.getName());
             userMap.put(user.getName(), userController.getUserHash(user));

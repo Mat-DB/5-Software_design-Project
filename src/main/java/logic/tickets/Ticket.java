@@ -10,37 +10,32 @@ import java.util.Set;
  */
 public interface Ticket extends TicketInfo {
     /**
-     * Gets balances.
-     *
+     * Get the balances.
      * @return the balances
      */
     HashMap<Integer, Double> getBalances();
 
     /**
-     * Gets debtors.
-     *
+     * Get the debtors.
      * @return the debtors
      */
     Set<Integer> getDebtors();
 
     /**
-     * Add payment.
-     *
+     * Add a payment.
      * @param user    the user
      * @param payment the payment
      */
     void addPayment(int user, double payment);
 
     /**
-     * Is even boolean.
-     *
+     * The isEven function checks if the balances of all users in the group are even.
      * @return the boolean
      */
     boolean isEven();
 
     /**
-     * Gets split type.
-     *
+     * Get the split type.
      * @return the split type
      */
     TypeSplit getSplitType();

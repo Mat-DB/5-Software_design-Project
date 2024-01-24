@@ -11,4 +11,3 @@ public interface TicketInfo {
 
     TypeEvents getEventType();
 }
-
