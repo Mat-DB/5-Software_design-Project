@@ -27,3 +27,4 @@ replay_pid*
 
 # .bak files visual paradigms
 *.bak*
+*.vpp.lck
