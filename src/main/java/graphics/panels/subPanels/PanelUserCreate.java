@@ -145,7 +145,7 @@ public class PanelUserCreate extends JPanel {
         logger.finer(String.valueOf(userController.doesUserExist(firstName, lastName)));
         if (userController.doesUserExist(firstName, lastName)) {
             // https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
-            int answer = JOptionPane.showConfirmDialog(this, "This user already exits.\nDo you want to create it a again?");
+            int answer = JOptionPane.showConfirmDialog(this, "This user already exits.\nDo you want to create it again?");
             if (answer == JOptionPane.YES_NO_OPTION) {
                 createUser = true;
             }
@@ -157,8 +157,8 @@ public class PanelUserCreate extends JPanel {
             fieldFirstName.setText("");
             fieldLastName.setText("");
             waitingToCreateUser = true;
+            createUserButton.setEnabled(false);
         }
-        createUserButton.setEnabled(false);
         changeUI();
     }
 }
