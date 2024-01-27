@@ -5,6 +5,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MoneyTrackerLogger {
+    /**
+     * https://www.geeksforgeeks.org/logging-in-java/
+     */
     private Level logLevel;
     private ConsoleHandler handler;
     private static MoneyTrackerLogger instance;
