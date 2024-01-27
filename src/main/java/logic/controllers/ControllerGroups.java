@@ -76,7 +76,7 @@ public class ControllerGroups {
             controllerTickets.removeTicket(ticketHash);
         }
         group.removeAllTickets();
-        group.setGroupBalances(new HashMap<>());
+        group.clearGroupBalances();
     }
 
     /**

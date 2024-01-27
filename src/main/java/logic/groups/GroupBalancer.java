@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 public class GroupBalancer {
 
-    public static void createBalance(Group group) {
+    public static HashMap<Integer, Double> createBalance(Group group) {
         ControllerTickets controllerTickets = ControllerTickets.getTicketController();
         Set<Integer> participants = group.getParticipants();
         Set<Integer> tickets = group.getTickets();
@@ -32,10 +32,10 @@ public class GroupBalancer {
                 groupBalances.put(user, balances.get(user) + groupBalances.get(user));
             }
         }
-        group.setGroupBalances(groupBalances);
+        return groupBalances;
     }
 
-    public static void calculateWhoPaysWho(Group group) {
+    public static HashMap<Integer, Map.Entry<Integer, Double>> calculateWhoPaysWho(Group group) {
         Logger logger = Logger.getLogger("GroupBalancer.calculateWhoPaysWho");
         HashMap<Integer, Double> groupBalances = group.getGroupBalances();
         List<Map.Entry<Integer, Double>> sortedBalances = sortedListByValueOfHashmap(groupBalances, true);
@@ -78,7 +78,7 @@ public class GroupBalancer {
             // update index
             highestDebtorIndex = sortedBalances.size() - 1;
         }
-        group.setWhoPaysWhoHowMuch(whoPaysWhoHowMuch);
+        return whoPaysWhoHowMuch;
     }
 
     //https://www.geeksforgeeks.org/sorting-a-hashmap-according-to-values/

@@ -57,12 +57,8 @@ public class Group {
         tickets = new HashSet<>();
     }
 
-    public void setGroupBalances(HashMap<Integer, Double> balances) {
-        this.groupBalances = balances;
-    }
-
-    public void setWhoPaysWhoHowMuch(HashMap<Integer, Map.Entry<Integer, Double>> whoPaysWhoHowMuch){
-        this.whoPaysWhoHowMuch = whoPaysWhoHowMuch;
+    public void clearGroupBalances() {
+        this.groupBalances = new HashMap<>();
     }
 
     public HashMap<Integer, Map.Entry<Integer, Double>> getWhoPaysWhoHowMuch() {
@@ -70,9 +66,9 @@ public class Group {
     }
 
     public HashMap<Integer, Map.Entry<Integer, Double>> updateAndGetWhoPaysWhoHowMuch() {
-        GroupBalancer.createBalance(this);
+        groupBalances = GroupBalancer.createBalance(this);
         logger.finer("Balance created (normally) - group class");
-        GroupBalancer.calculateWhoPaysWho(this);
+        whoPaysWhoHowMuch = GroupBalancer.calculateWhoPaysWho(this);
         logger.finer("debts calculated (normally) - group class");
         return whoPaysWhoHowMuch;
     }
